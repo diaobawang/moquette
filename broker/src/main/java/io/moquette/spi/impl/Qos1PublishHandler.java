@@ -21,15 +21,23 @@ import io.moquette.server.netty.NettyUtils;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import io.moquette.spi.security.IAuthorizator;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessageType;
 import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
+import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
+import win.liyufan.im.proto.MessageOuterClass.Message;
+
+import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+
 import static io.moquette.spi.impl.ProtocolProcessor.asStoredMessage;
+import static io.moquette.spi.impl.Utils.readBytesAndRewind;
 import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
 import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 
@@ -61,6 +69,19 @@ class Qos1PublishHandler extends QosPublishHandler {
             return;
         }
 
+        try {
+            ByteBuf payload = msg.payload();
+            byte[] payloadContent = readBytesAndRewind(payload);
+			Message message = Message.parseFrom(payloadContent);
+			if (message != null) {
+				if (message.getConversation().getType() == ConversationType.Private) {
+					LOG.error("receive private message={}", message);
+				}
+			}
+		} catch (InvalidProtocolBufferException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         final int messageID = msg.variableHeader().messageId();
 
         // route message to subscribers
