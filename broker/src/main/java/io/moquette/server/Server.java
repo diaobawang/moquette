@@ -199,10 +199,10 @@ public class Server {
     private void configureCluster(IConfig config) throws FileNotFoundException {
         LOG.info("Configuring embedded Hazelcast instance");
         String interceptHandlerClassname = config.getProperty(BrokerConstants.INTERCEPT_HANDLER_PROPERTY_NAME);
-        if (interceptHandlerClassname == null || !HZ_INTERCEPT_HANDLER.equals(interceptHandlerClassname)) {
-            LOG.info("There are no Hazelcast intercept handlers. The server won't start a Hazelcast instance.");
-            return;
-        }
+//        if (interceptHandlerClassname == null || !HZ_INTERCEPT_HANDLER.equals(interceptHandlerClassname)) {
+//            LOG.info("There are no Hazelcast intercept handlers. The server won't start a Hazelcast instance.");
+//            return;
+//        }
         String hzConfigPath = config.getProperty(BrokerConstants.HAZELCAST_CONFIGURATION);
         String hzClientIp = config.getProperty(BrokerConstants.HAZELCAST_CLIENT_IP, "localhost");
         String hzClientPort = config.getProperty(BrokerConstants.HAZELCAST_CLIENT_PORT, "5701");

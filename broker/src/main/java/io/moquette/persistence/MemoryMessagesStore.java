@@ -54,30 +54,32 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
-    public long storeMessage(String fromUser, String fromClientId, Message message, List<String> notifyReceivers) {
-    		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-    		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
-    		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
-    		long messageId =  counter.addAndGet(1);
-    		MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
-    		mIMap.put(messageId, messageBundle);
-    		
-    		ConversationType type = message.getConversation().getType();
-    		if (type == ConversationType.Private
-    				|| type == ConversationType.System) {
-    			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
-    			userMessageIds.put(fromUser, messageId);
+	public long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers) {
+		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
+		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
+		long messageId = counter.addAndGet(1);
+		MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
+		mIMap.put(messageId, messageBundle);
+
+		ConversationType type = message.getConversation().getType();
+		if (type == ConversationType.Private || type == ConversationType.System) {
+			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+			userMessageIds.put(fromUser, messageId);
 			userMessageIds.put(message.getConversation().getTarget(), messageId);
+			notifyReceivers.add(fromUser);
+			notifyReceivers.add(message.getConversation().getTarget());
 		} else if (type == ConversationType.Group) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			userMessageIds.put(fromUser, messageId);
-			//Todo get all the group member and add to the list.
+			notifyReceivers.add(fromUser);
+			// Todo get all the group member and add to the list.
 		} else if (type == ConversationType.ChatRoom) {
 			MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
 			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
 		}
-    		return messageId;
-    }
+		return messageId;
+	}
     
     @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {

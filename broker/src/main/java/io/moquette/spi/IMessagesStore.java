@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -91,7 +92,7 @@ public interface IMessagesStore {
         }
     }
 
-    long storeMessage(String fromUser, String fromClientId, Message message, List<String> notifyReceivers);
+    long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers);
     /**
      * Used to initialize all persistent store structures
      */

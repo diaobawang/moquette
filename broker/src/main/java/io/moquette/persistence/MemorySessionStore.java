@@ -24,6 +24,7 @@ import io.moquette.spi.ISessionsStore;
 import io.moquette.spi.ISubscriptionsStore;
 import io.moquette.spi.impl.subscriptions.Subscription;
 import io.moquette.spi.impl.subscriptions.Topic;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,14 +32,16 @@ import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
 
     private static final Logger LOG = LoggerFactory.getLogger(MemorySessionStore.class);
 
-    class Session {
+    public class Session implements Comparable<Session>{
         final String clientID;
+        final String username;
         final ClientSession clientSession;
         final Map<Topic, Subscription> subscriptions = new ConcurrentHashMap<>();
         final AtomicReference<PersistentSession> persistentSession = new AtomicReference<>(null);
@@ -51,10 +54,38 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
         Session(String username, String clientID, ClientSession clientSession) {
             this.clientID = clientID;
             this.clientSession = clientSession;
+            this.username = username;
         }
+
+		public String getClientID() {
+			return clientID;
+		}
+
+		public String getUsername() {
+			return username;
+		}
+
+		public ClientSession getClientSession() {
+			return clientSession;
+		}
+
+		@Override
+		public int compareTo(Session o) {
+			// TODO Auto-generated method stub
+			if (clientID.equals(o.clientID) && username.equals(o.username)) {
+				return 0;
+			}
+			if (clientID.equals(o.clientID)) {
+				return username.compareTo(o.username);
+			} else {
+				return clientID.compareTo(o.clientID);
+			}
+		}
+        
     }
 
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
+    private final Map<String, ConcurrentSkipListSet<Session>> userSessions = new ConcurrentHashMap<>();
 
     private Server mServer;
     public MemorySessionStore(Server server) {
@@ -124,6 +155,13 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
         session = new Session(username, clientID, new ClientSession(clientID, this, this, cleanSession));
         session.persistentSession.set(new PersistentSession(cleanSession));
         sessions.put(clientID, session);
+        ConcurrentSkipListSet<Session> sessionSet = userSessions.get(username);
+        if (sessionSet == null) {
+			sessionSet = new ConcurrentSkipListSet<>();
+			userSessions.put(username, sessionSet);
+		}
+        sessionSet = userSessions.get(username);
+        sessionSet.add(session);
         return session.clientSession;
     }
 
@@ -139,8 +177,14 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
     }
     
     @Override
-    public List<ClientSession> sessionForUser(String username) {
-    		return null;
+    public Collection<Session> sessionForUser(String username) {
+    	ConcurrentSkipListSet<Session> sessionSet = userSessions.get(username);
+        if (sessionSet == null) {
+			sessionSet = new ConcurrentSkipListSet<MemorySessionStore.Session>();
+			userSessions.put(username, sessionSet);
+		}
+        sessionSet = userSessions.get(username);
+        return sessionSet;
     }
 
     @Override
@@ -318,6 +362,13 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
             LOG.error("Can't find the session for client <{}>", clientID);
             return;
         }
+        ConcurrentSkipListSet<Session> sessionSet = userSessions.get(session.username);
+        if (sessionSet == null) {
+			sessionSet = new ConcurrentSkipListSet<>();
+			userSessions.put(session.username, sessionSet);
+		}
+        sessionSet = userSessions.get(session.username);
+        sessionSet.remove(session);
 
         // remove also the messages stored of type QoS1/2
         LOG.info("Removing stored messages with QoS 1 and 2. ClientId={}", clientID);
@@ -333,6 +384,7 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
         dropQueue(clientID);
 
         // TODO this missing last step breaks the junit test
-        //sessions.remove(clientID);
+        sessions.remove(clientID);
     }
+    
 }

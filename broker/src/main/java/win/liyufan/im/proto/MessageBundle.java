@@ -1,9 +1,15 @@
 package win.liyufan.im.proto;
 
+import java.io.Serializable;
+
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 
-public class MessageBundle {
+public class MessageBundle implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8959293027687263752L;
 	private String fromUser;
 	private String fromClientId;
 	private ConversationType type;

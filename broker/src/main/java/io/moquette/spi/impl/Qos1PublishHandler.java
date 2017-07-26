@@ -43,6 +43,8 @@ import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
 import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 class Qos1PublishHandler extends QosPublishHandler {
 
@@ -80,12 +82,12 @@ class Qos1PublishHandler extends QosPublishHandler {
             byte[] payloadContent = readBytesAndRewind(payload);
 			Message message = Message.parseFrom(payloadContent);
 			if (message != null) {
-				ArrayList<String> notifyReceivers = null;
+				Set<String> notifyReceivers = null;
 				if (message.getConversation().getType() != ConversationType.ChatRoom) {
-					notifyReceivers = new ArrayList<>();
+					notifyReceivers = new LinkedHashSet<>();
 				}
 				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
-				
+				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
 			}
 		} catch (InvalidProtocolBufferException e) {
 			// TODO Auto-generated catch block

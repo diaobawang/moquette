@@ -412,7 +412,7 @@ public class ProtocolProcessor {
         }
         if (msg.variableHeader().isCleanSession()) {
             LOG.info("Cleaning session. CId={}", clientId);
-            clientSession.cleanSession();
+          //  clientSession.cleanSession();
         }
         return clientSession;
     }

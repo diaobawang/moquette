@@ -16,6 +16,7 @@
 
 package io.moquette.spi;
 
+import io.moquette.persistence.MemorySessionStore.Session;
 import io.moquette.spi.IMessagesStore.StoredMessage;
 
 import java.util.Collection;
@@ -49,7 +50,7 @@ public interface ISessionsStore {
      */
     ClientSession sessionForClient(String clientID);
     
-    List<ClientSession> sessionForUser(String username);
+    Collection<Session> sessionForUser(String username);
 
     /**
      * Returns all the sessions

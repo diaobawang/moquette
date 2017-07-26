@@ -16,6 +16,7 @@
 
 package io.moquette.spi.impl;
 
+import io.moquette.persistence.MemorySessionStore.Session;
 import io.moquette.server.ConnectionDescriptorStore;
 import io.moquette.spi.ClientSession;
 import io.moquette.spi.IMessagesStore;
@@ -28,7 +29,11 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
+
 import static io.moquette.spi.impl.ProtocolProcessor.lowerQosToTheSubscriptionDesired;
 
 class MessagesPublisher {
@@ -109,16 +114,16 @@ class MessagesPublisher {
         }
     }
     
-    void publish2Receivers(long messageId, List<String> receivers, String exceptClientId) {
+    void publish2Receivers(long messageId, Set<String> receivers, String exceptClientId) {
         
     		for (String user : receivers) {
-				List<ClientSession> sessions = m_sessionsStore.sessionForUser(user);
-				for (ClientSession targetSession : sessions) {
-
-					if (targetSession.clientID.equals(exceptClientId)) {
+				Collection<Session> sessions = m_sessionsStore.sessionForUser(user);
+				for (Session targetSession : sessions) {
+					
+					if (targetSession.getClientSession().clientID.equals(exceptClientId)) {
 						continue;
 					}
-		            boolean targetIsActive = this.connectionDescriptors.isConnected(targetSession.clientID);
+		            boolean targetIsActive = this.connectionDescriptors.isConnected(targetSession.getClientSession().clientID);
 		//TODO move all this logic into messageSender, which puts into the flightZone only the messages that pull out of the queue.
 		            if (targetIsActive) {
 		               
@@ -133,7 +138,7 @@ class MessagesPublisher {
 //		                } else {
 		                    publishMsg = notRetainedPublish(NOTIFY_TOPIC, MqttQoS.AT_MOST_ONCE, payload);
 //		                }
-		                this.messageSender.sendPublish(targetSession, publishMsg);
+		                this.messageSender.sendPublish(targetSession.getClientSession(), publishMsg);
 		            } else {
 //		                if (!targetSession.isCleanSession()) {
 //		                    LOG.debug("Storing pending PUBLISH inactive message. CId={}, topicFilter={}, qos={}",
