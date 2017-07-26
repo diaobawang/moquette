@@ -16,6 +16,16 @@
 
 package io.moquette.spi.impl;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import io.moquette.BrokerConstants;
 import io.moquette.interception.InterceptHandler;
 import io.moquette.server.ConnectionDescriptorStore;
@@ -26,20 +36,15 @@ import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.ISessionsStore;
 import io.moquette.spi.IStore;
 import io.moquette.spi.ISubscriptionsStore;
-import io.moquette.spi.impl.security.*;
+import io.moquette.spi.impl.security.ACLFileParser;
+import io.moquette.spi.impl.security.AcceptAllAuthenticator;
+import io.moquette.spi.impl.security.DenyAllAuthorizator;
+import io.moquette.spi.impl.security.PermitAllAuthorizator;
+import io.moquette.spi.impl.security.ResourceAuthenticator;
 import io.moquette.spi.impl.subscriptions.Subscription;
 import io.moquette.spi.impl.subscriptions.SubscriptionsDirectory;
 import io.moquette.spi.security.IAuthenticator;
 import io.moquette.spi.security.IAuthorizator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * It's main responsibility is bootstrap the ProtocolProcessor.
@@ -197,7 +202,7 @@ public class ProtocolProcessorBootstrapper {
             return null;
         }
         try {
-            return constructor.newInstance(props, scheduledExecutor);
+            return constructor.newInstance(props, scheduledExecutor, server);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException ex) {
             LOG.error("Cannot instantiate the " + storageClassName + " instance", ex);
         }
