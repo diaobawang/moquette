@@ -19,6 +19,7 @@ package io.moquette.spi.impl;
 import io.moquette.server.ConnectionDescriptorStore;
 import io.moquette.server.netty.NettyUtils;
 import io.moquette.spi.IMessagesStore;
+import io.moquette.spi.ISessionsStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import io.moquette.spi.security.IAuthorizator;
 import io.netty.buffer.ByteBuf;
@@ -41,6 +42,8 @@ import static io.moquette.spi.impl.Utils.readBytesAndRewind;
 import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
 import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 
+import java.util.ArrayList;
+
 class Qos1PublishHandler extends QosPublishHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(Qos1PublishHandler.class);
@@ -49,14 +52,17 @@ class Qos1PublishHandler extends QosPublishHandler {
     private final BrokerInterceptor m_interceptor;
     private final ConnectionDescriptorStore connectionDescriptors;
     private final MessagesPublisher publisher;
+    private final ISessionsStore m_sessionStore;
 
     public Qos1PublishHandler(IAuthorizator authorizator, IMessagesStore messagesStore, BrokerInterceptor interceptor,
-                              ConnectionDescriptorStore connectionDescriptors, MessagesPublisher messagesPublisher) {
+                              ConnectionDescriptorStore connectionDescriptors, MessagesPublisher messagesPublisher,
+                              ISessionsStore sessionStore) {
         super(authorizator);
         this.m_messagesStore = messagesStore;
         this.m_interceptor = interceptor;
         this.connectionDescriptors = connectionDescriptors;
         this.publisher = messagesPublisher;
+        this.m_sessionStore = sessionStore;
     }
 
     void receivedPublishQos1(Channel channel, MqttPublishMessage msg) {
@@ -74,9 +80,12 @@ class Qos1PublishHandler extends QosPublishHandler {
             byte[] payloadContent = readBytesAndRewind(payload);
 			Message message = Message.parseFrom(payloadContent);
 			if (message != null) {
-				if (message.getConversation().getType() == ConversationType.Private) {
-					LOG.error("receive private message={}", message);
+				ArrayList<String> notifyReceivers = null;
+				if (message.getConversation().getType() != ConversationType.ChatRoom) {
+					notifyReceivers = new ArrayList<>();
 				}
+				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
+				
 			}
 		} catch (InvalidProtocolBufferException e) {
 			// TODO Auto-generated catch block

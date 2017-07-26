@@ -19,6 +19,7 @@ package io.moquette.spi;
 import io.moquette.spi.IMessagesStore.StoredMessage;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -39,7 +40,7 @@ public interface ISessionsStore {
      */
     boolean contains(String clientID);
 
-    ClientSession createNewSession(String clientID, boolean cleanSession);
+    ClientSession createNewSession(String username, String clientID, boolean cleanSession);
 
     /**
      * @param clientID
@@ -47,6 +48,8 @@ public interface ISessionsStore {
      * @return the session for the given clientID, null if not found.
      */
     ClientSession sessionForClient(String clientID);
+    
+    List<ClientSession> sessionForUser(String username);
 
     /**
      * Returns all the sessions

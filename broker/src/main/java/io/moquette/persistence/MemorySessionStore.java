@@ -17,6 +17,7 @@
 package io.moquette.persistence;
 
 import io.moquette.server.Constants;
+import io.moquette.server.Server;
 import io.moquette.spi.ClientSession;
 import io.moquette.spi.IMessagesStore.StoredMessage;
 import io.moquette.spi.ISessionsStore;
@@ -47,7 +48,7 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
                 Collections.synchronizedMap(new HashMap<Integer, StoredMessage>());
         final Map<Integer, StoredMessage> inboundFlightMessages = new ConcurrentHashMap<>();
 
-        Session(String clientID, ClientSession clientSession) {
+        Session(String username, String clientID, ClientSession clientSession) {
             this.clientID = clientID;
             this.clientSession = clientSession;
         }
@@ -55,7 +56,9 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
 
     private final Map<String, Session> sessions = new ConcurrentHashMap<>();
 
-    public MemorySessionStore() {
+    private Server mServer;
+    public MemorySessionStore(Server server) {
+    		mServer = server;
     }
 
     private Session getSession(String clientID) {
@@ -110,7 +113,7 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
     }
 
     @Override
-    public ClientSession createNewSession(String clientID, boolean cleanSession) {
+    public ClientSession createNewSession(String username, String clientID, boolean cleanSession) {
         LOG.debug("createNewSession for client <{}>", clientID);
         Session session = sessions.get(clientID);
         if (session != null) {
@@ -118,7 +121,7 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
             throw new IllegalArgumentException("Can't create a session with the ID of an already existing" + clientID);
         }
         LOG.debug("clientID {} is a newcome, creating it's empty subscriptions set", clientID);
-        session = new Session(clientID, new ClientSession(clientID, this, this, cleanSession));
+        session = new Session(username, clientID, new ClientSession(clientID, this, this, cleanSession));
         session.persistentSession.set(new PersistentSession(cleanSession));
         sessions.put(clientID, session);
         return session.clientSession;
@@ -133,6 +136,11 @@ public class MemorySessionStore implements ISessionsStore, ISubscriptionsStore {
 
         PersistentSession storedSession = sessions.get(clientID).persistentSession.get();
         return new ClientSession(clientID, this, this, storedSession.cleanSession);
+    }
+    
+    @Override
+    public List<ClientSession> sessionForUser(String username) {
+    		return null;
     }
 
     @Override

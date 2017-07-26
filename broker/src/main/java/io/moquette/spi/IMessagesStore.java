@@ -20,9 +20,12 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
+import win.liyufan.im.proto.MessageOuterClass.Message;
+
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -88,6 +91,7 @@ public interface IMessagesStore {
         }
     }
 
+    long storeMessage(String fromUser, String fromClientId, Message message, List<String> notifyReceivers);
     /**
      * Used to initialize all persistent store structures
      */

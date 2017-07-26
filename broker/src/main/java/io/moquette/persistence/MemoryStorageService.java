@@ -16,6 +16,7 @@
 
 package io.moquette.persistence;
 
+import io.moquette.server.Server;
 import io.moquette.server.config.IConfig;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.ISessionsStore;
@@ -28,9 +29,9 @@ public class MemoryStorageService implements IStore {
     private MemorySessionStore m_sessionsStore;
     private MemoryMessagesStore m_messagesStore;
 
-    public MemoryStorageService(IConfig props, ScheduledExecutorService scheduler) {
-        m_messagesStore = new MemoryMessagesStore();
-        m_sessionsStore = new MemorySessionStore();
+    public MemoryStorageService(IConfig props, ScheduledExecutorService scheduler, Server server) {
+        m_messagesStore = new MemoryMessagesStore(server);
+        m_sessionsStore = new MemorySessionStore(server);
         m_messagesStore.initStore();
         m_sessionsStore.initStore();
     }

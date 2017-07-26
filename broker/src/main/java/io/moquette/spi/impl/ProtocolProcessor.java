@@ -220,7 +220,7 @@ public class ProtocolProcessor {
         this.qos0PublishHandler = new Qos0PublishHandler(m_authorizator, m_messagesStore, m_interceptor,
                 this.messagesPublisher);
         this.qos1PublishHandler = new Qos1PublishHandler(m_authorizator, m_messagesStore, m_interceptor,
-                this.connectionDescriptors, this.messagesPublisher);
+                this.connectionDescriptors, this.messagesPublisher, sessionsStore);
         this.qos2PublishHandler = new Qos2PublishHandler(m_authorizator, subscriptions, m_messagesStore, m_interceptor,
                 this.connectionDescriptors, m_sessionsStore, this.messagesPublisher);
 
@@ -282,7 +282,7 @@ public class ProtocolProcessor {
 
         m_interceptor.notifyClientConnected(msg);
 
-        final ClientSession clientSession = createOrLoadClientSession(descriptor, msg, clientId);
+        final ClientSession clientSession = createOrLoadClientSession(payload.userName(), descriptor, msg, clientId);
         if (clientSession == null) {
             channel.close();
             return;
@@ -398,7 +398,7 @@ public class ProtocolProcessor {
         }
     }
 
-    private ClientSession createOrLoadClientSession(ConnectionDescriptor descriptor, MqttConnectMessage msg,
+    private ClientSession createOrLoadClientSession(String username, ConnectionDescriptor descriptor, MqttConnectMessage msg,
             String clientId) {
         final boolean success = descriptor.assignState(SENDACK, SESSION_CREATED);
         if (!success) {
@@ -408,7 +408,7 @@ public class ProtocolProcessor {
         ClientSession clientSession = m_sessionsStore.sessionForClient(clientId);
         boolean isSessionAlreadyStored = clientSession != null;
         if (!isSessionAlreadyStored) {
-            clientSession = m_sessionsStore.createNewSession(clientId, msg.variableHeader().isCleanSession());
+            clientSession = m_sessionsStore.createNewSession(username, clientId, msg.variableHeader().isCleanSession());
         }
         if (msg.variableHeader().isCleanSession()) {
             LOG.info("Cleaning session. CId={}", clientId);

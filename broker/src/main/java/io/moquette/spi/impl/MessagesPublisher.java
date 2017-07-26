@@ -24,6 +24,7 @@ import io.moquette.spi.impl.subscriptions.Subscription;
 import io.moquette.spi.impl.subscriptions.SubscriptionsDirectory;
 import io.moquette.spi.impl.subscriptions.Topic;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ import java.util.List;
 import static io.moquette.spi.impl.ProtocolProcessor.lowerQosToTheSubscriptionDesired;
 
 class MessagesPublisher {
-
+	private static final String NOTIFY_TOPIC = "NTF";
     private static final Logger LOG = LoggerFactory.getLogger(MessagesPublisher.class);
     private final ConnectionDescriptorStore connectionDescriptors;
     private final ISessionsStore m_sessionsStore;
@@ -106,6 +107,45 @@ class MessagesPublisher {
                 }
             }
         }
+    }
+    
+    void publish2Receivers(long messageId, List<String> receivers, String exceptClientId) {
+        
+    		for (String user : receivers) {
+				List<ClientSession> sessions = m_sessionsStore.sessionForUser(user);
+				for (ClientSession targetSession : sessions) {
+
+					if (targetSession.clientID.equals(exceptClientId)) {
+						continue;
+					}
+		            boolean targetIsActive = this.connectionDescriptors.isConnected(targetSession.clientID);
+		//TODO move all this logic into messageSender, which puts into the flightZone only the messages that pull out of the queue.
+		            if (targetIsActive) {
+		               
+		                ByteBuf payload = Unpooled.buffer(8);
+		                payload.writeLong(messageId);
+		                MqttPublishMessage publishMsg;
+//		                if (qos != MqttQoS.AT_MOST_ONCE) {
+//		                    // QoS 1 or 2
+//		                    int messageId = targetSession.inFlightAckWaiting(pubMsg);
+//		                    // set the PacketIdentifier only for QoS > 0
+//		                    publishMsg = notRetainedPublishWithMessageId(topic1, qos, payload, messageId);
+//		                } else {
+		                    publishMsg = notRetainedPublish(NOTIFY_TOPIC, MqttQoS.AT_MOST_ONCE, payload);
+//		                }
+		                this.messageSender.sendPublish(targetSession, publishMsg);
+		            } else {
+//		                if (!targetSession.isCleanSession()) {
+//		                    LOG.debug("Storing pending PUBLISH inactive message. CId={}, topicFilter={}, qos={}",
+//		                        sub.getClientId(), sub.getTopicFilter(), qos);
+//		                    // store the message in targetSession queue to deliver
+//		                    targetSession.enqueue(pubMsg);
+//		                }
+		            }
+		        
+				}
+			}
+
     }
 
 }

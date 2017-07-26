@@ -89,7 +89,7 @@ public class ProtocolProcessorBootstrapper {
             LOG.error("storage_class property not defined");
             throw new IllegalArgumentException("Can't find a valid persistence layer");
         }
-        final IStore store = instantiateConfiguredStore(storageClassName, props, server.getScheduler());
+        final IStore store = instantiateConfiguredStore(storageClassName, props, server.getScheduler(), server);
         if (store == null) {
             throw new IllegalArgumentException("Can't start the persistence layer");
         }
@@ -176,7 +176,7 @@ public class ProtocolProcessorBootstrapper {
     }
 
     private IStore instantiateConfiguredStore(String storageClassName, IConfig props,
-                                              ScheduledExecutorService scheduledExecutor) {
+                                              ScheduledExecutorService scheduledExecutor, Server server) {
         LOG.info("Loading storage class {}", storageClassName);
         Class<? extends IStore> storageClass;
         try {
@@ -191,7 +191,7 @@ public class ProtocolProcessorBootstrapper {
         final Constructor<? extends IStore> constructor;
         try {
             constructor = storageClass
-                .getConstructor(IConfig.class, ScheduledExecutorService.class);
+                .getConstructor(IConfig.class, ScheduledExecutorService.class, Server.class);
         } catch (NoSuchMethodException nsmex) {
             LOG.error("Cannot find constructor with required params IConfig, ScheduledExecutorService ", nsmex);
             return null;
