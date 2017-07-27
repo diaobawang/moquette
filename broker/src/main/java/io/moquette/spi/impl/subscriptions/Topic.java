@@ -40,7 +40,13 @@ public class Topic implements Serializable {
         this.topic = topic;
     }
 
-    public List<Token> getTokens() {
+    
+    public String getTopic() {
+		return topic;
+	}
+
+
+	public List<Token> getTokens() {
         if (tokens == null) {
             try {
                 tokens = parseTopic(topic);

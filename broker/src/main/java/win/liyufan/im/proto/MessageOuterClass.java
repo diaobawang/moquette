@@ -45,14 +45,14 @@ public final class MessageOuterClass {
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getContentOrBuilder();
 
     /**
-     * <code>string message_uid = 3;</code>
+     * <code>int64 message_id = 3;</code>
      */
-    java.lang.String getMessageUid();
+    long getMessageId();
+
     /**
-     * <code>string message_uid = 3;</code>
+     * <code>int64 server_timestamp = 4;</code>
      */
-    com.google.protobuf.ByteString
-        getMessageUidBytes();
+    long getServerTimestamp();
   }
   /**
    * Protobuf type {@code proto.Message}
@@ -66,7 +66,8 @@ public final class MessageOuterClass {
       super(builder);
     }
     private Message() {
-      messageUid_ = "";
+      messageId_ = 0L;
+      serverTimestamp_ = 0L;
     }
 
     @java.lang.Override
@@ -120,10 +121,14 @@ public final class MessageOuterClass {
 
               break;
             }
-            case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 24: {
 
-              messageUid_ = s;
+              messageId_ = input.readInt64();
+              break;
+            }
+            case 32: {
+
+              serverTimestamp_ = input.readInt64();
               break;
             }
           }
@@ -191,38 +196,22 @@ public final class MessageOuterClass {
       return getContent();
     }
 
-    public static final int MESSAGE_UID_FIELD_NUMBER = 3;
-    private volatile java.lang.Object messageUid_;
+    public static final int MESSAGE_ID_FIELD_NUMBER = 3;
+    private long messageId_;
     /**
-     * <code>string message_uid = 3;</code>
+     * <code>int64 message_id = 3;</code>
      */
-    public java.lang.String getMessageUid() {
-      java.lang.Object ref = messageUid_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        messageUid_ = s;
-        return s;
-      }
+    public long getMessageId() {
+      return messageId_;
     }
+
+    public static final int SERVER_TIMESTAMP_FIELD_NUMBER = 4;
+    private long serverTimestamp_;
     /**
-     * <code>string message_uid = 3;</code>
+     * <code>int64 server_timestamp = 4;</code>
      */
-    public com.google.protobuf.ByteString
-        getMessageUidBytes() {
-      java.lang.Object ref = messageUid_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        messageUid_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public long getServerTimestamp() {
+      return serverTimestamp_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -243,8 +232,11 @@ public final class MessageOuterClass {
       if (content_ != null) {
         output.writeMessage(2, getContent());
       }
-      if (!getMessageUidBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, messageUid_);
+      if (messageId_ != 0L) {
+        output.writeInt64(3, messageId_);
+      }
+      if (serverTimestamp_ != 0L) {
+        output.writeInt64(4, serverTimestamp_);
       }
     }
 
@@ -261,8 +253,13 @@ public final class MessageOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(2, getContent());
       }
-      if (!getMessageUidBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, messageUid_);
+      if (messageId_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, messageId_);
+      }
+      if (serverTimestamp_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(4, serverTimestamp_);
       }
       memoizedSize = size;
       return size;
@@ -290,8 +287,10 @@ public final class MessageOuterClass {
         result = result && getContent()
             .equals(other.getContent());
       }
-      result = result && getMessageUid()
-          .equals(other.getMessageUid());
+      result = result && (getMessageId()
+          == other.getMessageId());
+      result = result && (getServerTimestamp()
+          == other.getServerTimestamp());
       return result;
     }
 
@@ -310,8 +309,12 @@ public final class MessageOuterClass {
         hash = (37 * hash) + CONTENT_FIELD_NUMBER;
         hash = (53 * hash) + getContent().hashCode();
       }
-      hash = (37 * hash) + MESSAGE_UID_FIELD_NUMBER;
-      hash = (53 * hash) + getMessageUid().hashCode();
+      hash = (37 * hash) + MESSAGE_ID_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getMessageId());
+      hash = (37 * hash) + SERVER_TIMESTAMP_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getServerTimestamp());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -453,7 +456,9 @@ public final class MessageOuterClass {
           content_ = null;
           contentBuilder_ = null;
         }
-        messageUid_ = "";
+        messageId_ = 0L;
+
+        serverTimestamp_ = 0L;
 
         return this;
       }
@@ -487,7 +492,8 @@ public final class MessageOuterClass {
         } else {
           result.content_ = contentBuilder_.build();
         }
-        result.messageUid_ = messageUid_;
+        result.messageId_ = messageId_;
+        result.serverTimestamp_ = serverTimestamp_;
         onBuilt();
         return result;
       }
@@ -535,9 +541,11 @@ public final class MessageOuterClass {
         if (other.hasContent()) {
           mergeContent(other.getContent());
         }
-        if (!other.getMessageUid().isEmpty()) {
-          messageUid_ = other.messageUid_;
-          onChanged();
+        if (other.getMessageId() != 0L) {
+          setMessageId(other.getMessageId());
+        }
+        if (other.getServerTimestamp() != 0L) {
+          setServerTimestamp(other.getServerTimestamp());
         }
         onChanged();
         return this;
@@ -799,71 +807,54 @@ public final class MessageOuterClass {
         return contentBuilder_;
       }
 
-      private java.lang.Object messageUid_ = "";
+      private long messageId_ ;
       /**
-       * <code>string message_uid = 3;</code>
+       * <code>int64 message_id = 3;</code>
        */
-      public java.lang.String getMessageUid() {
-        java.lang.Object ref = messageUid_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          messageUid_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
+      public long getMessageId() {
+        return messageId_;
       }
       /**
-       * <code>string message_uid = 3;</code>
+       * <code>int64 message_id = 3;</code>
        */
-      public com.google.protobuf.ByteString
-          getMessageUidBytes() {
-        java.lang.Object ref = messageUid_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          messageUid_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string message_uid = 3;</code>
-       */
-      public Builder setMessageUid(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        messageUid_ = value;
+      public Builder setMessageId(long value) {
+        
+        messageId_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string message_uid = 3;</code>
+       * <code>int64 message_id = 3;</code>
        */
-      public Builder clearMessageUid() {
+      public Builder clearMessageId() {
         
-        messageUid_ = getDefaultInstance().getMessageUid();
+        messageId_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long serverTimestamp_ ;
+      /**
+       * <code>int64 server_timestamp = 4;</code>
+       */
+      public long getServerTimestamp() {
+        return serverTimestamp_;
+      }
+      /**
+       * <code>int64 server_timestamp = 4;</code>
+       */
+      public Builder setServerTimestamp(long value) {
+        
+        serverTimestamp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>string message_uid = 3;</code>
+       * <code>int64 server_timestamp = 4;</code>
        */
-      public Builder setMessageUidBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public Builder clearServerTimestamp() {
         
-        messageUid_ = value;
+        serverTimestamp_ = 0L;
         onChanged();
         return this;
       }
@@ -931,11 +922,12 @@ public final class MessageOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\rmessage.proto\022\005proto\032\022conversation.pro" +
-      "to\032\024messagecontent.proto\"q\n\007Message\022)\n\014c" +
-      "onversation\030\001 \001(\0132\023.proto.Conversation\022&" +
-      "\n\007content\030\002 \001(\0132\025.proto.MessageContent\022\023" +
-      "\n\013message_uid\030\003 \001(\tB)\n\024win.liyufan.im.pr" +
-      "otoB\021MessageOuterClassb\006proto3"
+      "to\032\024messagecontent.proto\"\212\001\n\007Message\022)\n\014" +
+      "conversation\030\001 \001(\0132\023.proto.Conversation\022" +
+      "&\n\007content\030\002 \001(\0132\025.proto.MessageContent\022" +
+      "\022\n\nmessage_id\030\003 \001(\003\022\030\n\020server_timestamp\030" +
+      "\004 \001(\003B)\n\024win.liyufan.im.protoB\021MessageOu" +
+      "terClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -956,7 +948,7 @@ public final class MessageOuterClass {
     internal_static_proto_Message_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_Message_descriptor,
-        new java.lang.String[] { "Conversation", "Content", "MessageUid", });
+        new java.lang.String[] { "Conversation", "Content", "MessageId", "ServerTimestamp", });
     win.liyufan.im.proto.ConversationOuterClass.getDescriptor();
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }

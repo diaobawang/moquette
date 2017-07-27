@@ -127,7 +127,7 @@ class MessagesPublisher {
 		//TODO move all this logic into messageSender, which puts into the flightZone only the messages that pull out of the queue.
 		            if (targetIsActive) {
 		               
-		                ByteBuf payload = Unpooled.buffer(8);
+		                ByteBuf payload = Unpooled.buffer();
 		                payload.writeLong(messageId);
 		                MqttPublishMessage publishMsg;
 //		                if (qos != MqttQoS.AT_MOST_ONCE) {

@@ -23,11 +23,13 @@ import io.moquette.spi.ISessionsStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import io.moquette.spi.security.IAuthorizator;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessageType;
 import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
+import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 
@@ -77,23 +79,36 @@ class Qos1PublishHandler extends QosPublishHandler {
             return;
         }
 
-        try {
-            ByteBuf payload = msg.payload();
-            byte[] payloadContent = readBytesAndRewind(payload);
-			Message message = Message.parseFrom(payloadContent);
-			if (message != null) {
-				Set<String> notifyReceivers = null;
-				if (message.getConversation().getType() != ConversationType.ChatRoom) {
-					notifyReceivers = new LinkedHashSet<>();
-				}
-				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
-				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
-			}
-		} catch (InvalidProtocolBufferException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         final int messageID = msg.variableHeader().messageId();
+        
+        if (topic.getTopic().equals("msg")) {
+            try {
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+    			Message message = Message.parseFrom(payloadContent);
+    			if (message != null) {
+    				Set<String> notifyReceivers = null;
+    				if (message.getConversation().getType() != ConversationType.ChatRoom) {
+    					notifyReceivers = new LinkedHashSet<>();
+    				}
+    				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
+    				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
+    				
+    				ByteBuf ack = Unpooled.buffer();
+    				payload.resetWriterIndex();
+	                payload.writeLong(messageId);
+	                long timestamp = System.currentTimeMillis();
+	                payload.writeLong(timestamp);
+	                sendPubAck(clientID, messageID, ack);
+	                return;
+    			}
+    		} catch (InvalidProtocolBufferException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+		}
+
+
 
         // route message to subscribers
         IMessagesStore.StoredMessage toStoreMsg = asStoredMessage(msg);
@@ -101,7 +116,7 @@ class Qos1PublishHandler extends QosPublishHandler {
 
         this.publisher.publish2Subscribers(toStoreMsg, topic, messageID);
 
-        sendPubAck(clientID, messageID);
+        sendPubAck(clientID, messageID, null);
 
         if (msg.fixedHeader().isRetain()) {
             if (!msg.payload().isReadable()) {
@@ -115,10 +130,10 @@ class Qos1PublishHandler extends QosPublishHandler {
         m_interceptor.notifyTopicPublished(msg, clientID, username);
     }
 
-    private void sendPubAck(String clientId, int messageID) {
+    private void sendPubAck(String clientId, int messageID, ByteBuf payload) {
         LOG.trace("sendPubAck invoked");
         MqttFixedHeader fixedHeader = new MqttFixedHeader(MqttMessageType.PUBACK, false, AT_MOST_ONCE, false, 0);
-        MqttPubAckMessage pubAckMessage = new MqttPubAckMessage(fixedHeader, from(messageID));
+        ModifiedMqttPubAckMessage pubAckMessage = new ModifiedMqttPubAckMessage(fixedHeader, from(messageID), payload);
 
         try {
             if (connectionDescriptors == null) {
