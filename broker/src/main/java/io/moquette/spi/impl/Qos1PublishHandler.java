@@ -81,7 +81,7 @@ class Qos1PublishHandler extends QosPublishHandler {
 
         final int messageID = msg.variableHeader().messageId();
         
-        if (topic.getTopic().equals("msg")) {
+        if (topic.getTopic().equals(S)) {
             try {
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
@@ -106,6 +106,8 @@ class Qos1PublishHandler extends QosPublishHandler {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
+            sendPubAck(clientID, 0, null);
+            return;
 		}
 
 
