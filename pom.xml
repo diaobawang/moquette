@@ -109,8 +109,6 @@
 
     <modules>
         <module>broker</module>
-        <module>mapdb_storage</module>
-        <module>h2_storage</module>
         <module>distribution</module>
         <module>embedding_moquette</module>
         <module>osgi_test</module>
