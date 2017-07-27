@@ -29,6 +29,7 @@ import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessageType;
 import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
+import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -81,7 +82,7 @@ class Qos1PublishHandler extends QosPublishHandler {
 
         final int messageID = msg.variableHeader().messageId();
         
-        if (topic.getTopic().equals(S)) {
+        if (topic.getTopic().equals(IMTopic.SendMessageTopic)) {
             try {
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
@@ -108,6 +109,8 @@ class Qos1PublishHandler extends QosPublishHandler {
     		}
             sendPubAck(clientID, 0, null);
             return;
+		} else if (topic.getTopic().equals(IMTopic.PullMessageTopic)) {
+			
 		}
 
 

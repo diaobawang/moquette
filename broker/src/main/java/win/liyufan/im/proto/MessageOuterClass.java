@@ -922,12 +922,12 @@ public final class MessageOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\rmessage.proto\022\005proto\032\022conversation.pro" +
-      "to\032\024messagecontent.proto\"\212\001\n\007Message\022)\n\014" +
-      "conversation\030\001 \001(\0132\023.proto.Conversation\022" +
-      "&\n\007content\030\002 \001(\0132\025.proto.MessageContent\022" +
-      "\022\n\nmessage_id\030\003 \001(\003\022\030\n\020server_timestamp\030" +
-      "\004 \001(\003B)\n\024win.liyufan.im.protoB\021MessageOu" +
-      "terClassb\006proto3"
+      "to\032\025message_content.proto\"\212\001\n\007Message\022)\n" +
+      "\014conversation\030\001 \001(\0132\023.proto.Conversation" +
+      "\022&\n\007content\030\002 \001(\0132\025.proto.MessageContent" +
+      "\022\022\n\nmessage_id\030\003 \001(\003\022\030\n\020server_timestamp" +
+      "\030\004 \001(\003B)\n\024win.liyufan.im.protoB\021MessageO" +
+      "uterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {

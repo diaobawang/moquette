@@ -36,7 +36,7 @@ import io.moquette.spi.IMatchingCondition;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
-import win.liyufan.im.proto.MessageBundle;
+import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 
 public class MemoryMessagesStore implements IMessagesStore {

@@ -1,4 +1,4 @@
-package win.liyufan.im.proto;
+package win.liyufan.im;
 
 import java.io.Serializable;
 

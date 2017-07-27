@@ -27,6 +27,8 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.*;
+import win.liyufan.im.IMTopic;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +39,6 @@ import java.util.Set;
 import static io.moquette.spi.impl.ProtocolProcessor.lowerQosToTheSubscriptionDesired;
 
 class MessagesPublisher {
-	private static final String NOTIFY_TOPIC = "NTF";
     private static final Logger LOG = LoggerFactory.getLogger(MessagesPublisher.class);
     private final ConnectionDescriptorStore connectionDescriptors;
     private final ISessionsStore m_sessionsStore;
@@ -136,7 +137,7 @@ class MessagesPublisher {
 //		                    // set the PacketIdentifier only for QoS > 0
 //		                    publishMsg = notRetainedPublishWithMessageId(topic1, qos, payload, messageId);
 //		                } else {
-		                    publishMsg = notRetainedPublish(NOTIFY_TOPIC, MqttQoS.AT_MOST_ONCE, payload);
+		                    publishMsg = notRetainedPublish(IMTopic.NotifyMessageTopic, MqttQoS.AT_MOST_ONCE, payload);
 //		                }
 		                this.messageSender.sendPublish(targetSession.getClientSession(), publishMsg);
 		            } else {
