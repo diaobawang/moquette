@@ -28,6 +28,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.*;
 import win.liyufan.im.IMTopic;
+import win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage;
+import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,8 +130,17 @@ class MessagesPublisher {
 		//TODO move all this logic into messageSender, which puts into the flightZone only the messages that pull out of the queue.
 		            if (targetIsActive) {
 		               
+		            	NotifyMessage notifyMessage = NotifyMessage
+		            			.newBuilder()
+		            			.setType(PullType.Pull_Normal)
+		            			.setTarget(null)
+		            			.setHead(messageId)
+		            			.build();
+		            	
 		                ByteBuf payload = Unpooled.buffer();
-		                payload.writeLong(messageId);
+		                payload.resetWriterIndex();
+		                payload.resetReaderIndex();
+		                payload.writeBytes(notifyMessage.toByteArray());
 		                MqttPublishMessage publishMsg;
 //		                if (qos != MqttQoS.AT_MOST_ONCE) {
 //		                    // QoS 1 or 2
