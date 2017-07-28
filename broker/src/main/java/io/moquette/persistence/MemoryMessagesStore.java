@@ -36,8 +36,8 @@ import io.moquette.server.Server;
 import io.moquette.spi.IMatchingCondition;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
-import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.MessageBundle;
+import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
@@ -105,6 +105,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 		Collection<Long> ids = userMessageIds.get(user);
 		
 		if (ids == null || ids.isEmpty()) {
+			builder.setCurrent(fromMessageId);
 			builder.setHead(fromMessageId);
 			return fromMessageId;
 		}
@@ -135,22 +136,28 @@ public class MemoryMessagesStore implements IMessagesStore {
 		List<Long> pulledIds = idList.subList(index, idList.size());
 		
 		if (pulledIds == null || pulledIds.isEmpty()) {
+			builder.setCurrent(fromMessageId);
 			builder.setHead(fromMessageId);
 			return fromMessageId;
 		}
 		
 		int count = 0;
+		long current = fromMessageId;
 		for (Long id : pulledIds) {
 			MessageBundle bundle = mIMap.get(id);
-			if (bundle != null && !bundle.getFromClientId().equals(exceptClientId)) {
-				count++;
-				builder.addMessage(bundle.getMessage());
-				if (count >= 10) {
-					break;
+			if (bundle != null) {
+				current = bundle.getMessageId();
+				if (!bundle.getFromClientId().equals(exceptClientId)) {
+					count++;
+					builder.addMessage(bundle.getMessage());
+					if (count >= 10) {
+						break;
+					}
 				}
+
 			}
 		}
-		
+		builder.setCurrent(current);
 		builder.setHead(idList.get(idList.size() - 1));
 		
 		return idList.get(idList.size() - 1);
