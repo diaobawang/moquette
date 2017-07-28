@@ -22,6 +22,15 @@ public final class PullMessageResultOuterClass {
      * <code>int64 id = 1;</code>
      */
     long getId();
+
+    /**
+     * <code>.proto.PullType type = 2;</code>
+     */
+    int getTypeValue();
+    /**
+     * <code>.proto.PullType type = 2;</code>
+     */
+    win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType();
   }
   /**
    * Protobuf type {@code proto.PullMessageResult}
@@ -36,6 +45,7 @@ public final class PullMessageResultOuterClass {
     }
     private PullMessageResult() {
       id_ = 0L;
+      type_ = 0;
     }
 
     @java.lang.Override
@@ -66,6 +76,12 @@ public final class PullMessageResultOuterClass {
             case 8: {
 
               id_ = input.readInt64();
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              type_ = rawValue;
               break;
             }
           }
@@ -100,6 +116,22 @@ public final class PullMessageResultOuterClass {
       return id_;
     }
 
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_;
+    /**
+     * <code>.proto.PullType type = 2;</code>
+     */
+    public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <code>.proto.PullType type = 2;</code>
+     */
+    public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
+      win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
+      return result == null ? win.liyufan.im.proto.NotifyMessageOuterClass.PullType.UNRECOGNIZED : result;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -115,6 +147,9 @@ public final class PullMessageResultOuterClass {
       if (id_ != 0L) {
         output.writeInt64(1, id_);
       }
+      if (type_ != win.liyufan.im.proto.NotifyMessageOuterClass.PullType.Pull_Normal.getNumber()) {
+        output.writeEnum(2, type_);
+      }
     }
 
     public int getSerializedSize() {
@@ -125,6 +160,10 @@ public final class PullMessageResultOuterClass {
       if (id_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, id_);
+      }
+      if (type_ != win.liyufan.im.proto.NotifyMessageOuterClass.PullType.Pull_Normal.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, type_);
       }
       memoizedSize = size;
       return size;
@@ -144,6 +183,7 @@ public final class PullMessageResultOuterClass {
       boolean result = true;
       result = result && (getId()
           == other.getId());
+      result = result && type_ == other.type_;
       return result;
     }
 
@@ -157,6 +197,8 @@ public final class PullMessageResultOuterClass {
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getId());
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -288,6 +330,8 @@ public final class PullMessageResultOuterClass {
         super.clear();
         id_ = 0L;
 
+        type_ = 0;
+
         return this;
       }
 
@@ -311,6 +355,7 @@ public final class PullMessageResultOuterClass {
       public win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult buildPartial() {
         win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult result = new win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult(this);
         result.id_ = id_;
+        result.type_ = type_;
         onBuilt();
         return result;
       }
@@ -354,6 +399,9 @@ public final class PullMessageResultOuterClass {
         if (other == win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult.getDefaultInstance()) return this;
         if (other.getId() != 0L) {
           setId(other.getId());
+        }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
         }
         onChanged();
         return this;
@@ -403,6 +451,50 @@ public final class PullMessageResultOuterClass {
       public Builder clearId() {
         
         id_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private int type_ = 0;
+      /**
+       * <code>.proto.PullType type = 2;</code>
+       */
+      public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <code>.proto.PullType type = 2;</code>
+       */
+      public Builder setTypeValue(int value) {
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.proto.PullType type = 2;</code>
+       */
+      public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
+        win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
+        return result == null ? win.liyufan.im.proto.NotifyMessageOuterClass.PullType.UNRECOGNIZED : result;
+      }
+      /**
+       * <code>.proto.PullType type = 2;</code>
+       */
+      public Builder setType(win.liyufan.im.proto.NotifyMessageOuterClass.PullType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>.proto.PullType type = 2;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = 0;
         onChanged();
         return this;
       }
@@ -469,10 +561,11 @@ public final class PullMessageResultOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\032pull_message_request.proto\022\005proto\"\037\n\021P" +
-      "ullMessageResult\022\n\n\002id\030\001 \001(\003B3\n\024win.liyu" +
-      "fan.im.protoB\033PullMessageResultOuterClas" +
-      "sb\006proto3"
+      "\n\032pull_message_request.proto\022\005proto\032\024not" +
+      "ify_message.proto\">\n\021PullMessageResult\022\n" +
+      "\n\002id\030\001 \001(\003\022\035\n\004type\030\002 \001(\0162\017.proto.PullTyp" +
+      "eB3\n\024win.liyufan.im.protoB\033PullMessageRe" +
+      "sultOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -485,13 +578,15 @@ public final class PullMessageResultOuterClass {
     com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
+          win.liyufan.im.proto.NotifyMessageOuterClass.getDescriptor(),
         }, assigner);
     internal_static_proto_PullMessageResult_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_proto_PullMessageResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_proto_PullMessageResult_descriptor,
-        new java.lang.String[] { "Id", });
+        new java.lang.String[] { "Id", "Type", });
+    win.liyufan.im.proto.NotifyMessageOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)
