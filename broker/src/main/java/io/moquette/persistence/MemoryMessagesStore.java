@@ -97,7 +97,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 	}
     
     @Override
-    public Long fetchMessage(String user, long fromMessageId, PullMessageResult.Builder builder) {
+    public long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 
@@ -139,12 +139,18 @@ public class MemoryMessagesStore implements IMessagesStore {
 			return fromMessageId;
 		}
 		
+		int count = 0;
 		for (Long id : pulledIds) {
 			MessageBundle bundle = mIMap.get(id);
-			if (bundle != null) {
+			if (bundle != null && !bundle.getFromClientId().equals(exceptClientId)) {
+				count++;
 				builder.addMessage(bundle.getMessage());
+				if (count >= 10) {
+					break;
+				}
 			}
 		}
+		
 		builder.setHead(idList.get(idList.size() - 1));
 		
 		return idList.get(idList.size() - 1);

@@ -123,18 +123,19 @@ class Qos1PublishHandler extends QosPublishHandler {
 				PullMessageRequest request = PullMessageRequest.parseFrom(payloadContent);
 
 				PullMessageResult.Builder builder = PullMessageResult.newBuilder();
-				long head = m_messagesStore.fetchMessage(username, request.getId(), builder);
+				long head = m_messagesStore.fetchMessage(username, clientID, request.getId(), builder);
 				PullMessageResult result = builder.build();
 				
 				ByteBuf ack = Unpooled.buffer();
 				ack.writeBytes(result.toByteArray());
 				sendPubAck(clientID, messageID, ack);
-				
+				return;
 			} catch (InvalidProtocolBufferException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			sendPubAck(clientID, messageID, null);
+			return;
 		}
 
         // route message to subscribers
