@@ -18,6 +18,7 @@ package io.moquette.persistence;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,52 @@ public class MemoryMessagesStore implements IMessagesStore {
 		return messageId;
 	}
     
+    @Override
+    public Long fetchMessage(String user, long fromMessageId, List<Message> out) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
+
+		MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+		Collection<Long> ids = userMessageIds.get(user);
+		
+		if (ids == null || ids.isEmpty()) {
+			return fromMessageId;
+		}
+		
+		ArrayList<Long> idList = new ArrayList<>(ids);
+		idList.sort(new Comparator<Long>() {
+
+			@Override
+			public int compare(Long o1, Long o2) {
+				// TODO Auto-generated method stub
+				if (o1 == o2) {
+					return 0;
+				} else if (o1 < o2) {
+					return -1;
+				}
+				return 1;
+			}
+		});
+		
+		int index = 0;
+		for (int i = 0; i < idList.size(); i++) {
+			long element = idList.get(i);
+			if (element > fromMessageId) {
+				index = i;
+				break;
+			}
+		}
+		List<Long> pulledIds = idList.subList(index, idList.size());
+		
+		for (Long id : pulledIds) {
+			MessageBundle bundle = mIMap.get(id);
+			if (bundle != null) {
+				out.add(bundle.getMessage());
+			}
+		}
+		
+		return idList.get(idList.size() - 1);
+    }
     @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {
         LOG.debug("Store retained message for topic={}, CId={}", topic, storedMessage.getClientID());

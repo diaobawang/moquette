@@ -93,6 +93,7 @@ public interface IMessagesStore {
     }
 
     long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers);
+    Long fetchMessage(String user, long fromMessageId, List<Message> out);
     /**
      * Used to initialize all persistent store structures
      */

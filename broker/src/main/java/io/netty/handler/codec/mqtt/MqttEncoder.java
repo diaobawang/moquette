@@ -332,11 +332,20 @@ public final class MqttEncoder extends MessageToMessageEncoder<MqttMessage> {
         int msgId = variableHeader.messageId();
 
         int variableHeaderBufferSize = 2; // variable part only has a message id
+        
+        ByteBuf payload = null;
+        if (message.payload() != null) {
+        	payload = ((ByteBuf)message.payload()).duplicate();
+        	variableHeaderBufferSize += payload.readableBytes();
+		}
         int fixedHeaderBufferSize = 1 + getVariableLengthInt(variableHeaderBufferSize);
         ByteBuf buf = byteBufAllocator.buffer(fixedHeaderBufferSize + variableHeaderBufferSize);
         buf.writeByte(getFixedHeaderByte1(mqttFixedHeader));
         writeVariableLengthInt(buf, variableHeaderBufferSize);
         buf.writeShort(msgId);
+        if (payload != null) {
+        	buf.writeBytes(payload);
+		}
 
         return buf;
     }

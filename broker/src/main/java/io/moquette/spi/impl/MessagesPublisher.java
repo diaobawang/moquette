@@ -133,7 +133,6 @@ class MessagesPublisher {
 		            	NotifyMessage notifyMessage = NotifyMessage
 		            			.newBuilder()
 		            			.setType(PullType.Pull_Normal)
-		            			.setTarget(null)
 		            			.setHead(messageId)
 		            			.build();
 		            	

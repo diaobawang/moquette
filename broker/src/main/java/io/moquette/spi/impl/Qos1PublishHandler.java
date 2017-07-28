@@ -33,6 +33,7 @@ import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 
 import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
@@ -95,12 +96,13 @@ class Qos1PublishHandler extends QosPublishHandler {
     				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
     				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
     				
-    				ByteBuf ack = Unpooled.buffer();
-    				payload.resetWriterIndex();
-	                payload.writeLong(messageId);
+    				ByteBuf ack = Unpooled.buffer(16);
+    				ack.writeLong(messageId);
 	                long timestamp = System.currentTimeMillis();
-	                payload.writeLong(timestamp);
+	                ack.writeLong(timestamp);
+	                System.out.println("the size is " + ack.readableBytes());
 	                sendPubAck(clientID, messageID, ack);
+	                
 	                return;
     			}
     		} catch (InvalidProtocolBufferException e) {
@@ -110,7 +112,15 @@ class Qos1PublishHandler extends QosPublishHandler {
             sendPubAck(clientID, 0, null);
             return;
 		} else if (topic.getTopic().equals(IMTopic.PullMessageTopic)) {
-			
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				PullMessageRequest request = PullMessageRequest.parseFrom(payloadContent);
+				
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 
