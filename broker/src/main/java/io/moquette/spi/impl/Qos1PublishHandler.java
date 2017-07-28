@@ -34,6 +34,7 @@ import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
+import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
@@ -46,6 +47,7 @@ import static io.moquette.spi.impl.Utils.readBytesAndRewind;
 import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
 import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -93,12 +95,15 @@ class Qos1PublishHandler extends QosPublishHandler {
     				if (message.getConversation().getType() != ConversationType.ChatRoom) {
     					notifyReceivers = new LinkedHashSet<>();
     				}
-    				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers);
+    				
+    				long timestamp = System.currentTimeMillis();
+    				
+    				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp);
     				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
     				
     				ByteBuf ack = Unpooled.buffer(16);
     				ack.writeLong(messageId);
-	                long timestamp = System.currentTimeMillis();
+	                
 	                ack.writeLong(timestamp);
 	                System.out.println("the size is " + ack.readableBytes());
 	                sendPubAck(clientID, messageID, ack);
@@ -109,21 +114,28 @@ class Qos1PublishHandler extends QosPublishHandler {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-            sendPubAck(clientID, 0, null);
+            sendPubAck(clientID, messageID, null);
             return;
 		} else if (topic.getTopic().equals(IMTopic.PullMessageTopic)) {
 			try {
 				ByteBuf payload = msg.payload();
 	            byte[] payloadContent = readBytesAndRewind(payload);
 				PullMessageRequest request = PullMessageRequest.parseFrom(payloadContent);
+
+				PullMessageResult.Builder builder = PullMessageResult.newBuilder();
+				long head = m_messagesStore.fetchMessage(username, request.getId(), builder);
+				PullMessageResult result = builder.build();
+				
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeBytes(result.toByteArray());
+				sendPubAck(clientID, messageID, ack);
 				
 			} catch (InvalidProtocolBufferException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			sendPubAck(clientID, messageID, null);
 		}
-
-
 
         // route message to subscribers
         IMessagesStore.StoredMessage toStoreMsg = asStoredMessage(msg);

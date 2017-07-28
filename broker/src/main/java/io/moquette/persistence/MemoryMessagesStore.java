@@ -39,6 +39,7 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGES_MAP = "messages_map";
@@ -60,11 +61,19 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
-	public long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers) {
+	public long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp) {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
 		long messageId = counter.addAndGet(1);
+		message = Message.newBuilder()
+				.setContent(message.getContent())
+				.setConversation(message.getConversation())
+				.setFromUser(fromUser)
+				.setMessageId(messageId)
+				.setServerTimestamp(timestamp)
+				.build();
+		
 		MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
 		mIMap.put(messageId, messageBundle);
 
@@ -88,7 +97,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 	}
     
     @Override
-    public Long fetchMessage(String user, long fromMessageId, List<Message> out) {
+    public Long fetchMessage(String user, long fromMessageId, PullMessageResult.Builder builder) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 
@@ -96,6 +105,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 		Collection<Long> ids = userMessageIds.get(user);
 		
 		if (ids == null || ids.isEmpty()) {
+			builder.setHead(fromMessageId);
 			return fromMessageId;
 		}
 		
@@ -124,12 +134,18 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		List<Long> pulledIds = idList.subList(index, idList.size());
 		
+		if (pulledIds == null || pulledIds.isEmpty()) {
+			builder.setHead(fromMessageId);
+			return fromMessageId;
+		}
+		
 		for (Long id : pulledIds) {
 			MessageBundle bundle = mIMap.get(id);
 			if (bundle != null) {
-				out.add(bundle.getMessage());
+				builder.addMessage(bundle.getMessage());
 			}
 		}
+		builder.setHead(idList.get(idList.size() - 1));
 		
 		return idList.get(idList.size() - 1);
     }

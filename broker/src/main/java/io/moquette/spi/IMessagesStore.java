@@ -21,6 +21,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
@@ -92,8 +93,8 @@ public interface IMessagesStore {
         }
     }
 
-    long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers);
-    Long fetchMessage(String user, long fromMessageId, List<Message> out);
+    long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp);
+    Long fetchMessage(String user, long fromMessageId, PullMessageResult.Builder builder);
     /**
      * Used to initialize all persistent store structures
      */
