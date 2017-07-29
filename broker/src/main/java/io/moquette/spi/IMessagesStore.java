@@ -20,6 +20,7 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
+import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
@@ -95,6 +96,7 @@ public interface IMessagesStore {
 
     long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
+    int createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList);
     /**
      * Used to initialize all persistent store structures
      */

@@ -32,6 +32,7 @@ import io.netty.handler.codec.mqtt.MqttPublishMessage;
 import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
+import win.liyufan.im.proto.CreateGroupRequestOuterClass.CreateGroupRequest;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
@@ -73,6 +74,16 @@ class Qos1PublishHandler extends QosPublishHandler {
         this.m_sessionStore = sessionStore;
     }
 
+    private long saveAndPublish(String username, String clientID, Message message, long timestamp) {
+    	Set<String> notifyReceivers = null;
+		if (message.getConversation().getType() != ConversationType.ConversationType_ChatRoom) {
+			notifyReceivers = new LinkedHashSet<>();
+		}
+		long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp);
+		this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
+		return messageId;
+	}
+    
     void receivedPublishQos1(Channel channel, MqttPublishMessage msg) {
         // verify if topic can be write
         final Topic topic = new Topic(msg.variableHeader().topicName());
@@ -84,30 +95,19 @@ class Qos1PublishHandler extends QosPublishHandler {
         }
 
         final int messageID = msg.variableHeader().messageId();
-        
         if (topic.getTopic().equals(IMTopic.SendMessageTopic)) {
             try {
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
     			Message message = Message.parseFrom(payloadContent);
     			if (message != null) {
-    				Set<String> notifyReceivers = null;
-    				if (message.getConversation().getType() != ConversationType.ChatRoom) {
-    					notifyReceivers = new LinkedHashSet<>();
-    				}
-    				
     				long timestamp = System.currentTimeMillis();
-    				
-    				long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp);
-    				this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
+    				long messageId = saveAndPublish(username, clientID, message, timestamp);
     				
     				ByteBuf ack = Unpooled.buffer(16);
     				ack.writeLong(messageId);
-	                
 	                ack.writeLong(timestamp);
-	                System.out.println("the size is " + ack.readableBytes());
 	                sendPubAck(clientID, messageID, ack);
-	                
 	                return;
     			}
     		} catch (InvalidProtocolBufferException e) {
@@ -135,6 +135,39 @@ class Qos1PublishHandler extends QosPublishHandler {
 				e.printStackTrace();
 			}
 			sendPubAck(clientID, messageID, null);
+			return;
+		} else if (topic.getTopic().equals(IMTopic.CreateGroupTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				CreateGroupRequest request = CreateGroupRequest.parseFrom(payloadContent);
+				int errorCode = m_messagesStore.createGroup(username, request.getGroup().getGroupInfo(), request.getGroup().getMembersList());
+				if (errorCode == 0 && request.getNotifyContent() != null) {
+					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroup().getGroupInfo().getTargetId()));
+					long timestamp = System.currentTimeMillis();
+					builder.setFromUser(username);
+					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+				}
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeInt(errorCode);
+				sendPubAck(clientID, messageID, ack);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sendPubAck(clientID, messageID, null);
+			return;
+		} else if (topic.getTopic().equals(IMTopic.AddGroupMemberTopic)) {
+			return;
+		} else if (topic.getTopic().equals(IMTopic.KickoffGroupMemberTopic)) {
+			return;
+		} else if (topic.getTopic().equals(IMTopic.QuitGroupTopic)) {
+			return;
+		} else if (topic.getTopic().equals(IMTopic.DismissGroupTopic)) {
+			return;
+		} else if (topic.getTopic().equals(IMTopic.ModifyGroupInfoTopic)) {
 			return;
 		}
 

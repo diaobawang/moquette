@@ -38,6 +38,7 @@ import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
+import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
@@ -78,18 +79,18 @@ public class MemoryMessagesStore implements IMessagesStore {
 		mIMap.put(messageId, messageBundle);
 
 		ConversationType type = message.getConversation().getType();
-		if (type == ConversationType.Private || type == ConversationType.System) {
+		if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			userMessageIds.put(fromUser, messageId);
 			userMessageIds.put(message.getConversation().getTarget(), messageId);
 			notifyReceivers.add(fromUser);
 			notifyReceivers.add(message.getConversation().getTarget());
-		} else if (type == ConversationType.Group) {
+		} else if (type == ConversationType.ConversationType_Group) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			userMessageIds.put(fromUser, messageId);
 			notifyReceivers.add(fromUser);
 			// Todo get all the group member and add to the list.
-		} else if (type == ConversationType.ChatRoom) {
+		} else if (type == ConversationType.ConversationType_ChatRoom) {
 			MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
 			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
 		}
@@ -162,6 +163,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 		
 		return idList.get(idList.size() - 1);
     }
+    
+    @Override
+    public int createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList) {
+    	return 0;
+    }
+    
     @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {
         LOG.debug("Store retained message for topic={}, CId={}", topic, storedMessage.getClientID());

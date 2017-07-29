@@ -123,7 +123,7 @@ class MessagesPublisher {
 				Collection<Session> sessions = m_sessionsStore.sessionForUser(user);
 				for (Session targetSession : sessions) {
 					
-					if (targetSession.getClientSession().clientID.equals(exceptClientId)) {
+					if (exceptClientId.equals(targetSession.getClientSession().clientID)) {
 						continue;
 					}
 		            boolean targetIsActive = this.connectionDescriptors.isConnected(targetSession.getClientSession().clientID);
