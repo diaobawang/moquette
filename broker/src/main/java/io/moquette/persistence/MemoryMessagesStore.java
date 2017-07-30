@@ -31,6 +31,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IAtomicLong;
 import com.hazelcast.core.IMap;
 import com.hazelcast.core.MultiMap;
+import com.hazelcast.util.StringUtil;
 
 import io.moquette.server.Server;
 import io.moquette.spi.IMatchingCondition;
@@ -44,7 +45,10 @@ import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGES_MAP = "messages_map";
+	private static final String GROUPS_MAP = "groups_map";
 	private static final String MESSAGE_ID_COUNTER = "message_id_counter";
+	private static final String GROUP_ID_COUNTER = "group_id_counter";
+	private static final String GROUP_MEMBERS = "group_members";
 	private static final String USER_MESSAGE_IDS = "user_message_ids";
 	private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
     private static final Logger LOG = LoggerFactory.getLogger(MemoryMessagesStore.class);
@@ -87,9 +91,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 			notifyReceivers.add(message.getConversation().getTarget());
 		} else if (type == ConversationType.ConversationType_Group) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+			MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
 			userMessageIds.put(fromUser, messageId);
 			notifyReceivers.add(fromUser);
-			// Todo get all the group member and add to the list.
+			notifyReceivers.addAll(groupMembers.get(message.getConversation().getTarget()));
 		} else if (type == ConversationType.ConversationType_ChatRoom) {
 			MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
 			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
@@ -148,7 +153,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 			MessageBundle bundle = mIMap.get(id);
 			if (bundle != null) {
 				current = bundle.getMessageId();
-				if (!bundle.getFromClientId().equals(exceptClientId)) {
+				if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId())) {
 					count++;
 					builder.addMessage(bundle.getMessage());
 					if (count >= 10) {
@@ -166,6 +171,28 @@ public class MemoryMessagesStore implements IMessagesStore {
     
     @Override
     public int createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
+		String groupId = null;
+		if (groupInfo.getTargetId() == null) {
+			groupId = Long.toString(counter.addAndGet(1));
+		} else {
+			groupId = groupInfo.getTargetId();
+		}
+		
+		groupInfo = groupInfo.toBuilder()
+				.setTargetId(groupId)
+				.setOwner(StringUtil.isNullOrEmpty(groupInfo.getOwner()) ? fromUser : groupInfo.getOwner())
+				.build();
+		
+
+		mIMap.put(groupId, groupInfo);
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		for (String member : memberList) {
+			groupMembers.put(groupId, member);
+		}
+		
     	return 0;
     }
     

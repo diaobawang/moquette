@@ -142,7 +142,7 @@ class Qos1PublishHandler extends QosPublishHandler {
 	            byte[] payloadContent = readBytesAndRewind(payload);
 				CreateGroupRequest request = CreateGroupRequest.parseFrom(payloadContent);
 				int errorCode = m_messagesStore.createGroup(username, request.getGroup().getGroupInfo(), request.getGroup().getMembersList());
-				if (errorCode == 0 && request.getNotifyContent() != null) {
+				if (errorCode == 0 && request.hasNotifyContent()) {
 					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
 					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroup().getGroupInfo().getTargetId()));
 					long timestamp = System.currentTimeMillis();
