@@ -16,6 +16,13 @@
 
 package io.moquette.server;
 
+import com.hazelcast.config.ClasspathXmlConfig;
+import com.hazelcast.config.Config;
+import com.hazelcast.config.FileSystemXmlConfig;
+import com.hazelcast.core.Hazelcast;
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.HazelcastInstanceNotActiveException;
+import com.hazelcast.core.ITopic;
 import io.moquette.BrokerConstants;
 import io.moquette.connections.IConnectionsManager;
 import io.moquette.interception.HazelcastInterceptHandler;
@@ -32,13 +39,6 @@ import io.moquette.spi.security.ISslContextCreator;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.hazelcast.client.HazelcastClient;
-import com.hazelcast.client.config.ClientConfig;
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.HazelcastInstanceNotActiveException;
-import com.hazelcast.core.ITopic;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -207,9 +207,21 @@ public class Server {
         String hzClientIp = config.getProperty(BrokerConstants.HAZELCAST_CLIENT_IP, "localhost");
         String hzClientPort = config.getProperty(BrokerConstants.HAZELCAST_CLIENT_PORT, "5701");
         
-        ClientConfig clientConfig = new ClientConfig();
-        clientConfig.addAddress(hzClientIp + ":" + hzClientPort);
-        hazelcastInstance = HazelcastClient.newHazelcastClient(clientConfig);
+        if (hzConfigPath != null) {
+            boolean isHzConfigOnClasspath = this.getClass().getClassLoader().getResource(hzConfigPath) != null;
+            Config hzconfig = isHzConfigOnClasspath
+                    ? new ClasspathXmlConfig(hzConfigPath)
+                    : new FileSystemXmlConfig(hzConfigPath);
+            LOG.info("Starting Hazelcast instance. ConfigurationFile={}", hzconfig);
+            hazelcastInstance = Hazelcast.newHazelcastInstance(hzconfig);
+        } else {
+            LOG.info("Starting Hazelcast instance with default configuration");
+            hazelcastInstance = Hazelcast.newHazelcastInstance();
+        }
+
+//        ClientConfig clientConfig = new ClientConfig();
+//        clientConfig.addAddress(hzClientIp + ":" + hzClientPort);
+//        hazelcastInstance = HazelcastClient.newHazelcastClient(clientConfig);
         
         listenOnHazelCastMsg();
     }
