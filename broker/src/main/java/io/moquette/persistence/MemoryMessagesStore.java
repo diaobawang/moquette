@@ -39,7 +39,9 @@ import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
+import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
+import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
@@ -194,6 +196,164 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		
     	return 0;
+    }
+    
+    
+    @Override
+    public int addGroupMembers(String operator, String groupId, List<String> memberList) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+			return -1;//group not exist
+		}
+		if (groupInfo.getType() == GroupType.GroupType_Restricted && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+			return -2;//no right
+		}
+		
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		for (String member : memberList) {
+			groupMembers.put(groupId, member);
+		}
+		
+    	return 0;
+    }
+    
+    @Override
+    public int kickoffGroupMembers(String operator, String groupId, List<String> memberList) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+			return -1;//group not exist
+		}
+		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
+				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+			return -2;//no right
+		}
+		
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		for (String member : memberList) {
+			groupMembers.remove(groupId, member);
+		}
+		
+    	return 0;
+    }
+    
+    @Override
+    public int quitGroup(String operator, String groupId) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+			return -1;//group not exist
+		}
+		if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
+			return -3; //group owner cannot quit.
+		}
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		groupMembers.remove(groupId, operator);
+		
+    	return 0;
+    }
+    
+    @Override
+    public int dismissGroup(String operator, String groupId) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+			return -1;//group not exist
+		}
+		
+		if (groupInfo.getType() == GroupType.GroupType_Free || 
+				(groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
+				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+			return -2;//no right
+		}
+		
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		groupMembers.remove(groupId);
+    	return 0;
+    }
+    
+    @Override
+    public int modifyGroupInfo(String operator, GroupInfo groupInfo) {
+		if (groupInfo == null) {
+			return -1;//group not exist
+		}
+		
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo oldInfo = mIMap.get(groupInfo.getTargetId());
+
+		if (oldInfo == null) {
+			return -1;//group not exist
+		}
+		
+		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
+				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+			return -2;//no right
+		}
+		
+		GroupInfo.Builder newInfoBuilder = oldInfo.toBuilder();
+		if (!StringUtil.isNullOrEmpty(groupInfo.getName())) {
+			newInfoBuilder = newInfoBuilder.setName(groupInfo.getName());
+		}
+		
+		if (!StringUtil.isNullOrEmpty(groupInfo.getOwner())) {
+			newInfoBuilder = newInfoBuilder.setOwner(groupInfo.getOwner());
+		}
+		
+		if (!StringUtil.isNullOrEmpty(groupInfo.getPortrait())) {
+			newInfoBuilder = newInfoBuilder.setPortrait(groupInfo.getPortrait());
+		}
+		
+		if (groupInfo.getExtra() == null || groupInfo.getExtra().size() > 0) {
+			newInfoBuilder = newInfoBuilder.setExtra(groupInfo.getExtra());
+		}
+		
+		mIMap.put(groupInfo.getTargetId(), newInfoBuilder.build());
+    	return 0;
+    }
+    
+    @Override
+    public List<GroupInfo> getGroupInfos(List<String> groupIds) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		ArrayList<GroupInfo> out = new ArrayList<>();
+		for (String groupId : groupIds) {
+			GroupInfo groupInfo = mIMap.get(groupId);
+			if (groupInfo != null) {
+				out.add(groupInfo);
+			}
+		}
+		
+		return out;
+    }
+    
+    @Override
+    public GroupInfo getGroupInfo(String groupId) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+
+			GroupInfo groupInfo = mIMap.get(groupId);
+
+		
+		return groupInfo;
+    }
+    
+    @Override
+    public List<String> getGroupMembers(String groupId) {
+    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+		GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+			return null;//group not exist
+		}
+
+		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+		return new ArrayList<>(groupMembers.get(groupId));
     }
     
     @Override

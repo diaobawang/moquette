@@ -31,11 +31,22 @@ import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
+import win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.CreateGroupRequestOuterClass.CreateGroupRequest;
+import win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest;
+import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
+import win.liyufan.im.proto.GroupOuterClass.GroupType;
+import win.liyufan.im.proto.IDBufOuterClass.IDBuf;
+import win.liyufan.im.proto.IDListBufOuterClass.IDListBuf;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest;
+import win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult;
+import win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
+import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
+import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
 
 import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
@@ -51,6 +62,7 @@ import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 class Qos1PublishHandler extends QosPublishHandler {
@@ -160,14 +172,164 @@ class Qos1PublishHandler extends QosPublishHandler {
 			sendPubAck(clientID, messageID, null);
 			return;
 		} else if (topic.getTopic().equals(IMTopic.AddGroupMemberTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				AddGroupMemberRequest request = AddGroupMemberRequest.parseFrom(payloadContent);
+				int errorCode = m_messagesStore.addGroupMembers(username, request.getGroupId(), request.getAddedMemberList());
+				if (errorCode == 0 && request.hasNotifyContent()) {
+					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+					long timestamp = System.currentTimeMillis();
+					builder.setFromUser(username);
+					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+				}
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeInt(errorCode);
+				sendPubAck(clientID, messageID, ack);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sendPubAck(clientID, messageID, null);
 			return;
 		} else if (topic.getTopic().equals(IMTopic.KickoffGroupMemberTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				RemoveGroupMemberRequest request = RemoveGroupMemberRequest.parseFrom(payloadContent);
+				int errorCode = m_messagesStore.kickoffGroupMembers(username, request.getGroupId(), request.getRemovedMemberList());
+				if (errorCode == 0 && request.hasNotifyContent()) {
+					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+					long timestamp = System.currentTimeMillis();
+					builder.setFromUser(username);
+					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+				}
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeInt(errorCode);
+				sendPubAck(clientID, messageID, ack);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sendPubAck(clientID, messageID, null);
 			return;
 		} else if (topic.getTopic().equals(IMTopic.QuitGroupTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				QuitGroupRequest request = QuitGroupRequest.parseFrom(payloadContent);				
+				int errorCode = m_messagesStore.quitGroup(username, request.getGroupId());
+				if (errorCode == 0 && request.hasNotifyContent()) {
+					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+					long timestamp = System.currentTimeMillis();
+					builder.setFromUser(username);
+					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+				}
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeInt(errorCode);
+				sendPubAck(clientID, messageID, ack);
+				return;
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sendPubAck(clientID, messageID, null);
 			return;
 		} else if (topic.getTopic().equals(IMTopic.DismissGroupTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+	            byte[] payloadContent = readBytesAndRewind(payload);
+				DismissGroupRequest request = DismissGroupRequest.parseFrom(payloadContent);
+				
+				int errorCode = 0;
+				GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
+				if (groupInfo != null && (groupInfo.getType() == GroupType.GroupType_Normal || groupInfo.getType() == GroupType.GroupType_Restricted) 
+						&& groupInfo.getOwner() != null && groupInfo.getOwner().equals(username)) {
+					
+					//send notify message first, then dismiss group
+					if (request.hasNotifyContent()) {
+						Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+						builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+						long timestamp = System.currentTimeMillis();
+						builder.setFromUser(username);
+						long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+					}
+					
+					errorCode = m_messagesStore.dismissGroup(username, request.getGroupId());
+					
+					ByteBuf ack = Unpooled.buffer();
+					ack.writeInt(errorCode);
+					sendPubAck(clientID, messageID, ack);
+					return;
+				}
+				
+
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			sendPubAck(clientID, messageID, null);
 			return;
 		} else if (topic.getTopic().equals(IMTopic.ModifyGroupInfoTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+				byte[] payloadContent = readBytesAndRewind(payload);
+				ModifyGroupInfoRequest request = ModifyGroupInfoRequest.parseFrom(payloadContent);
+				int errorCode = m_messagesStore.modifyGroupInfo(username, request.getGroupInfo());
+				if (errorCode == 0 && request.hasNotifyContent()) {
+					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupInfo().getTargetId()));
+					long timestamp = System.currentTimeMillis();
+					builder.setFromUser(username);
+					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+				}
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeInt(errorCode);
+				sendPubAck(clientID, messageID, ack);
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		} else if (topic.getTopic().equals(IMTopic.GetGroupInfoTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+				byte[] payloadContent = readBytesAndRewind(payload);
+				IDListBuf request = IDListBuf.parseFrom(payloadContent);
+				List<GroupInfo> infos = m_messagesStore.getGroupInfos(request.getIdList());
+				
+				PullGroupInfoResult result = PullGroupInfoResult.newBuilder().addAllInfo(infos).build();
+				
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeBytes(result.toByteArray());
+				sendPubAck(clientID, messageID, ack);
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		} else if (topic.getTopic().equals(IMTopic.GetGroupMemberTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+				byte[] payloadContent = readBytesAndRewind(payload);
+				IDBuf request = IDBuf.parseFrom(payloadContent);
+				
+				List<String> members = m_messagesStore.getGroupMembers(request.getId());
+				
+				PullGroupMemberResult result = PullGroupMemberResult.newBuilder().addAllMember(members).build();
+				
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeBytes(result.toByteArray());
+				sendPubAck(clientID, messageID, ack);
+			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return;
 		}
 
