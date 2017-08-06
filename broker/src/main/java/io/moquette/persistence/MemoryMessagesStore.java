@@ -16,6 +16,10 @@
 
 package io.moquette.persistence;
 
+import java.sql.Blob;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -37,6 +41,7 @@ import io.moquette.server.Server;
 import io.moquette.spi.IMatchingCondition;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
+import win.liyufan.im.DBUtil;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.GroupOuterClass.Group;
@@ -67,6 +72,35 @@ public class MemoryMessagesStore implements IMessagesStore {
     public void initStore() {
     }
 
+    private void persistMessage(Message message) {
+		try {
+			Connection connection = DBUtil.getConnection();
+			String sql;
+			if (StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
+				sql = "insert into messages (`_mid`, `_from`, `_to`, `_type`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?)";
+			} else {
+				sql = "insert into messages (`_mid`, `_from`, `_to`, `_type`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
+			}
+			
+			PreparedStatement statement = connection.prepareStatement(sql);
+			int index = 1;
+			statement.setLong(index++, message.getMessageId());
+			statement.setString(index++, message.getFromUser());
+			statement.setString(index++, message.getConversation().getTarget());
+			statement.setInt(index++, message.getConversation().getType().getNumber());
+			Blob blob = connection.createBlob();
+			blob.setBytes(1, message.getContent().toByteArray());
+			statement.setBlob(index++, blob);
+			if (!StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
+				statement.setString(index++, message.getContent().getSearchableContent());
+			}
+			statement.setLong(index++, message.getServerTimestamp());
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
     @Override
 	public long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp) {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
@@ -85,6 +119,9 @@ public class MemoryMessagesStore implements IMessagesStore {
 		mIMap.put(messageId, messageBundle);
 
 		ConversationType type = message.getConversation().getType();
+		
+		persistMessage(message);
+		
 		if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			userMessageIds.put(fromUser, messageId);

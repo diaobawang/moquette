@@ -48,7 +48,6 @@ import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
 import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
 
-import org.eclipse.jetty.util.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
