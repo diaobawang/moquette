@@ -143,7 +143,7 @@ public class MemoryMessagesStore implements IMessagesStore {
     
     @Override
     public long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+    		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 
 		MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
@@ -170,38 +170,26 @@ public class MemoryMessagesStore implements IMessagesStore {
 			}
 		});
 		
-		int index = 0;
+		int count = 0;
+		long current = fromMessageId;
 		for (int i = 0; i < idList.size(); i++) {
 			long element = idList.get(i);
 			if (element > fromMessageId) {
-				index = i;
-				break;
-			}
-		}
-		List<Long> pulledIds = idList.subList(index, idList.size());
-		
-		if (pulledIds == null || pulledIds.isEmpty()) {
-			builder.setCurrent(fromMessageId);
-			builder.setHead(fromMessageId);
-			return fromMessageId;
-		}
-		
-		int count = 0;
-		long current = fromMessageId;
-		for (Long id : pulledIds) {
-			MessageBundle bundle = mIMap.get(id);
-			if (bundle != null) {
-				current = bundle.getMessageId();
-				if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId())) {
-					count++;
-					builder.addMessage(bundle.getMessage());
-					if (count >= 10) {
-						break;
+				MessageBundle bundle = mIMap.get(element);
+				if (bundle != null) {
+					current = bundle.getMessageId();
+					if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId())) {
+						count++;
+						builder.addMessage(bundle.getMessage());
+						if (count >= 100) {
+							break;
+						}
 					}
-				}
 
+				}
 			}
 		}
+		
 		builder.setCurrent(current);
 		builder.setHead(idList.get(idList.size() - 1));
 		
