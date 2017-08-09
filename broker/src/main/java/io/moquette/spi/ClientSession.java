@@ -157,11 +157,11 @@ public class ClientSession {
     }
 
     public void disconnect() {
-        if (this.cleanSession) {
+//        if (this.cleanSession) {
             LOG.info("Client disconnected. Removing its subscriptions. ClientId={}", clientID);
             // cleanup topic subscriptions
             cleanSession();
-        }
+//        }
     }
 
     public void cleanSession() {

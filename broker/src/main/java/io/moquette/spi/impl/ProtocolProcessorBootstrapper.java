@@ -41,6 +41,7 @@ import io.moquette.spi.impl.security.AcceptAllAuthenticator;
 import io.moquette.spi.impl.security.DenyAllAuthorizator;
 import io.moquette.spi.impl.security.PermitAllAuthorizator;
 import io.moquette.spi.impl.security.ResourceAuthenticator;
+import io.moquette.spi.impl.security.TokenAuthenticator;
 import io.moquette.spi.impl.subscriptions.Subscription;
 import io.moquette.spi.impl.subscriptions.SubscriptionsDirectory;
 import io.moquette.spi.security.IAuthenticator;
@@ -129,20 +130,22 @@ public class ProtocolProcessorBootstrapper {
         LOG.info("Configuring MQTT authenticator...");
         String authenticatorClassName = props.getProperty(BrokerConstants.AUTHENTICATOR_CLASS_NAME, "");
 
-        if (authenticator == null && !authenticatorClassName.isEmpty()) {
-            authenticator = loadClass(authenticatorClassName, IAuthenticator.class, IConfig.class, props);
-        }
+//        if (authenticator == null && !authenticatorClassName.isEmpty()) {
+//            authenticator = loadClass(authenticatorClassName, IAuthenticator.class, IConfig.class, props);
+//        }
 
         IResourceLoader resourceLoader = props.getResourceLoader();
-        if (authenticator == null) {
-            String passwdPath = props.getProperty(BrokerConstants.PASSWORD_FILE_PROPERTY_NAME, "");
-            if (passwdPath.isEmpty()) {
-                authenticator = new AcceptAllAuthenticator();
-            } else {
-                authenticator = new ResourceAuthenticator(resourceLoader, passwdPath);
-            }
-            LOG.info("An {} authenticator instance will be used", authenticator.getClass().getName());
-        }
+//        if (authenticator == null) {
+//            String passwdPath = props.getProperty(BrokerConstants.PASSWORD_FILE_PROPERTY_NAME, "");
+//            if (passwdPath.isEmpty()) {
+//                authenticator = new AcceptAllAuthenticator();
+//            } else {
+//                authenticator = new ResourceAuthenticator(resourceLoader, passwdPath);
+//            }
+//            LOG.info("An {} authenticator instance will be used", authenticator.getClass().getName());
+//        }
+        authenticator = new TokenAuthenticator();
+        
 
         LOG.info("Configuring MQTT authorizator...");
         String authorizatorClassName = props.getProperty(BrokerConstants.AUTHORIZATOR_CLASS_NAME, "");
