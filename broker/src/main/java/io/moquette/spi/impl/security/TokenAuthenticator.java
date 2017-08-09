@@ -35,7 +35,7 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 				signKey = signKey.substring(KEY.length() + 1);
 				long timestamp = Long.parseLong(signKey.substring(0, signKey.indexOf('|')));
 				if (System.currentTimeMillis() - timestamp > 7 * 24 * 60 *60 *1000) {
-					return false;
+					//return false;
 				}
 				String id = signKey.substring(signKey.indexOf('|') + 1);
 				if (id.equals(username)) {

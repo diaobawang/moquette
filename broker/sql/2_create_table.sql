@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `messages`;
-CREATE TABLE `messages` (
+DROP TABLE IF EXISTS `t_messages`;
+CREATE TABLE `t_messages` (
   `_mid` bigint(20) NOT NULL,
   `_from` varchar(64) NOT NULL,
   `_to` varchar(64) NOT NULL,
@@ -10,8 +10,8 @@ CREATE TABLE `messages` (
   PRIMARY KEY (`_mid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `user_messages`;
-CREATE TABLE `user_messages` (
+DROP TABLE IF EXISTS `t_user_messages`;
+CREATE TABLE `t_user_messages` (
   `_mid` bigint(20) NOT NULL,
   `_uid` varchar(64) NOT NULL,
   KEY (`_mid`),
@@ -19,8 +19,8 @@ CREATE TABLE `user_messages` (
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `group`;
-CREATE TABLE `group` (
+DROP TABLE IF EXISTS `t_group`;
+CREATE TABLE `t_group` (
   `_gid` varchar(64) NOT NULL,
   `_name` varchar(64) DEFAULT '',
   `_portrait` varchar(1024) DEFAULT '',
@@ -31,8 +31,8 @@ CREATE TABLE `group` (
   PRIMARY KEY (`_gid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `group_member`;
-CREATE TABLE `group_member` (
+DROP TABLE IF EXISTS `t_group_member`;
+CREATE TABLE `t_group_member` (
   `_gid` varchar(64) NOT NULL,
   `_mid` varchar(64) DEFAULT '',
   `_dt` bigint(20) NOT NULL,
