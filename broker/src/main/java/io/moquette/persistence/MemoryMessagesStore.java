@@ -126,8 +126,9 @@ public class MemoryMessagesStore implements IMessagesStore {
 			e.printStackTrace();
 		}
 	}
+    
     @Override
-	public PullType storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp, Long retMessageId) {
+    public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp) {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
@@ -142,10 +143,17 @@ public class MemoryMessagesStore implements IMessagesStore {
 		
 		MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
 		mIMap.put(messageId, messageBundle);
-
-		ConversationType type = message.getConversation().getType();
 		
 		persistMessage(message);
+		
+		return message;
+	}
+    
+   @Override
+	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers) {
+		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+		ConversationType type = message.getConversation().getType();
+		long messageId = message.getMessageId();
 		
 		PullType pullType = null;
 		if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
@@ -170,7 +178,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
 			pullType = PullType.Pull_ChatRoom;
 		}
-		retMessageId = messageId;
+	
 		return pullType;
 	}
     

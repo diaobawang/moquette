@@ -20,6 +20,7 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
+import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -31,6 +32,10 @@ import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import com.hazelcast.core.HazelcastInstance;
+import com.hazelcast.core.IAtomicLong;
+import com.hazelcast.core.IMap;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -96,7 +101,8 @@ public interface IMessagesStore {
         }
     }
 
-    PullType storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp, Long retMessageId);
+    public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp);
+	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
     int createGroup(String operator, GroupInfo groupInfo, List<String> memberList);
     int addGroupMembers(String operator, String groupId, List<String> memberList);

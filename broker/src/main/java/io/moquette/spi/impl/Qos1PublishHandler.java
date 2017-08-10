@@ -91,10 +91,11 @@ class Qos1PublishHandler extends QosPublishHandler {
 		if (message.getConversation().getType() != ConversationType.ConversationType_ChatRoom) {
 			notifyReceivers = new LinkedHashSet<>();
 		}
-		Long messageId = 0L;
-		PullType pullType = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp, messageId);
-		this.publisher.publish2Receivers(messageId, notifyReceivers, clientID, pullType);
-		return messageId;
+		
+		message = m_messagesStore.storeMessage(username, clientID, message, timestamp);
+		PullType pullType = m_messagesStore.getNotifyReceivers(username, message, notifyReceivers);
+		this.publisher.publish2Receivers(message.getMessageId(), notifyReceivers, clientID, pullType);
+		return message.getMessageId();
 	}
     
     void receivedPublishQos1(Channel channel, MqttPublishMessage msg) {
