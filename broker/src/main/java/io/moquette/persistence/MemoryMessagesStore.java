@@ -48,6 +48,7 @@ import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 public class MemoryMessagesStore implements IMessagesStore {
@@ -101,8 +102,32 @@ public class MemoryMessagesStore implements IMessagesStore {
 			e.printStackTrace();
 		}
 	}
+    private void persistUserMessage(long messageId, String toTarget, ConversationType type, Set<String> userIds, String fromUser) {
+		try {
+			Connection connection = DBUtil.getConnection();
+			for (String userId : userIds) {
+				String sql = "insert into t_user_messages (`_mid`, `_to`, `_type`, `_uid`) values(?, ?, ?, ?)";
+			
+				PreparedStatement statement = connection.prepareStatement(sql);
+				int index = 1;
+				statement.setLong(index++, messageId);
+				if ((type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) && toTarget.equals(userId)) {
+					statement.setString(index++, fromUser);
+				} else {
+					statement.setString(index++, toTarget);
+				}
+				statement.setInt(index++, type.getNumber());
+				statement.setString(index++, userId);
+				statement.executeUpdate();
+			
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
     @Override
-	public long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp) {
+	public PullType storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp, Long retMessageId) {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
@@ -122,23 +147,31 @@ public class MemoryMessagesStore implements IMessagesStore {
 		
 		persistMessage(message);
 		
+		PullType pullType = null;
 		if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			userMessageIds.put(fromUser, messageId);
 			userMessageIds.put(message.getConversation().getTarget(), messageId);
 			notifyReceivers.add(fromUser);
 			notifyReceivers.add(message.getConversation().getTarget());
+			persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
+			pullType = PullType.Pull_Normal;
 		} else if (type == ConversationType.ConversationType_Group) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
 			userMessageIds.put(fromUser, messageId);
 			notifyReceivers.add(fromUser);
 			notifyReceivers.addAll(groupMembers.get(message.getConversation().getTarget()));
+			persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
+			//如果是群助手的消息，返回pull type group，否则返回normal
+			pullType = PullType.Pull_Normal;
 		} else if (type == ConversationType.ConversationType_ChatRoom) {
 			MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
 			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
+			pullType = PullType.Pull_ChatRoom;
 		}
-		return messageId;
+		retMessageId = messageId;
+		return pullType;
 	}
     
     @Override

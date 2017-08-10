@@ -117,7 +117,7 @@ class MessagesPublisher {
         }
     }
     
-    void publish2Receivers(long messageId, Set<String> receivers, String exceptClientId) {
+    void publish2Receivers(long messageId, Set<String> receivers, String exceptClientId, PullType pullType) {
         
     		for (String user : receivers) {
 				Collection<Session> sessions = m_sessionsStore.sessionForUser(user);
@@ -132,7 +132,7 @@ class MessagesPublisher {
 		               
 		            	NotifyMessage notifyMessage = NotifyMessage
 		            			.newBuilder()
-		            			.setType(PullType.Pull_Normal)
+		            			.setType(pullType)
 		            			.setHead(messageId)
 		            			.build();
 		            	

@@ -23,6 +23,7 @@ import io.netty.handler.codec.mqtt.MqttQoS;
 import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
+import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
 import java.io.Serializable;
@@ -95,7 +96,7 @@ public interface IMessagesStore {
         }
     }
 
-    long storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp);
+    PullType storeMessage(String fromUser, String fromClientId, Message message, Set<String> notifyReceivers, long timestamp, Long retMessageId);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
     int createGroup(String operator, GroupInfo groupInfo, List<String> memberList);
     int addGroupMembers(String operator, String groupId, List<String> memberList);

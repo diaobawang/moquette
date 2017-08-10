@@ -13,6 +13,8 @@ CREATE TABLE `t_messages` (
 DROP TABLE IF EXISTS `t_user_messages`;
 CREATE TABLE `t_user_messages` (
   `_mid` bigint(20) NOT NULL,
+  `_to` varchar(64) NOT NULL,
+  `_type` tinyint NOT NULL,
   `_uid` varchar(64) NOT NULL,
   KEY (`_mid`),
   KEY (`_uid`)

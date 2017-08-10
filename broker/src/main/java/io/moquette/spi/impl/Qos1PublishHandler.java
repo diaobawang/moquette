@@ -41,6 +41,7 @@ import win.liyufan.im.proto.IDBufOuterClass.IDBuf;
 import win.liyufan.im.proto.IDListBufOuterClass.IDListBuf;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest;
+import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult;
 import win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
@@ -90,8 +91,9 @@ class Qos1PublishHandler extends QosPublishHandler {
 		if (message.getConversation().getType() != ConversationType.ConversationType_ChatRoom) {
 			notifyReceivers = new LinkedHashSet<>();
 		}
-		long messageId = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp);
-		this.publisher.publish2Receivers(messageId, notifyReceivers, clientID);
+		Long messageId = 0L;
+		PullType pullType = m_messagesStore.storeMessage(username, clientID, message, notifyReceivers, timestamp, messageId);
+		this.publisher.publish2Receivers(messageId, notifyReceivers, clientID, pullType);
 		return messageId;
 	}
     
