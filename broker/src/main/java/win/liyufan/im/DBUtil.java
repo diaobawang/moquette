@@ -53,6 +53,14 @@ public class DBUtil {
            return comboPooledDataSource.getConnection();
         }
 
+        public static void initDB() {
+			try {
+				closeDB(getConnection(), null);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
         //释放资源，将数据库连接还给数据库连接池
         public static void closeDB(Connection conn,PreparedStatement ps,ResultSet rs) {
                 try {
@@ -80,7 +88,7 @@ public class DBUtil {
                 }
         }
         //释放资源，将数据库连接还给数据库连接池
-        public static void closeDB(PreparedStatement ps,Connection conn) {
+        public static void closeDB(Connection conn, PreparedStatement ps) {
              try {
                 if (ps!=null) {
                     ps.close();

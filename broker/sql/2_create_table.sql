@@ -10,8 +10,7 @@ CREATE TABLE `t_messages` (
   PRIMARY KEY (`_mid`),
   INDEX `message_from_index` (`_from` ASC),
   INDEX `message_target_index` (`_target` ASC),
-  INDEX `message_type_index` (`_type` ASC),
-  INDEX `message_searchable_key_index` (`_searchable_key` ASC)
+  INDEX `message_type_index` (`_type` ASC)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -23,11 +22,10 @@ CREATE TABLE `t_user_messages` (
   `_target` varchar(64) NOT NULL,
   `_type` tinyint NOT NULL,
   `_uid` varchar(64) NOT NULL,
-  PRIMARY KEY (`_mid`),
   INDEX `message_user_target_index` (`_target` ASC),
   INDEX `message_user_type_index` (`_type` ASC),
   INDEX `message_uid_index` (`_uid` ASC)
-))
+)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
@@ -42,7 +40,7 @@ CREATE TABLE `t_group` (
   `_type` tinyint NOT NULL,
   `_extra` TEXT DEFAULT NULL,
   `_dt` bigint(20) NOT NULL,
-  PRIMARY KEY (`_gid`)
+  PRIMARY KEY (`_gid`),
   INDEX `group_name_index` (`_name` ASC)
 )
 ENGINE = InnoDB
@@ -78,7 +76,7 @@ CREATE TABLE `t_user` (
   INDEX `user_name_index` (`_name` ASC),
   INDEX `user_display_name_index` (`_display_name` ASC),
   INDEX `user_mobile_index` (`_mobile` ASC),
-  INDEX `user_email_index` (`_email` ASC),
+  INDEX `user_email_index` (`_email` ASC)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

@@ -19,6 +19,7 @@ package io.moquette.persistence;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,17 +74,43 @@ public class MemoryMessagesStore implements IMessagesStore {
     public void initStore() {
     }
 
+    private long getMaxMessageId() {
+    		String sql = "select max(`_mid`) from t_messages;";
+    	    Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet rs = null; 
+		long max = 0;	
+    		try {
+			connection = DBUtil.getConnection();
+    			statement = connection.prepareStatement(sql);
+			rs = statement.executeQuery();
+	    		if (rs.next()) {
+	    			max = rs.getLong(1);	
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			DBUtil.closeDB(connection, statement, rs);
+		}
+    		if (max == 0) {
+			max = 1;
+		}
+    		return max;
+    }
     private void persistMessage(Message message) {
+    		Connection connection = null;
+		PreparedStatement statement = null;
 		try {
-			Connection connection = DBUtil.getConnection();
+			connection = DBUtil.getConnection();
 			String sql;
 			if (StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
-				sql = "insert into t_messages (`_mid`, `_from`, `_to`, `_type`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?)";
+				sql = "insert into t_messages (`_mid`, `_from`, `_target`, `_type`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?)";
 			} else {
-				sql = "insert into t_messages (`_mid`, `_from`, `_to`, `_type`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
+				sql = "insert into t_messages (`_mid`, `_from`, `_target`, `_type`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
 			}
 			
-			PreparedStatement statement = connection.prepareStatement(sql);
+			statement = connection.prepareStatement(sql);
 			int index = 1;
 			statement.setLong(index++, message.getMessageId());
 			statement.setString(index++, message.getFromUser());
@@ -100,15 +127,19 @@ public class MemoryMessagesStore implements IMessagesStore {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			DBUtil.closeDB(connection, statement);
 		}
 	}
     private void persistUserMessage(long messageId, String toTarget, ConversationType type, Set<String> userIds, String fromUser) {
+    		Connection connection = null;
+    		PreparedStatement statement = null;
 		try {
-			Connection connection = DBUtil.getConnection();
+			connection = DBUtil.getConnection();
 			for (String userId : userIds) {
-				String sql = "insert into t_user_messages (`_mid`, `_to`, `_type`, `_uid`) values(?, ?, ?, ?)";
+				String sql = "insert into t_user_messages (`_mid`, `_target`, `_type`, `_uid`) values(?, ?, ?, ?)";
 			
-				PreparedStatement statement = connection.prepareStatement(sql);
+				statement = connection.prepareStatement(sql);
 				int index = 1;
 				statement.setLong(index++, messageId);
 				if ((type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) && toTarget.equals(userId)) {
@@ -119,11 +150,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 				statement.setInt(index++, type.getNumber());
 				statement.setString(index++, userId);
 				statement.executeUpdate();
-			
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			DBUtil.closeDB(connection, statement);
 		}
 	}
     
@@ -132,6 +164,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
+		if(counter.get() == 0) {
+			long maxId = getMaxMessageId();
+			counter.compareAndSet(0, maxId);
+		}
 		long messageId = counter.addAndGet(1);
 		message = Message.newBuilder()
 				.setContent(message.getContent())

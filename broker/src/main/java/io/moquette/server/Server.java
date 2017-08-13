@@ -37,6 +37,8 @@ import io.moquette.spi.security.IAuthenticator;
 import io.moquette.spi.security.IAuthorizator;
 import io.moquette.spi.security.ISslContextCreator;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
+import win.liyufan.im.DBUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.File;
@@ -73,6 +75,7 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         final Server server = new Server();
+        DBUtil.initDB();
         server.startServer();
         System.out.println("Server started, version 0.10");
         //Bind  a shutdown hook
