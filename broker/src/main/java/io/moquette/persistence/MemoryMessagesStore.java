@@ -45,7 +45,6 @@ import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.DBUtil;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
-import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -255,7 +254,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 				MessageBundle bundle = mIMap.get(element);
 				if (bundle != null) {
 					current = bundle.getMessageId();
-					if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId())) {
+					if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId()) || !user.equals(bundle.getFromUser())) {
 						count++;
 						builder.addMessage(bundle.getMessage());
 						if (count >= 100) {
