@@ -41,7 +41,10 @@
             <source>src/main/resources/hazelcast.xml</source>
             <outputDirectory>config/</outputDirectory>
         </file>
-        
+       <file>
+            <source>src/main/resources/c3p0-config.xml</source>
+            <outputDirectory>config/</outputDirectory>
+        </file>
         <file>
             <source>src/main/resources/README.txt</source>
         </file>

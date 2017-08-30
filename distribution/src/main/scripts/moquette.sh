@@ -33,12 +33,17 @@ done
 # Get standard environment variables
 PRGDIR=`dirname "$PRG"`
 
+cd ..
+MOQUETTE_HOME=`pwd`
+
 # Only set MOQUETTE_HOME if not already set
-[ -f "$MOQUETTE_HOME"/bin/moquette.sh ] || MOQUETTE_HOME=`cd "$PRGDIR/.." ; pwd`
+#[ -f "$MOQUETTE_HOME"/bin/moquette.sh ] || MOQUETTE_HOME=`cd "$PRGDIR/.." ; pwd`
 export MOQUETTE_HOME
 
+echo $MOQUETTE_HOME
+
 # Set JavaHome if it exists
-if [ -f "${JAVA_HOME}/bin/java" ]; then 
+if [ -f "${JAVA_HOME}/bin/java" ]; then
    JAVA=${JAVA_HOME}/bin/java
 else
    JAVA=java
@@ -46,6 +51,7 @@ fi
 export JAVA
 
 LOG_FILE=$MOQUETTE_HOME/config/moquette-log.properties
+HZ_CONF_FILE=$MOQUETTE_HOME/config/hazelcast.xml
 MOQUETTE_PATH=$MOQUETTE_HOME/
 #LOG_CONSOLE_LEVEL=info
 #LOG_FILE_LEVEL=fine
@@ -92,4 +98,4 @@ JAVA_OPTS="$JAVA_OPTS -XX:+UseGCLogFileRotation"
 JAVA_OPTS="$JAVA_OPTS -XX:NumberOfGCLogFiles=10"
 JAVA_OPTS="$JAVA_OPTS -XX:GCLogFileSize=10M"
 
-$JAVA -server $JAVA_OPTS $JAVA_OPTS_SCRIPT -Dlog4j.configuration="file:$LOG_FILE" -Dmoquette.path="$MOQUETTE_PATH" -cp "$MOQUETTE_HOME/lib/*" io.moquette.server.Server
+$JAVA -server $JAVA_OPTS $JAVA_OPTS_SCRIPT -Dlog4j.configuration="file:$LOG_FILE" -Dhazelcast.configuration="file:$HZ_CONF_FILE" -Dmoquette.path="$MOQUETTE_PATH" -cp "$MOQUETTE_HOME/lib/*" io.moquette.server.Server
