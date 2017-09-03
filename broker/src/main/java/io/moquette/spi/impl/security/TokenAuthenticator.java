@@ -31,6 +31,8 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 			password = Base64.getDecoder().decode(password);
 			decryResult = DES.decrypt(password);
 			String signKey = new String(decryResult);
+			System.out.println("The signkey is " + signKey);
+        
 			if (signKey.startsWith(KEY + "|")) {
 				signKey = signKey.substring(KEY.length() + 1);
 				long timestamp = Long.parseLong(signKey.substring(0, signKey.indexOf('|')));
