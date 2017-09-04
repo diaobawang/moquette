@@ -179,6 +179,8 @@ public class Server {
             config.setProperty(BrokerConstants.INTERCEPT_HANDLER_PROPERTY_NAME, handlerProp);
         }
         configureCluster(config);
+        initQiniuConfig(config);
+        
         final String persistencePath = config.getProperty(BrokerConstants.PERSISTENT_STORE_PROPERTY_NAME);
         LOG.info("Configuring Using persistent store file, path={}", persistencePath);
         m_processorBootstrapper = new ProtocolProcessorBootstrapper();
@@ -199,6 +201,13 @@ public class Server {
         m_initialized = true;
     }
 
+    private void initQiniuConfig(IConfig config) {
+    	QiniuConfig.QINIU_ACCESS_KEY = config.getProperty(BrokerConstants.QINIU_ACCESS_KEY, QiniuConfig.QINIU_ACCESS_KEY);
+    	QiniuConfig.QINIU_SECRET_KEY = config.getProperty(BrokerConstants.QINIU_SECRET_KEY, QiniuConfig.QINIU_SECRET_KEY);
+    	QiniuConfig.QINIU_SERVER_URL = config.getProperty(BrokerConstants.QINIU_SERVER_URL, QiniuConfig.QINIU_SERVER_URL);
+    	QiniuConfig.QINIU_BUCKET_NAME = config.getProperty(BrokerConstants.QINIU_BUCKET_NAME, QiniuConfig.QINIU_BUCKET_NAME);
+    	QiniuConfig.QINIU_BUCKET_DOMAIN = config.getProperty(BrokerConstants.QINIU_BUCKET_DOMAIN, QiniuConfig.QINIU_BUCKET_DOMAIN);
+    }
     private void configureCluster(IConfig config) throws FileNotFoundException {
         LOG.info("Configuring embedded Hazelcast instance");
         String interceptHandlerClassname = config.getProperty(BrokerConstants.INTERCEPT_HANDLER_PROPERTY_NAME);

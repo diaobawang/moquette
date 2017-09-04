@@ -69,6 +69,12 @@ public final class BrokerConstants {
 
     public static final String STORAGE_CLASS_NAME = "storage_class";
 
+    public static final String QINIU_SERVER_URL= "qiniu.server_url";
+    public static final String QINIU_BUCKET_NAME= "qiniu.bucket_name";
+	public static final String QINIU_BUCKET_DOMAIN = "qiniu.bucket_domain";
+	public static final String QINIU_ACCESS_KEY = "qiniu.access_key";
+	public static final String QINIU_SECRET_KEY = "qiniu.secret_key";
+	
     private BrokerConstants() {
     }
 }

@@ -15,7 +15,7 @@ public final class PullGroupMemberResultOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface PullGroupMemberResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.PullGroupMemberResult)
+      // @@protoc_insertion_point(interface_extends:mars.stn.PullGroupMemberResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -38,11 +38,11 @@ public final class PullGroupMemberResultOuterClass {
         getMemberBytes(int index);
   }
   /**
-   * Protobuf type {@code proto.PullGroupMemberResult}
+   * Protobuf type {@code mars.stn.PullGroupMemberResult}
    */
   public  static final class PullGroupMemberResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.PullGroupMemberResult)
+      // @@protoc_insertion_point(message_implements:mars.stn.PullGroupMemberResult)
       PullGroupMemberResultOrBuilder {
     // Use PullGroupMemberResult.newBuilder() to construct.
     private PullGroupMemberResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -102,12 +102,12 @@ public final class PullGroupMemberResultOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_proto_PullGroupMemberResult_descriptor;
+      return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_mars_stn_PullGroupMemberResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_proto_PullGroupMemberResult_fieldAccessorTable
+      return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_mars_stn_PullGroupMemberResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult.class, win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult.Builder.class);
     }
@@ -297,20 +297,20 @@ public final class PullGroupMemberResultOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.PullGroupMemberResult}
+     * Protobuf type {@code mars.stn.PullGroupMemberResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.PullGroupMemberResult)
+        // @@protoc_insertion_point(builder_implements:mars.stn.PullGroupMemberResult)
         win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_proto_PullGroupMemberResult_descriptor;
+        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_mars_stn_PullGroupMemberResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_proto_PullGroupMemberResult_fieldAccessorTable
+        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_mars_stn_PullGroupMemberResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult.class, win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult.Builder.class);
       }
@@ -339,7 +339,7 @@ public final class PullGroupMemberResultOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_proto_PullGroupMemberResult_descriptor;
+        return win.liyufan.im.proto.PullGroupMemberResultOuterClass.internal_static_mars_stn_PullGroupMemberResult_descriptor;
       }
 
       public win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult getDefaultInstanceForType() {
@@ -544,10 +544,10 @@ public final class PullGroupMemberResultOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.PullGroupMemberResult)
+      // @@protoc_insertion_point(builder_scope:mars.stn.PullGroupMemberResult)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.PullGroupMemberResult)
+    // @@protoc_insertion_point(class_scope:mars.stn.PullGroupMemberResult)
     private static final win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult();
@@ -583,10 +583,10 @@ public final class PullGroupMemberResultOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_PullGroupMemberResult_descriptor;
+    internal_static_mars_stn_PullGroupMemberResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_PullGroupMemberResult_fieldAccessorTable;
+      internal_static_mars_stn_PullGroupMemberResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -596,10 +596,10 @@ public final class PullGroupMemberResultOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\036pull_group_member_result.proto\022\005proto\"" +
-      "\'\n\025PullGroupMemberResult\022\016\n\006member\030\001 \003(\t" +
-      "B7\n\024win.liyufan.im.protoB\037PullGroupMembe" +
-      "rResultOuterClassb\006proto3"
+      "\n\036pull_group_member_result.proto\022\010mars.s" +
+      "tn\"\'\n\025PullGroupMemberResult\022\016\n\006member\030\001 " +
+      "\003(\tB7\n\024win.liyufan.im.protoB\037PullGroupMe" +
+      "mberResultOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -613,11 +613,11 @@ public final class PullGroupMemberResultOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_PullGroupMemberResult_descriptor =
+    internal_static_mars_stn_PullGroupMemberResult_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_PullGroupMemberResult_fieldAccessorTable = new
+    internal_static_mars_stn_PullGroupMemberResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_PullGroupMemberResult_descriptor,
+        internal_static_mars_stn_PullGroupMemberResult_descriptor,
         new java.lang.String[] { "Member", });
   }
 

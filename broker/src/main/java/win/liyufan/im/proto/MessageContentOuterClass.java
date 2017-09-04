@@ -15,7 +15,7 @@ public final class MessageContentOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code proto.ContentType}
+   * Protobuf enum {@code mars.stn.ContentType}
    */
   public enum ContentType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -154,19 +154,19 @@ public final class MessageContentOuterClass {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:proto.ContentType)
+    // @@protoc_insertion_point(enum_scope:mars.stn.ContentType)
   }
 
   public interface MessageContentOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.MessageContent)
+      // @@protoc_insertion_point(interface_extends:mars.stn.MessageContent)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.proto.ContentType type = 1;</code>
+     * <code>.mars.stn.ContentType type = 1;</code>
      */
     int getTypeValue();
     /**
-     * <code>.proto.ContentType type = 1;</code>
+     * <code>.mars.stn.ContentType type = 1;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.ContentType getType();
 
@@ -196,11 +196,11 @@ public final class MessageContentOuterClass {
     com.google.protobuf.ByteString getData();
   }
   /**
-   * Protobuf type {@code proto.MessageContent}
+   * Protobuf type {@code mars.stn.MessageContent}
    */
   public  static final class MessageContent extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.MessageContent)
+      // @@protoc_insertion_point(message_implements:mars.stn.MessageContent)
       MessageContentOrBuilder {
     // Use MessageContent.newBuilder() to construct.
     private MessageContent(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -274,12 +274,12 @@ public final class MessageContentOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.MessageContentOuterClass.internal_static_proto_MessageContent_descriptor;
+      return win.liyufan.im.proto.MessageContentOuterClass.internal_static_mars_stn_MessageContent_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.MessageContentOuterClass.internal_static_proto_MessageContent_fieldAccessorTable
+      return win.liyufan.im.proto.MessageContentOuterClass.internal_static_mars_stn_MessageContent_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.class, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder.class);
     }
@@ -287,13 +287,13 @@ public final class MessageContentOuterClass {
     public static final int TYPE_FIELD_NUMBER = 1;
     private int type_;
     /**
-     * <code>.proto.ContentType type = 1;</code>
+     * <code>.mars.stn.ContentType type = 1;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.proto.ContentType type = 1;</code>
+     * <code>.mars.stn.ContentType type = 1;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.ContentType getType() {
       win.liyufan.im.proto.MessageContentOuterClass.ContentType result = win.liyufan.im.proto.MessageContentOuterClass.ContentType.valueOf(type_);
@@ -557,20 +557,20 @@ public final class MessageContentOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.MessageContent}
+     * Protobuf type {@code mars.stn.MessageContent}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.MessageContent)
+        // @@protoc_insertion_point(builder_implements:mars.stn.MessageContent)
         win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_proto_MessageContent_descriptor;
+        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_mars_stn_MessageContent_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_proto_MessageContent_fieldAccessorTable
+        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_mars_stn_MessageContent_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.MessageContentOuterClass.MessageContent.class, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder.class);
       }
@@ -605,7 +605,7 @@ public final class MessageContentOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_proto_MessageContent_descriptor;
+        return win.liyufan.im.proto.MessageContentOuterClass.internal_static_mars_stn_MessageContent_descriptor;
       }
 
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getDefaultInstanceForType() {
@@ -709,13 +709,13 @@ public final class MessageContentOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.proto.ContentType type = 1;</code>
+       * <code>.mars.stn.ContentType type = 1;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.proto.ContentType type = 1;</code>
+       * <code>.mars.stn.ContentType type = 1;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -723,14 +723,14 @@ public final class MessageContentOuterClass {
         return this;
       }
       /**
-       * <code>.proto.ContentType type = 1;</code>
+       * <code>.mars.stn.ContentType type = 1;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.ContentType getType() {
         win.liyufan.im.proto.MessageContentOuterClass.ContentType result = win.liyufan.im.proto.MessageContentOuterClass.ContentType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.MessageContentOuterClass.ContentType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.proto.ContentType type = 1;</code>
+       * <code>.mars.stn.ContentType type = 1;</code>
        */
       public Builder setType(win.liyufan.im.proto.MessageContentOuterClass.ContentType value) {
         if (value == null) {
@@ -742,7 +742,7 @@ public final class MessageContentOuterClass {
         return this;
       }
       /**
-       * <code>.proto.ContentType type = 1;</code>
+       * <code>.mars.stn.ContentType type = 1;</code>
        */
       public Builder clearType() {
         
@@ -928,10 +928,10 @@ public final class MessageContentOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.MessageContent)
+      // @@protoc_insertion_point(builder_scope:mars.stn.MessageContent)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.MessageContent)
+    // @@protoc_insertion_point(class_scope:mars.stn.MessageContent)
     private static final win.liyufan.im.proto.MessageContentOuterClass.MessageContent DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.MessageContentOuterClass.MessageContent();
@@ -967,10 +967,10 @@ public final class MessageContentOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_MessageContent_descriptor;
+    internal_static_mars_stn_MessageContent_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_MessageContent_fieldAccessorTable;
+      internal_static_mars_stn_MessageContent_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -980,14 +980,14 @@ public final class MessageContentOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025message_content.proto\022\005proto\"r\n\016Messag" +
-      "eContent\022 \n\004type\030\001 \001(\0162\022.proto.ContentTy" +
-      "pe\022\032\n\022searchable_content\030\002 \001(\t\022\024\n\014push_c" +
-      "ontent\030\003 \001(\t\022\014\n\004data\030\004 \001(\014*a\n\013ContentTyp" +
-      "e\022\010\n\004Text\020\000\022\t\n\005Image\020\001\022\t\n\005Voice\020\002\022\014\n\010Loc" +
-      "ation\020\003\022\t\n\005Video\020\004\022\r\n\tRichMedia\020\005\022\n\n\006Cus" +
-      "tom\020\006B0\n\024win.liyufan.im.protoB\030MessageCo" +
-      "ntentOuterClassb\006proto3"
+      "\n\025message_content.proto\022\010mars.stn\"u\n\016Mes" +
+      "sageContent\022#\n\004type\030\001 \001(\0162\025.mars.stn.Con" +
+      "tentType\022\032\n\022searchable_content\030\002 \001(\t\022\024\n\014" +
+      "push_content\030\003 \001(\t\022\014\n\004data\030\004 \001(\014*a\n\013Cont" +
+      "entType\022\010\n\004Text\020\000\022\t\n\005Image\020\001\022\t\n\005Voice\020\002\022" +
+      "\014\n\010Location\020\003\022\t\n\005Video\020\004\022\r\n\tRichMedia\020\005\022" +
+      "\n\n\006Custom\020\006B0\n\024win.liyufan.im.protoB\030Mes" +
+      "sageContentOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1001,11 +1001,11 @@ public final class MessageContentOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_MessageContent_descriptor =
+    internal_static_mars_stn_MessageContent_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_MessageContent_fieldAccessorTable = new
+    internal_static_mars_stn_MessageContent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_MessageContent_descriptor,
+        internal_static_mars_stn_MessageContent_descriptor,
         new java.lang.String[] { "Type", "SearchableContent", "PushContent", "Data", });
   }
 

@@ -15,7 +15,7 @@ public final class AddGroupMemberRequestOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface AddGroupMemberRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.AddGroupMemberRequest)
+      // @@protoc_insertion_point(interface_extends:mars.stn.AddGroupMemberRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -48,24 +48,24 @@ public final class AddGroupMemberRequestOuterClass {
         getAddedMemberBytes(int index);
 
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
   /**
-   * Protobuf type {@code proto.AddGroupMemberRequest}
+   * Protobuf type {@code mars.stn.AddGroupMemberRequest}
    */
   public  static final class AddGroupMemberRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.AddGroupMemberRequest)
+      // @@protoc_insertion_point(message_implements:mars.stn.AddGroupMemberRequest)
       AddGroupMemberRequestOrBuilder {
     // Use AddGroupMemberRequest.newBuilder() to construct.
     private AddGroupMemberRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -145,12 +145,12 @@ public final class AddGroupMemberRequestOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_proto_AddGroupMemberRequest_descriptor;
+      return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_mars_stn_AddGroupMemberRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_proto_AddGroupMemberRequest_fieldAccessorTable
+      return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_mars_stn_AddGroupMemberRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest.class, win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest.Builder.class);
     }
@@ -222,19 +222,19 @@ public final class AddGroupMemberRequestOuterClass {
     public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.proto.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -422,20 +422,20 @@ public final class AddGroupMemberRequestOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.AddGroupMemberRequest}
+     * Protobuf type {@code mars.stn.AddGroupMemberRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.AddGroupMemberRequest)
+        // @@protoc_insertion_point(builder_implements:mars.stn.AddGroupMemberRequest)
         win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_proto_AddGroupMemberRequest_descriptor;
+        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_mars_stn_AddGroupMemberRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_proto_AddGroupMemberRequest_fieldAccessorTable
+        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_mars_stn_AddGroupMemberRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest.class, win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest.Builder.class);
       }
@@ -472,7 +472,7 @@ public final class AddGroupMemberRequestOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_proto_AddGroupMemberRequest_descriptor;
+        return win.liyufan.im.proto.AddGroupMemberRequestOuterClass.internal_static_mars_stn_AddGroupMemberRequest_descriptor;
       }
 
       public win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest getDefaultInstanceForType() {
@@ -755,13 +755,13 @@ public final class AddGroupMemberRequestOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -771,7 +771,7 @@ public final class AddGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -787,7 +787,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -801,7 +801,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -819,7 +819,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -833,7 +833,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -841,7 +841,7 @@ public final class AddGroupMemberRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -852,7 +852,7 @@ public final class AddGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -878,10 +878,10 @@ public final class AddGroupMemberRequestOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.AddGroupMemberRequest)
+      // @@protoc_insertion_point(builder_scope:mars.stn.AddGroupMemberRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.AddGroupMemberRequest)
+    // @@protoc_insertion_point(class_scope:mars.stn.AddGroupMemberRequest)
     private static final win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest();
@@ -917,10 +917,10 @@ public final class AddGroupMemberRequestOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_AddGroupMemberRequest_descriptor;
+    internal_static_mars_stn_AddGroupMemberRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_AddGroupMemberRequest_fieldAccessorTable;
+      internal_static_mars_stn_AddGroupMemberRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -930,12 +930,13 @@ public final class AddGroupMemberRequestOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\036add_group_member_request.proto\022\005proto\032" +
-      "\025message_content.proto\"n\n\025AddGroupMember" +
-      "Request\022\020\n\010group_id\030\001 \001(\t\022\024\n\014added_membe" +
-      "r\030\002 \003(\t\022-\n\016notify_content\030\003 \001(\0132\025.proto." +
-      "MessageContentB7\n\024win.liyufan.im.protoB\037" +
-      "AddGroupMemberRequestOuterClassb\006proto3"
+      "\n\036add_group_member_request.proto\022\010mars.s" +
+      "tn\032\025message_content.proto\"q\n\025AddGroupMem" +
+      "berRequest\022\020\n\010group_id\030\001 \001(\t\022\024\n\014added_me" +
+      "mber\030\002 \003(\t\0220\n\016notify_content\030\003 \001(\0132\030.mar" +
+      "s.stn.MessageContentB7\n\024win.liyufan.im.p" +
+      "rotoB\037AddGroupMemberRequestOuterClassb\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -950,11 +951,11 @@ public final class AddGroupMemberRequestOuterClass {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           win.liyufan.im.proto.MessageContentOuterClass.getDescriptor(),
         }, assigner);
-    internal_static_proto_AddGroupMemberRequest_descriptor =
+    internal_static_mars_stn_AddGroupMemberRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_AddGroupMemberRequest_fieldAccessorTable = new
+    internal_static_mars_stn_AddGroupMemberRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_AddGroupMemberRequest_descriptor,
+        internal_static_mars_stn_AddGroupMemberRequest_descriptor,
         new java.lang.String[] { "GroupId", "AddedMember", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }

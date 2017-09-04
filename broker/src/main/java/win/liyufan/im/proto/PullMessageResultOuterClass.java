@@ -15,29 +15,29 @@ public final class PullMessageResultOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface PullMessageResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.PullMessageResult)
+      // @@protoc_insertion_point(interface_extends:mars.stn.PullMessageResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     java.util.List<win.liyufan.im.proto.MessageOuterClass.Message> 
         getMessageList();
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     win.liyufan.im.proto.MessageOuterClass.Message getMessage(int index);
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     int getMessageCount();
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     java.util.List<? extends win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder> 
         getMessageOrBuilderList();
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder getMessageOrBuilder(
         int index);
@@ -53,11 +53,11 @@ public final class PullMessageResultOuterClass {
     long getHead();
   }
   /**
-   * Protobuf type {@code proto.PullMessageResult}
+   * Protobuf type {@code mars.stn.PullMessageResult}
    */
   public  static final class PullMessageResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.PullMessageResult)
+      // @@protoc_insertion_point(message_implements:mars.stn.PullMessageResult)
       PullMessageResultOrBuilder {
     // Use PullMessageResult.newBuilder() to construct.
     private PullMessageResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -129,12 +129,12 @@ public final class PullMessageResultOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_proto_PullMessageResult_descriptor;
+      return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_mars_stn_PullMessageResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_proto_PullMessageResult_fieldAccessorTable
+      return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_mars_stn_PullMessageResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult.class, win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult.Builder.class);
     }
@@ -143,32 +143,32 @@ public final class PullMessageResultOuterClass {
     public static final int MESSAGE_FIELD_NUMBER = 1;
     private java.util.List<win.liyufan.im.proto.MessageOuterClass.Message> message_;
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     public java.util.List<win.liyufan.im.proto.MessageOuterClass.Message> getMessageList() {
       return message_;
     }
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     public java.util.List<? extends win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder> 
         getMessageOrBuilderList() {
       return message_;
     }
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     public int getMessageCount() {
       return message_.size();
     }
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     public win.liyufan.im.proto.MessageOuterClass.Message getMessage(int index) {
       return message_.get(index);
     }
     /**
-     * <code>repeated .proto.Message message = 1;</code>
+     * <code>repeated .mars.stn.Message message = 1;</code>
      */
     public win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder getMessageOrBuilder(
         int index) {
@@ -369,20 +369,20 @@ public final class PullMessageResultOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.PullMessageResult}
+     * Protobuf type {@code mars.stn.PullMessageResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.PullMessageResult)
+        // @@protoc_insertion_point(builder_implements:mars.stn.PullMessageResult)
         win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_proto_PullMessageResult_descriptor;
+        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_mars_stn_PullMessageResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_proto_PullMessageResult_fieldAccessorTable
+        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_mars_stn_PullMessageResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult.class, win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult.Builder.class);
       }
@@ -420,7 +420,7 @@ public final class PullMessageResultOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_proto_PullMessageResult_descriptor;
+        return win.liyufan.im.proto.PullMessageResultOuterClass.internal_static_mars_stn_PullMessageResult_descriptor;
       }
 
       public win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult getDefaultInstanceForType() {
@@ -564,7 +564,7 @@ public final class PullMessageResultOuterClass {
           win.liyufan.im.proto.MessageOuterClass.Message, win.liyufan.im.proto.MessageOuterClass.Message.Builder, win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder> messageBuilder_;
 
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public java.util.List<win.liyufan.im.proto.MessageOuterClass.Message> getMessageList() {
         if (messageBuilder_ == null) {
@@ -574,7 +574,7 @@ public final class PullMessageResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public int getMessageCount() {
         if (messageBuilder_ == null) {
@@ -584,7 +584,7 @@ public final class PullMessageResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public win.liyufan.im.proto.MessageOuterClass.Message getMessage(int index) {
         if (messageBuilder_ == null) {
@@ -594,7 +594,7 @@ public final class PullMessageResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder setMessage(
           int index, win.liyufan.im.proto.MessageOuterClass.Message value) {
@@ -611,7 +611,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder setMessage(
           int index, win.liyufan.im.proto.MessageOuterClass.Message.Builder builderForValue) {
@@ -625,7 +625,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder addMessage(win.liyufan.im.proto.MessageOuterClass.Message value) {
         if (messageBuilder_ == null) {
@@ -641,7 +641,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder addMessage(
           int index, win.liyufan.im.proto.MessageOuterClass.Message value) {
@@ -658,7 +658,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder addMessage(
           win.liyufan.im.proto.MessageOuterClass.Message.Builder builderForValue) {
@@ -672,7 +672,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder addMessage(
           int index, win.liyufan.im.proto.MessageOuterClass.Message.Builder builderForValue) {
@@ -686,7 +686,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder addAllMessage(
           java.lang.Iterable<? extends win.liyufan.im.proto.MessageOuterClass.Message> values) {
@@ -701,7 +701,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder clearMessage() {
         if (messageBuilder_ == null) {
@@ -714,7 +714,7 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public Builder removeMessage(int index) {
         if (messageBuilder_ == null) {
@@ -727,14 +727,14 @@ public final class PullMessageResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public win.liyufan.im.proto.MessageOuterClass.Message.Builder getMessageBuilder(
           int index) {
         return getMessageFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder getMessageOrBuilder(
           int index) {
@@ -744,7 +744,7 @@ public final class PullMessageResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public java.util.List<? extends win.liyufan.im.proto.MessageOuterClass.MessageOrBuilder> 
            getMessageOrBuilderList() {
@@ -755,14 +755,14 @@ public final class PullMessageResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public win.liyufan.im.proto.MessageOuterClass.Message.Builder addMessageBuilder() {
         return getMessageFieldBuilder().addBuilder(
             win.liyufan.im.proto.MessageOuterClass.Message.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public win.liyufan.im.proto.MessageOuterClass.Message.Builder addMessageBuilder(
           int index) {
@@ -770,7 +770,7 @@ public final class PullMessageResultOuterClass {
             index, win.liyufan.im.proto.MessageOuterClass.Message.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.Message message = 1;</code>
+       * <code>repeated .mars.stn.Message message = 1;</code>
        */
       public java.util.List<win.liyufan.im.proto.MessageOuterClass.Message.Builder> 
            getMessageBuilderList() {
@@ -853,10 +853,10 @@ public final class PullMessageResultOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.PullMessageResult)
+      // @@protoc_insertion_point(builder_scope:mars.stn.PullMessageResult)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.PullMessageResult)
+    // @@protoc_insertion_point(class_scope:mars.stn.PullMessageResult)
     private static final win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult();
@@ -892,10 +892,10 @@ public final class PullMessageResultOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_PullMessageResult_descriptor;
+    internal_static_mars_stn_PullMessageResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_PullMessageResult_fieldAccessorTable;
+      internal_static_mars_stn_PullMessageResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -905,11 +905,12 @@ public final class PullMessageResultOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\031pull_message_result.proto\022\005proto\032\rmess" +
-      "age.proto\"S\n\021PullMessageResult\022\037\n\007messag" +
-      "e\030\001 \003(\0132\016.proto.Message\022\017\n\007current\030\002 \001(\003" +
-      "\022\014\n\004head\030\003 \001(\003B3\n\024win.liyufan.im.protoB\033" +
-      "PullMessageResultOuterClassb\006proto3"
+      "\n\031pull_message_result.proto\022\010mars.stn\032\rm" +
+      "essage.proto\"V\n\021PullMessageResult\022\"\n\007mes" +
+      "sage\030\001 \003(\0132\021.mars.stn.Message\022\017\n\007current" +
+      "\030\002 \001(\003\022\014\n\004head\030\003 \001(\003B3\n\024win.liyufan.im.p" +
+      "rotoB\033PullMessageResultOuterClassb\006proto" +
+      "3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -924,11 +925,11 @@ public final class PullMessageResultOuterClass {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           win.liyufan.im.proto.MessageOuterClass.getDescriptor(),
         }, assigner);
-    internal_static_proto_PullMessageResult_descriptor =
+    internal_static_mars_stn_PullMessageResult_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_PullMessageResult_fieldAccessorTable = new
+    internal_static_mars_stn_PullMessageResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_PullMessageResult_descriptor,
+        internal_static_mars_stn_PullMessageResult_descriptor,
         new java.lang.String[] { "Message", "Current", "Head", });
     win.liyufan.im.proto.MessageOuterClass.getDescriptor();
   }

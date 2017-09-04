@@ -15,7 +15,7 @@ public final class ConversationOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code proto.ConversationType}
+   * Protobuf enum {@code mars.stn.ConversationType}
    */
   public enum ConversationType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -136,19 +136,19 @@ public final class ConversationOuterClass {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:proto.ConversationType)
+    // @@protoc_insertion_point(enum_scope:mars.stn.ConversationType)
   }
 
   public interface ConversationOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.Conversation)
+      // @@protoc_insertion_point(interface_extends:mars.stn.Conversation)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.proto.ConversationType type = 1;</code>
+     * <code>.mars.stn.ConversationType type = 1;</code>
      */
     int getTypeValue();
     /**
-     * <code>.proto.ConversationType type = 1;</code>
+     * <code>.mars.stn.ConversationType type = 1;</code>
      */
     win.liyufan.im.proto.ConversationOuterClass.ConversationType getType();
 
@@ -163,11 +163,11 @@ public final class ConversationOuterClass {
         getTargetBytes();
   }
   /**
-   * Protobuf type {@code proto.Conversation}
+   * Protobuf type {@code mars.stn.Conversation}
    */
   public  static final class Conversation extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.Conversation)
+      // @@protoc_insertion_point(message_implements:mars.stn.Conversation)
       ConversationOrBuilder {
     // Use Conversation.newBuilder() to construct.
     private Conversation(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -228,12 +228,12 @@ public final class ConversationOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.ConversationOuterClass.internal_static_proto_Conversation_descriptor;
+      return win.liyufan.im.proto.ConversationOuterClass.internal_static_mars_stn_Conversation_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.ConversationOuterClass.internal_static_proto_Conversation_fieldAccessorTable
+      return win.liyufan.im.proto.ConversationOuterClass.internal_static_mars_stn_Conversation_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.ConversationOuterClass.Conversation.class, win.liyufan.im.proto.ConversationOuterClass.Conversation.Builder.class);
     }
@@ -241,13 +241,13 @@ public final class ConversationOuterClass {
     public static final int TYPE_FIELD_NUMBER = 1;
     private int type_;
     /**
-     * <code>.proto.ConversationType type = 1;</code>
+     * <code>.mars.stn.ConversationType type = 1;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.proto.ConversationType type = 1;</code>
+     * <code>.mars.stn.ConversationType type = 1;</code>
      */
     public win.liyufan.im.proto.ConversationOuterClass.ConversationType getType() {
       win.liyufan.im.proto.ConversationOuterClass.ConversationType result = win.liyufan.im.proto.ConversationOuterClass.ConversationType.valueOf(type_);
@@ -447,20 +447,20 @@ public final class ConversationOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.Conversation}
+     * Protobuf type {@code mars.stn.Conversation}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.Conversation)
+        // @@protoc_insertion_point(builder_implements:mars.stn.Conversation)
         win.liyufan.im.proto.ConversationOuterClass.ConversationOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.ConversationOuterClass.internal_static_proto_Conversation_descriptor;
+        return win.liyufan.im.proto.ConversationOuterClass.internal_static_mars_stn_Conversation_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.ConversationOuterClass.internal_static_proto_Conversation_fieldAccessorTable
+        return win.liyufan.im.proto.ConversationOuterClass.internal_static_mars_stn_Conversation_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.ConversationOuterClass.Conversation.class, win.liyufan.im.proto.ConversationOuterClass.Conversation.Builder.class);
       }
@@ -491,7 +491,7 @@ public final class ConversationOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.ConversationOuterClass.internal_static_proto_Conversation_descriptor;
+        return win.liyufan.im.proto.ConversationOuterClass.internal_static_mars_stn_Conversation_descriptor;
       }
 
       public win.liyufan.im.proto.ConversationOuterClass.Conversation getDefaultInstanceForType() {
@@ -586,13 +586,13 @@ public final class ConversationOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.proto.ConversationType type = 1;</code>
+       * <code>.mars.stn.ConversationType type = 1;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.proto.ConversationType type = 1;</code>
+       * <code>.mars.stn.ConversationType type = 1;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -600,14 +600,14 @@ public final class ConversationOuterClass {
         return this;
       }
       /**
-       * <code>.proto.ConversationType type = 1;</code>
+       * <code>.mars.stn.ConversationType type = 1;</code>
        */
       public win.liyufan.im.proto.ConversationOuterClass.ConversationType getType() {
         win.liyufan.im.proto.ConversationOuterClass.ConversationType result = win.liyufan.im.proto.ConversationOuterClass.ConversationType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.ConversationOuterClass.ConversationType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.proto.ConversationType type = 1;</code>
+       * <code>.mars.stn.ConversationType type = 1;</code>
        */
       public Builder setType(win.liyufan.im.proto.ConversationOuterClass.ConversationType value) {
         if (value == null) {
@@ -619,7 +619,7 @@ public final class ConversationOuterClass {
         return this;
       }
       /**
-       * <code>.proto.ConversationType type = 1;</code>
+       * <code>.mars.stn.ConversationType type = 1;</code>
        */
       public Builder clearType() {
         
@@ -707,10 +707,10 @@ public final class ConversationOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.Conversation)
+      // @@protoc_insertion_point(builder_scope:mars.stn.Conversation)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.Conversation)
+    // @@protoc_insertion_point(class_scope:mars.stn.Conversation)
     private static final win.liyufan.im.proto.ConversationOuterClass.Conversation DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.ConversationOuterClass.Conversation();
@@ -746,10 +746,10 @@ public final class ConversationOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_Conversation_descriptor;
+    internal_static_mars_stn_Conversation_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_Conversation_fieldAccessorTable;
+      internal_static_mars_stn_Conversation_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -759,15 +759,15 @@ public final class ConversationOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022conversation.proto\022\005proto\"E\n\014Conversat" +
-      "ion\022%\n\004type\030\001 \001(\0162\027.proto.ConversationTy" +
-      "pe\022\016\n\006target\030\002 \001(\t*\246\001\n\020ConversationType\022" +
-      "\034\n\030ConversationType_Private\020\000\022\032\n\026Convers" +
-      "ationType_Group\020\001\022\033\n\027ConversationType_Sy" +
-      "stem\020\002\022\035\n\031ConversationType_ChatRoom\020\003\022\034\n" +
-      "\030ConversationType_Command\020\004B.\n\024win.liyuf" +
-      "an.im.protoB\026ConversationOuterClassb\006pro" +
-      "to3"
+      "\n\022conversation.proto\022\010mars.stn\"H\n\014Conver" +
+      "sation\022(\n\004type\030\001 \001(\0162\032.mars.stn.Conversa" +
+      "tionType\022\016\n\006target\030\002 \001(\t*\246\001\n\020Conversatio" +
+      "nType\022\034\n\030ConversationType_Private\020\000\022\032\n\026C" +
+      "onversationType_Group\020\001\022\033\n\027ConversationT" +
+      "ype_System\020\002\022\035\n\031ConversationType_ChatRoo" +
+      "m\020\003\022\034\n\030ConversationType_Command\020\004B.\n\024win" +
+      ".liyufan.im.protoB\026ConversationOuterClas" +
+      "sb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -781,11 +781,11 @@ public final class ConversationOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_Conversation_descriptor =
+    internal_static_mars_stn_Conversation_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_Conversation_fieldAccessorTable = new
+    internal_static_mars_stn_Conversation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_Conversation_descriptor,
+        internal_static_mars_stn_Conversation_descriptor,
         new java.lang.String[] { "Type", "Target", });
   }
 

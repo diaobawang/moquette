@@ -15,41 +15,41 @@ public final class ModifyGroupInfoRequestOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface ModifyGroupInfoRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.ModifyGroupInfoRequest)
+      // @@protoc_insertion_point(interface_extends:mars.stn.ModifyGroupInfoRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     boolean hasGroupInfo();
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo();
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder();
 
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
   /**
-   * Protobuf type {@code proto.ModifyGroupInfoRequest}
+   * Protobuf type {@code mars.stn.ModifyGroupInfoRequest}
    */
   public  static final class ModifyGroupInfoRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.ModifyGroupInfoRequest)
+      // @@protoc_insertion_point(message_implements:mars.stn.ModifyGroupInfoRequest)
       ModifyGroupInfoRequestOrBuilder {
     // Use ModifyGroupInfoRequest.newBuilder() to construct.
     private ModifyGroupInfoRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -122,12 +122,12 @@ public final class ModifyGroupInfoRequestOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_proto_ModifyGroupInfoRequest_descriptor;
+      return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_mars_stn_ModifyGroupInfoRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_proto_ModifyGroupInfoRequest_fieldAccessorTable
+      return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_mars_stn_ModifyGroupInfoRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest.class, win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest.Builder.class);
     }
@@ -135,19 +135,19 @@ public final class ModifyGroupInfoRequestOuterClass {
     public static final int GROUP_INFO_FIELD_NUMBER = 1;
     private win.liyufan.im.proto.GroupOuterClass.GroupInfo groupInfo_;
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public boolean hasGroupInfo() {
       return groupInfo_ != null;
     }
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo() {
       return groupInfo_ == null ? win.liyufan.im.proto.GroupOuterClass.GroupInfo.getDefaultInstance() : groupInfo_;
     }
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder() {
       return getGroupInfo();
@@ -156,19 +156,19 @@ public final class ModifyGroupInfoRequestOuterClass {
     public static final int NOTIFY_CONTENT_FIELD_NUMBER = 2;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.proto.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 2;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -345,20 +345,20 @@ public final class ModifyGroupInfoRequestOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.ModifyGroupInfoRequest}
+     * Protobuf type {@code mars.stn.ModifyGroupInfoRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.ModifyGroupInfoRequest)
+        // @@protoc_insertion_point(builder_implements:mars.stn.ModifyGroupInfoRequest)
         win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_proto_ModifyGroupInfoRequest_descriptor;
+        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_mars_stn_ModifyGroupInfoRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_proto_ModifyGroupInfoRequest_fieldAccessorTable
+        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_mars_stn_ModifyGroupInfoRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest.class, win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest.Builder.class);
       }
@@ -397,7 +397,7 @@ public final class ModifyGroupInfoRequestOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_proto_ModifyGroupInfoRequest_descriptor;
+        return win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.internal_static_mars_stn_ModifyGroupInfoRequest_descriptor;
       }
 
       public win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest getDefaultInstanceForType() {
@@ -501,13 +501,13 @@ public final class ModifyGroupInfoRequestOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.GroupOuterClass.GroupInfo, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder, win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> groupInfoBuilder_;
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public boolean hasGroupInfo() {
         return groupInfoBuilder_ != null || groupInfo_ != null;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo() {
         if (groupInfoBuilder_ == null) {
@@ -517,7 +517,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder setGroupInfo(win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
         if (groupInfoBuilder_ == null) {
@@ -533,7 +533,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder setGroupInfo(
           win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder builderForValue) {
@@ -547,7 +547,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder mergeGroupInfo(win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
         if (groupInfoBuilder_ == null) {
@@ -565,7 +565,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder clearGroupInfo() {
         if (groupInfoBuilder_ == null) {
@@ -579,7 +579,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder getGroupInfoBuilder() {
         
@@ -587,7 +587,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return getGroupInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder() {
         if (groupInfoBuilder_ != null) {
@@ -598,7 +598,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.GroupOuterClass.GroupInfo, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder, win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> 
@@ -618,13 +618,13 @@ public final class ModifyGroupInfoRequestOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -634,7 +634,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -650,7 +650,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -664,7 +664,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -682,7 +682,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -696,7 +696,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -704,7 +704,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -715,7 +715,7 @@ public final class ModifyGroupInfoRequestOuterClass {
         }
       }
       /**
-       * <code>.proto.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 2;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -741,10 +741,10 @@ public final class ModifyGroupInfoRequestOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.ModifyGroupInfoRequest)
+      // @@protoc_insertion_point(builder_scope:mars.stn.ModifyGroupInfoRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.ModifyGroupInfoRequest)
+    // @@protoc_insertion_point(class_scope:mars.stn.ModifyGroupInfoRequest)
     private static final win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.ModifyGroupInfoRequestOuterClass.ModifyGroupInfoRequest();
@@ -780,10 +780,10 @@ public final class ModifyGroupInfoRequestOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_ModifyGroupInfoRequest_descriptor;
+    internal_static_mars_stn_ModifyGroupInfoRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_ModifyGroupInfoRequest_fieldAccessorTable;
+      internal_static_mars_stn_ModifyGroupInfoRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -793,13 +793,13 @@ public final class ModifyGroupInfoRequestOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\037modify_group_info_request.proto\022\005proto" +
-      "\032\013group.proto\032\025message_content.proto\"m\n\026" +
-      "ModifyGroupInfoRequest\022$\n\ngroup_info\030\001 \001" +
-      "(\0132\020.proto.GroupInfo\022-\n\016notify_content\030\002" +
-      " \001(\0132\025.proto.MessageContentB8\n\024win.liyuf" +
-      "an.im.protoB ModifyGroupInfoRequestOuter" +
-      "Classb\006proto3"
+      "\n\037modify_group_info_request.proto\022\010mars." +
+      "stn\032\013group.proto\032\025message_content.proto\"" +
+      "s\n\026ModifyGroupInfoRequest\022\'\n\ngroup_info\030" +
+      "\001 \001(\0132\023.mars.stn.GroupInfo\0220\n\016notify_con" +
+      "tent\030\002 \001(\0132\030.mars.stn.MessageContentB8\n\024" +
+      "win.liyufan.im.protoB ModifyGroupInfoReq" +
+      "uestOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -815,11 +815,11 @@ public final class ModifyGroupInfoRequestOuterClass {
           win.liyufan.im.proto.GroupOuterClass.getDescriptor(),
           win.liyufan.im.proto.MessageContentOuterClass.getDescriptor(),
         }, assigner);
-    internal_static_proto_ModifyGroupInfoRequest_descriptor =
+    internal_static_mars_stn_ModifyGroupInfoRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_ModifyGroupInfoRequest_fieldAccessorTable = new
+    internal_static_mars_stn_ModifyGroupInfoRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_ModifyGroupInfoRequest_descriptor,
+        internal_static_mars_stn_ModifyGroupInfoRequest_descriptor,
         new java.lang.String[] { "GroupInfo", "NotifyContent", });
     win.liyufan.im.proto.GroupOuterClass.getDescriptor();
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();

@@ -15,7 +15,7 @@ public final class IDListBufOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface IDListBufOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.IDListBuf)
+      // @@protoc_insertion_point(interface_extends:mars.stn.IDListBuf)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -38,11 +38,11 @@ public final class IDListBufOuterClass {
         getIdBytes(int index);
   }
   /**
-   * Protobuf type {@code proto.IDListBuf}
+   * Protobuf type {@code mars.stn.IDListBuf}
    */
   public  static final class IDListBuf extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.IDListBuf)
+      // @@protoc_insertion_point(message_implements:mars.stn.IDListBuf)
       IDListBufOrBuilder {
     // Use IDListBuf.newBuilder() to construct.
     private IDListBuf(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -102,12 +102,12 @@ public final class IDListBufOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.IDListBufOuterClass.internal_static_proto_IDListBuf_descriptor;
+      return win.liyufan.im.proto.IDListBufOuterClass.internal_static_mars_stn_IDListBuf_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.IDListBufOuterClass.internal_static_proto_IDListBuf_fieldAccessorTable
+      return win.liyufan.im.proto.IDListBufOuterClass.internal_static_mars_stn_IDListBuf_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.IDListBufOuterClass.IDListBuf.class, win.liyufan.im.proto.IDListBufOuterClass.IDListBuf.Builder.class);
     }
@@ -297,20 +297,20 @@ public final class IDListBufOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.IDListBuf}
+     * Protobuf type {@code mars.stn.IDListBuf}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.IDListBuf)
+        // @@protoc_insertion_point(builder_implements:mars.stn.IDListBuf)
         win.liyufan.im.proto.IDListBufOuterClass.IDListBufOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_proto_IDListBuf_descriptor;
+        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_mars_stn_IDListBuf_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_proto_IDListBuf_fieldAccessorTable
+        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_mars_stn_IDListBuf_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.IDListBufOuterClass.IDListBuf.class, win.liyufan.im.proto.IDListBufOuterClass.IDListBuf.Builder.class);
       }
@@ -339,7 +339,7 @@ public final class IDListBufOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_proto_IDListBuf_descriptor;
+        return win.liyufan.im.proto.IDListBufOuterClass.internal_static_mars_stn_IDListBuf_descriptor;
       }
 
       public win.liyufan.im.proto.IDListBufOuterClass.IDListBuf getDefaultInstanceForType() {
@@ -544,10 +544,10 @@ public final class IDListBufOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.IDListBuf)
+      // @@protoc_insertion_point(builder_scope:mars.stn.IDListBuf)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.IDListBuf)
+    // @@protoc_insertion_point(class_scope:mars.stn.IDListBuf)
     private static final win.liyufan.im.proto.IDListBufOuterClass.IDListBuf DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.IDListBufOuterClass.IDListBuf();
@@ -583,10 +583,10 @@ public final class IDListBufOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_IDListBuf_descriptor;
+    internal_static_mars_stn_IDListBuf_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_IDListBuf_fieldAccessorTable;
+      internal_static_mars_stn_IDListBuf_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -596,9 +596,9 @@ public final class IDListBufOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021id_list_buf.proto\022\005proto\"\027\n\tIDListBuf\022" +
-      "\n\n\002id\030\001 \003(\tB+\n\024win.liyufan.im.protoB\023IDL" +
-      "istBufOuterClassb\006proto3"
+      "\n\021id_list_buf.proto\022\010mars.stn\"\027\n\tIDListB" +
+      "uf\022\n\n\002id\030\001 \003(\tB+\n\024win.liyufan.im.protoB\023" +
+      "IDListBufOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -612,11 +612,11 @@ public final class IDListBufOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_IDListBuf_descriptor =
+    internal_static_mars_stn_IDListBuf_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_IDListBuf_fieldAccessorTable = new
+    internal_static_mars_stn_IDListBuf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_IDListBuf_descriptor,
+        internal_static_mars_stn_IDListBuf_descriptor,
         new java.lang.String[] { "Id", });
   }
 

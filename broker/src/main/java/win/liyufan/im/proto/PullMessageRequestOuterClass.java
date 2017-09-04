@@ -15,7 +15,7 @@ public final class PullMessageRequestOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface PullMessageRequestOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.PullMessageRequest)
+      // @@protoc_insertion_point(interface_extends:mars.stn.PullMessageRequest)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -24,20 +24,20 @@ public final class PullMessageRequestOuterClass {
     long getId();
 
     /**
-     * <code>.proto.PullType type = 2;</code>
+     * <code>.mars.stn.PullType type = 2;</code>
      */
     int getTypeValue();
     /**
-     * <code>.proto.PullType type = 2;</code>
+     * <code>.mars.stn.PullType type = 2;</code>
      */
     win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType();
   }
   /**
-   * Protobuf type {@code proto.PullMessageRequest}
+   * Protobuf type {@code mars.stn.PullMessageRequest}
    */
   public  static final class PullMessageRequest extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.PullMessageRequest)
+      // @@protoc_insertion_point(message_implements:mars.stn.PullMessageRequest)
       PullMessageRequestOrBuilder {
     // Use PullMessageRequest.newBuilder() to construct.
     private PullMessageRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -97,12 +97,12 @@ public final class PullMessageRequestOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_proto_PullMessageRequest_descriptor;
+      return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_mars_stn_PullMessageRequest_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_proto_PullMessageRequest_fieldAccessorTable
+      return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_mars_stn_PullMessageRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest.class, win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest.Builder.class);
     }
@@ -119,13 +119,13 @@ public final class PullMessageRequestOuterClass {
     public static final int TYPE_FIELD_NUMBER = 2;
     private int type_;
     /**
-     * <code>.proto.PullType type = 2;</code>
+     * <code>.mars.stn.PullType type = 2;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.proto.PullType type = 2;</code>
+     * <code>.mars.stn.PullType type = 2;</code>
      */
     public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
       win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
@@ -293,20 +293,20 @@ public final class PullMessageRequestOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.PullMessageRequest}
+     * Protobuf type {@code mars.stn.PullMessageRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.PullMessageRequest)
+        // @@protoc_insertion_point(builder_implements:mars.stn.PullMessageRequest)
         win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_proto_PullMessageRequest_descriptor;
+        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_mars_stn_PullMessageRequest_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_proto_PullMessageRequest_fieldAccessorTable
+        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_mars_stn_PullMessageRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest.class, win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest.Builder.class);
       }
@@ -337,7 +337,7 @@ public final class PullMessageRequestOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_proto_PullMessageRequest_descriptor;
+        return win.liyufan.im.proto.PullMessageRequestOuterClass.internal_static_mars_stn_PullMessageRequest_descriptor;
       }
 
       public win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest getDefaultInstanceForType() {
@@ -457,13 +457,13 @@ public final class PullMessageRequestOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.proto.PullType type = 2;</code>
+       * <code>.mars.stn.PullType type = 2;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.proto.PullType type = 2;</code>
+       * <code>.mars.stn.PullType type = 2;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -471,14 +471,14 @@ public final class PullMessageRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.PullType type = 2;</code>
+       * <code>.mars.stn.PullType type = 2;</code>
        */
       public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
         win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.NotifyMessageOuterClass.PullType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.proto.PullType type = 2;</code>
+       * <code>.mars.stn.PullType type = 2;</code>
        */
       public Builder setType(win.liyufan.im.proto.NotifyMessageOuterClass.PullType value) {
         if (value == null) {
@@ -490,7 +490,7 @@ public final class PullMessageRequestOuterClass {
         return this;
       }
       /**
-       * <code>.proto.PullType type = 2;</code>
+       * <code>.mars.stn.PullType type = 2;</code>
        */
       public Builder clearType() {
         
@@ -509,10 +509,10 @@ public final class PullMessageRequestOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.PullMessageRequest)
+      // @@protoc_insertion_point(builder_scope:mars.stn.PullMessageRequest)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.PullMessageRequest)
+    // @@protoc_insertion_point(class_scope:mars.stn.PullMessageRequest)
     private static final win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest();
@@ -548,10 +548,10 @@ public final class PullMessageRequestOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_PullMessageRequest_descriptor;
+    internal_static_mars_stn_PullMessageRequest_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_PullMessageRequest_fieldAccessorTable;
+      internal_static_mars_stn_PullMessageRequest_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -561,11 +561,11 @@ public final class PullMessageRequestOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\032pull_message_request.proto\022\005proto\032\024not" +
-      "ify_message.proto\"?\n\022PullMessageRequest\022" +
-      "\n\n\002id\030\001 \001(\003\022\035\n\004type\030\002 \001(\0162\017.proto.PullTy" +
-      "peB4\n\024win.liyufan.im.protoB\034PullMessageR" +
-      "equestOuterClassb\006proto3"
+      "\n\032pull_message_request.proto\022\010mars.stn\032\024" +
+      "notify_message.proto\"B\n\022PullMessageReque" +
+      "st\022\n\n\002id\030\001 \001(\003\022 \n\004type\030\002 \001(\0162\022.mars.stn." +
+      "PullTypeB4\n\024win.liyufan.im.protoB\034PullMe" +
+      "ssageRequestOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -580,11 +580,11 @@ public final class PullMessageRequestOuterClass {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           win.liyufan.im.proto.NotifyMessageOuterClass.getDescriptor(),
         }, assigner);
-    internal_static_proto_PullMessageRequest_descriptor =
+    internal_static_mars_stn_PullMessageRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_PullMessageRequest_fieldAccessorTable = new
+    internal_static_mars_stn_PullMessageRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_PullMessageRequest_descriptor,
+        internal_static_mars_stn_PullMessageRequest_descriptor,
         new java.lang.String[] { "Id", "Type", });
     win.liyufan.im.proto.NotifyMessageOuterClass.getDescriptor();
   }

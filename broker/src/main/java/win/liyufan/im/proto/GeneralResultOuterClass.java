@@ -15,7 +15,7 @@ public final class GeneralResultOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface GeneralResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.GeneralResult)
+      // @@protoc_insertion_point(interface_extends:mars.stn.GeneralResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -24,11 +24,11 @@ public final class GeneralResultOuterClass {
     int getErrorCode();
   }
   /**
-   * Protobuf type {@code proto.GeneralResult}
+   * Protobuf type {@code mars.stn.GeneralResult}
    */
   public  static final class GeneralResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.GeneralResult)
+      // @@protoc_insertion_point(message_implements:mars.stn.GeneralResult)
       GeneralResultOrBuilder {
     // Use GeneralResult.newBuilder() to construct.
     private GeneralResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -81,12 +81,12 @@ public final class GeneralResultOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_proto_GeneralResult_descriptor;
+      return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_mars_stn_GeneralResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_proto_GeneralResult_fieldAccessorTable
+      return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_mars_stn_GeneralResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult.class, win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult.Builder.class);
     }
@@ -250,20 +250,20 @@ public final class GeneralResultOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.GeneralResult}
+     * Protobuf type {@code mars.stn.GeneralResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.GeneralResult)
+        // @@protoc_insertion_point(builder_implements:mars.stn.GeneralResult)
         win.liyufan.im.proto.GeneralResultOuterClass.GeneralResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_proto_GeneralResult_descriptor;
+        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_mars_stn_GeneralResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_proto_GeneralResult_fieldAccessorTable
+        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_mars_stn_GeneralResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult.class, win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult.Builder.class);
       }
@@ -292,7 +292,7 @@ public final class GeneralResultOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_proto_GeneralResult_descriptor;
+        return win.liyufan.im.proto.GeneralResultOuterClass.internal_static_mars_stn_GeneralResult_descriptor;
       }
 
       public win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult getDefaultInstanceForType() {
@@ -416,10 +416,10 @@ public final class GeneralResultOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.GeneralResult)
+      // @@protoc_insertion_point(builder_scope:mars.stn.GeneralResult)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.GeneralResult)
+    // @@protoc_insertion_point(class_scope:mars.stn.GeneralResult)
     private static final win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.GeneralResultOuterClass.GeneralResult();
@@ -455,10 +455,10 @@ public final class GeneralResultOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_GeneralResult_descriptor;
+    internal_static_mars_stn_GeneralResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_GeneralResult_fieldAccessorTable;
+      internal_static_mars_stn_GeneralResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -468,10 +468,10 @@ public final class GeneralResultOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024general_result.proto\022\005proto\"#\n\rGeneral" +
-      "Result\022\022\n\nerror_code\030\001 \001(\005B/\n\024win.liyufa" +
-      "n.im.protoB\027GeneralResultOuterClassb\006pro" +
-      "to3"
+      "\n\024general_result.proto\022\010mars.stn\"#\n\rGene" +
+      "ralResult\022\022\n\nerror_code\030\001 \001(\005B/\n\024win.liy" +
+      "ufan.im.protoB\027GeneralResultOuterClassb\006" +
+      "proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -485,11 +485,11 @@ public final class GeneralResultOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_GeneralResult_descriptor =
+    internal_static_mars_stn_GeneralResult_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_GeneralResult_fieldAccessorTable = new
+    internal_static_mars_stn_GeneralResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_GeneralResult_descriptor,
+        internal_static_mars_stn_GeneralResult_descriptor,
         new java.lang.String[] { "ErrorCode", });
   }
 

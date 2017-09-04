@@ -14,4 +14,6 @@ public interface IMTopic {
 	
 	public static final String GetGroupInfoTopic = "GPGI";
 	public static final String GetGroupMemberTopic = "GPGM";
+	
+	public static final String GetQiniuUploadTokenTopic = "GQNUT";
 }

@@ -15,39 +15,39 @@ public final class PullGroupInfoResultOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface PullGroupInfoResultOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.PullGroupInfoResult)
+      // @@protoc_insertion_point(interface_extends:mars.stn.PullGroupInfoResult)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupInfo> 
         getInfoList();
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfo getInfo(int index);
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     int getInfoCount();
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> 
         getInfoOrBuilderList();
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getInfoOrBuilder(
         int index);
   }
   /**
-   * Protobuf type {@code proto.PullGroupInfoResult}
+   * Protobuf type {@code mars.stn.PullGroupInfoResult}
    */
   public  static final class PullGroupInfoResult extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.PullGroupInfoResult)
+      // @@protoc_insertion_point(message_implements:mars.stn.PullGroupInfoResult)
       PullGroupInfoResultOrBuilder {
     // Use PullGroupInfoResult.newBuilder() to construct.
     private PullGroupInfoResult(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -107,12 +107,12 @@ public final class PullGroupInfoResultOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_proto_PullGroupInfoResult_descriptor;
+      return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_mars_stn_PullGroupInfoResult_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_proto_PullGroupInfoResult_fieldAccessorTable
+      return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_mars_stn_PullGroupInfoResult_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult.class, win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult.Builder.class);
     }
@@ -120,32 +120,32 @@ public final class PullGroupInfoResultOuterClass {
     public static final int INFO_FIELD_NUMBER = 1;
     private java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupInfo> info_;
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupInfo> getInfoList() {
       return info_;
     }
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> 
         getInfoOrBuilderList() {
       return info_;
     }
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     public int getInfoCount() {
       return info_.size();
     }
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfo getInfo(int index) {
       return info_.get(index);
     }
     /**
-     * <code>repeated .proto.GroupInfo info = 1;</code>
+     * <code>repeated .mars.stn.GroupInfo info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getInfoOrBuilder(
         int index) {
@@ -304,20 +304,20 @@ public final class PullGroupInfoResultOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.PullGroupInfoResult}
+     * Protobuf type {@code mars.stn.PullGroupInfoResult}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.PullGroupInfoResult)
+        // @@protoc_insertion_point(builder_implements:mars.stn.PullGroupInfoResult)
         win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResultOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_proto_PullGroupInfoResult_descriptor;
+        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_mars_stn_PullGroupInfoResult_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_proto_PullGroupInfoResult_fieldAccessorTable
+        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_mars_stn_PullGroupInfoResult_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult.class, win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult.Builder.class);
       }
@@ -351,7 +351,7 @@ public final class PullGroupInfoResultOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_proto_PullGroupInfoResult_descriptor;
+        return win.liyufan.im.proto.PullGroupInfoResultOuterClass.internal_static_mars_stn_PullGroupInfoResult_descriptor;
       }
 
       public win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult getDefaultInstanceForType() {
@@ -485,7 +485,7 @@ public final class PullGroupInfoResultOuterClass {
           win.liyufan.im.proto.GroupOuterClass.GroupInfo, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder, win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> infoBuilder_;
 
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupInfo> getInfoList() {
         if (infoBuilder_ == null) {
@@ -495,7 +495,7 @@ public final class PullGroupInfoResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public int getInfoCount() {
         if (infoBuilder_ == null) {
@@ -505,7 +505,7 @@ public final class PullGroupInfoResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo getInfo(int index) {
         if (infoBuilder_ == null) {
@@ -515,7 +515,7 @@ public final class PullGroupInfoResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder setInfo(
           int index, win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
@@ -532,7 +532,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder setInfo(
           int index, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder builderForValue) {
@@ -546,7 +546,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder addInfo(win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
         if (infoBuilder_ == null) {
@@ -562,7 +562,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder addInfo(
           int index, win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
@@ -579,7 +579,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder addInfo(
           win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder builderForValue) {
@@ -593,7 +593,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder addInfo(
           int index, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder builderForValue) {
@@ -607,7 +607,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder addAllInfo(
           java.lang.Iterable<? extends win.liyufan.im.proto.GroupOuterClass.GroupInfo> values) {
@@ -622,7 +622,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder clearInfo() {
         if (infoBuilder_ == null) {
@@ -635,7 +635,7 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public Builder removeInfo(int index) {
         if (infoBuilder_ == null) {
@@ -648,14 +648,14 @@ public final class PullGroupInfoResultOuterClass {
         return this;
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder getInfoBuilder(
           int index) {
         return getInfoFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getInfoOrBuilder(
           int index) {
@@ -665,7 +665,7 @@ public final class PullGroupInfoResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> 
            getInfoOrBuilderList() {
@@ -676,14 +676,14 @@ public final class PullGroupInfoResultOuterClass {
         }
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder addInfoBuilder() {
         return getInfoFieldBuilder().addBuilder(
             win.liyufan.im.proto.GroupOuterClass.GroupInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder addInfoBuilder(
           int index) {
@@ -691,7 +691,7 @@ public final class PullGroupInfoResultOuterClass {
             index, win.liyufan.im.proto.GroupOuterClass.GroupInfo.getDefaultInstance());
       }
       /**
-       * <code>repeated .proto.GroupInfo info = 1;</code>
+       * <code>repeated .mars.stn.GroupInfo info = 1;</code>
        */
       public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder> 
            getInfoBuilderList() {
@@ -722,10 +722,10 @@ public final class PullGroupInfoResultOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.PullGroupInfoResult)
+      // @@protoc_insertion_point(builder_scope:mars.stn.PullGroupInfoResult)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.PullGroupInfoResult)
+    // @@protoc_insertion_point(class_scope:mars.stn.PullGroupInfoResult)
     private static final win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult();
@@ -761,10 +761,10 @@ public final class PullGroupInfoResultOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_PullGroupInfoResult_descriptor;
+    internal_static_mars_stn_PullGroupInfoResult_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_PullGroupInfoResult_fieldAccessorTable;
+      internal_static_mars_stn_PullGroupInfoResult_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -774,11 +774,11 @@ public final class PullGroupInfoResultOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\034pull_group_info_result.proto\022\005proto\032\013g" +
-      "roup.proto\"5\n\023PullGroupInfoResult\022\036\n\004inf" +
-      "o\030\001 \003(\0132\020.proto.GroupInfoB5\n\024win.liyufan" +
-      ".im.protoB\035PullGroupInfoResultOuterClass" +
-      "b\006proto3"
+      "\n\034pull_group_info_result.proto\022\010mars.stn" +
+      "\032\013group.proto\"8\n\023PullGroupInfoResult\022!\n\004" +
+      "info\030\001 \003(\0132\023.mars.stn.GroupInfoB5\n\024win.l" +
+      "iyufan.im.protoB\035PullGroupInfoResultOute" +
+      "rClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -793,11 +793,11 @@ public final class PullGroupInfoResultOuterClass {
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           win.liyufan.im.proto.GroupOuterClass.getDescriptor(),
         }, assigner);
-    internal_static_proto_PullGroupInfoResult_descriptor =
+    internal_static_mars_stn_PullGroupInfoResult_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_PullGroupInfoResult_fieldAccessorTable = new
+    internal_static_mars_stn_PullGroupInfoResult_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_PullGroupInfoResult_descriptor,
+        internal_static_mars_stn_PullGroupInfoResult_descriptor,
         new java.lang.String[] { "Info", });
     win.liyufan.im.proto.GroupOuterClass.getDescriptor();
   }

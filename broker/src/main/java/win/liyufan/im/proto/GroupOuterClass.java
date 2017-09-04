@@ -15,7 +15,7 @@ public final class GroupOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code proto.GroupType}
+   * Protobuf enum {@code mars.stn.GroupType}
    */
   public enum GroupType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -142,11 +142,11 @@ public final class GroupOuterClass {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:proto.GroupType)
+    // @@protoc_insertion_point(enum_scope:mars.stn.GroupType)
   }
 
   public interface GroupInfoOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.GroupInfo)
+      // @@protoc_insertion_point(interface_extends:mars.stn.GroupInfo)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -190,11 +190,11 @@ public final class GroupOuterClass {
         getOwnerBytes();
 
     /**
-     * <code>.proto.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     int getTypeValue();
     /**
-     * <code>.proto.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupType getType();
 
@@ -204,11 +204,11 @@ public final class GroupOuterClass {
     com.google.protobuf.ByteString getExtra();
   }
   /**
-   * Protobuf type {@code proto.GroupInfo}
+   * Protobuf type {@code mars.stn.GroupInfo}
    */
   public  static final class GroupInfo extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.GroupInfo)
+      // @@protoc_insertion_point(message_implements:mars.stn.GroupInfo)
       GroupInfoOrBuilder {
     // Use GroupInfo.newBuilder() to construct.
     private GroupInfo(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -296,12 +296,12 @@ public final class GroupOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_GroupInfo_descriptor;
+      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupInfo_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_GroupInfo_fieldAccessorTable
+      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupInfo_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.GroupOuterClass.GroupInfo.class, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder.class);
     }
@@ -445,13 +445,13 @@ public final class GroupOuterClass {
     public static final int TYPE_FIELD_NUMBER = 5;
     private int type_;
     /**
-     * <code>.proto.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.proto.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
       win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
@@ -667,20 +667,20 @@ public final class GroupOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.GroupInfo}
+     * Protobuf type {@code mars.stn.GroupInfo}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.GroupInfo)
+        // @@protoc_insertion_point(builder_implements:mars.stn.GroupInfo)
         win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_GroupInfo_descriptor;
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupInfo_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_GroupInfo_fieldAccessorTable
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupInfo_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.GroupOuterClass.GroupInfo.class, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder.class);
       }
@@ -719,7 +719,7 @@ public final class GroupOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_GroupInfo_descriptor;
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupInfo_descriptor;
       }
 
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo getDefaultInstanceForType() {
@@ -1109,13 +1109,13 @@ public final class GroupOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.proto.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.proto.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -1123,14 +1123,14 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
         win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.GroupOuterClass.GroupType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.proto.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder setType(win.liyufan.im.proto.GroupOuterClass.GroupType value) {
         if (value == null) {
@@ -1142,7 +1142,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder clearType() {
         
@@ -1190,10 +1190,10 @@ public final class GroupOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.GroupInfo)
+      // @@protoc_insertion_point(builder_scope:mars.stn.GroupInfo)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.GroupInfo)
+    // @@protoc_insertion_point(class_scope:mars.stn.GroupInfo)
     private static final win.liyufan.im.proto.GroupOuterClass.GroupInfo DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.GroupOuterClass.GroupInfo();
@@ -1229,19 +1229,19 @@ public final class GroupOuterClass {
   }
 
   public interface GroupOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.Group)
+      // @@protoc_insertion_point(interface_extends:mars.stn.Group)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     boolean hasGroupInfo();
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo();
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder();
 
@@ -1265,11 +1265,11 @@ public final class GroupOuterClass {
         getMembersBytes(int index);
   }
   /**
-   * Protobuf type {@code proto.Group}
+   * Protobuf type {@code mars.stn.Group}
    */
   public  static final class Group extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.Group)
+      // @@protoc_insertion_point(message_implements:mars.stn.Group)
       GroupOrBuilder {
     // Use Group.newBuilder() to construct.
     private Group(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -1342,12 +1342,12 @@ public final class GroupOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_Group_descriptor;
+      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_Group_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_Group_fieldAccessorTable
+      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_Group_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.GroupOuterClass.Group.class, win.liyufan.im.proto.GroupOuterClass.Group.Builder.class);
     }
@@ -1356,19 +1356,19 @@ public final class GroupOuterClass {
     public static final int GROUP_INFO_FIELD_NUMBER = 1;
     private win.liyufan.im.proto.GroupOuterClass.GroupInfo groupInfo_;
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public boolean hasGroupInfo() {
       return groupInfo_ != null;
     }
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo() {
       return groupInfo_ == null ? win.liyufan.im.proto.GroupOuterClass.GroupInfo.getDefaultInstance() : groupInfo_;
     }
     /**
-     * <code>.proto.GroupInfo group_info = 1;</code>
+     * <code>.mars.stn.GroupInfo group_info = 1;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder() {
       return getGroupInfo();
@@ -1575,20 +1575,20 @@ public final class GroupOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.Group}
+     * Protobuf type {@code mars.stn.Group}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.Group)
+        // @@protoc_insertion_point(builder_implements:mars.stn.Group)
         win.liyufan.im.proto.GroupOuterClass.GroupOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_Group_descriptor;
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_Group_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_Group_fieldAccessorTable
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_Group_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.GroupOuterClass.Group.class, win.liyufan.im.proto.GroupOuterClass.Group.Builder.class);
       }
@@ -1623,7 +1623,7 @@ public final class GroupOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_proto_Group_descriptor;
+        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_Group_descriptor;
       }
 
       public win.liyufan.im.proto.GroupOuterClass.Group getDefaultInstanceForType() {
@@ -1738,13 +1738,13 @@ public final class GroupOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.GroupOuterClass.GroupInfo, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder, win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> groupInfoBuilder_;
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public boolean hasGroupInfo() {
         return groupInfoBuilder_ != null || groupInfo_ != null;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo getGroupInfo() {
         if (groupInfoBuilder_ == null) {
@@ -1754,7 +1754,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder setGroupInfo(win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
         if (groupInfoBuilder_ == null) {
@@ -1770,7 +1770,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder setGroupInfo(
           win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder builderForValue) {
@@ -1784,7 +1784,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder mergeGroupInfo(win.liyufan.im.proto.GroupOuterClass.GroupInfo value) {
         if (groupInfoBuilder_ == null) {
@@ -1802,7 +1802,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public Builder clearGroupInfo() {
         if (groupInfoBuilder_ == null) {
@@ -1816,7 +1816,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder getGroupInfoBuilder() {
         
@@ -1824,7 +1824,7 @@ public final class GroupOuterClass {
         return getGroupInfoFieldBuilder().getBuilder();
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder getGroupInfoOrBuilder() {
         if (groupInfoBuilder_ != null) {
@@ -1835,7 +1835,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>.proto.GroupInfo group_info = 1;</code>
+       * <code>.mars.stn.GroupInfo group_info = 1;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.GroupOuterClass.GroupInfo, win.liyufan.im.proto.GroupOuterClass.GroupInfo.Builder, win.liyufan.im.proto.GroupOuterClass.GroupInfoOrBuilder> 
@@ -1955,10 +1955,10 @@ public final class GroupOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.Group)
+      // @@protoc_insertion_point(builder_scope:mars.stn.Group)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.Group)
+    // @@protoc_insertion_point(class_scope:mars.stn.Group)
     private static final win.liyufan.im.proto.GroupOuterClass.Group DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.GroupOuterClass.Group();
@@ -1994,15 +1994,15 @@ public final class GroupOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_GroupInfo_descriptor;
+    internal_static_mars_stn_GroupInfo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_GroupInfo_fieldAccessorTable;
+      internal_static_mars_stn_GroupInfo_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_Group_descriptor;
+    internal_static_mars_stn_Group_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_Group_fieldAccessorTable;
+      internal_static_mars_stn_Group_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -2012,15 +2012,15 @@ public final class GroupOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013group.proto\022\005proto\"|\n\tGroupInfo\022\021\n\ttar" +
-      "get_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010portrait\030\003" +
-      " \001(\t\022\r\n\005owner\030\004 \001(\t\022\036\n\004type\030\005 \001(\0162\020.prot" +
-      "o.GroupType\022\r\n\005extra\030\006 \001(\014\">\n\005Group\022$\n\ng" +
-      "roup_info\030\001 \001(\0132\020.proto.GroupInfo\022\017\n\007mem" +
-      "bers\030\002 \003(\t*O\n\tGroupType\022\024\n\020GroupType_Nor" +
-      "mal\020\000\022\022\n\016GroupType_Free\020\001\022\030\n\024GroupType_R" +
-      "estricted\020\002B\'\n\024win.liyufan.im.protoB\017Gro" +
-      "upOuterClassb\006proto3"
+      "\n\013group.proto\022\010mars.stn\"\177\n\tGroupInfo\022\021\n\t" +
+      "target_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010portrai" +
+      "t\030\003 \001(\t\022\r\n\005owner\030\004 \001(\t\022!\n\004type\030\005 \001(\0162\023.m" +
+      "ars.stn.GroupType\022\r\n\005extra\030\006 \001(\014\"A\n\005Grou" +
+      "p\022\'\n\ngroup_info\030\001 \001(\0132\023.mars.stn.GroupIn" +
+      "fo\022\017\n\007members\030\002 \003(\t*O\n\tGroupType\022\024\n\020Grou" +
+      "pType_Normal\020\000\022\022\n\016GroupType_Free\020\001\022\030\n\024Gr" +
+      "oupType_Restricted\020\002B\'\n\024win.liyufan.im.p" +
+      "rotoB\017GroupOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2034,17 +2034,17 @@ public final class GroupOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_GroupInfo_descriptor =
+    internal_static_mars_stn_GroupInfo_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_GroupInfo_fieldAccessorTable = new
+    internal_static_mars_stn_GroupInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_GroupInfo_descriptor,
+        internal_static_mars_stn_GroupInfo_descriptor,
         new java.lang.String[] { "TargetId", "Name", "Portrait", "Owner", "Type", "Extra", });
-    internal_static_proto_Group_descriptor =
+    internal_static_mars_stn_Group_descriptor =
       getDescriptor().getMessageTypes().get(1);
-    internal_static_proto_Group_fieldAccessorTable = new
+    internal_static_mars_stn_Group_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_Group_descriptor,
+        internal_static_mars_stn_Group_descriptor,
         new java.lang.String[] { "GroupInfo", "Members", });
   }
 

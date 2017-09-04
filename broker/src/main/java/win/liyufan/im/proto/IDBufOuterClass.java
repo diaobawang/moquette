@@ -15,7 +15,7 @@ public final class IDBufOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface IDBufOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.IDBuf)
+      // @@protoc_insertion_point(interface_extends:mars.stn.IDBuf)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -29,11 +29,11 @@ public final class IDBufOuterClass {
         getIdBytes();
   }
   /**
-   * Protobuf type {@code proto.IDBuf}
+   * Protobuf type {@code mars.stn.IDBuf}
    */
   public  static final class IDBuf extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.IDBuf)
+      // @@protoc_insertion_point(message_implements:mars.stn.IDBuf)
       IDBufOrBuilder {
     // Use IDBuf.newBuilder() to construct.
     private IDBuf(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -87,12 +87,12 @@ public final class IDBufOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.IDBufOuterClass.internal_static_proto_IDBuf_descriptor;
+      return win.liyufan.im.proto.IDBufOuterClass.internal_static_mars_stn_IDBuf_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.IDBufOuterClass.internal_static_proto_IDBuf_fieldAccessorTable
+      return win.liyufan.im.proto.IDBufOuterClass.internal_static_mars_stn_IDBuf_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.IDBufOuterClass.IDBuf.class, win.liyufan.im.proto.IDBufOuterClass.IDBuf.Builder.class);
     }
@@ -280,20 +280,20 @@ public final class IDBufOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.IDBuf}
+     * Protobuf type {@code mars.stn.IDBuf}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.IDBuf)
+        // @@protoc_insertion_point(builder_implements:mars.stn.IDBuf)
         win.liyufan.im.proto.IDBufOuterClass.IDBufOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.IDBufOuterClass.internal_static_proto_IDBuf_descriptor;
+        return win.liyufan.im.proto.IDBufOuterClass.internal_static_mars_stn_IDBuf_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.IDBufOuterClass.internal_static_proto_IDBuf_fieldAccessorTable
+        return win.liyufan.im.proto.IDBufOuterClass.internal_static_mars_stn_IDBuf_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.IDBufOuterClass.IDBuf.class, win.liyufan.im.proto.IDBufOuterClass.IDBuf.Builder.class);
       }
@@ -322,7 +322,7 @@ public final class IDBufOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.IDBufOuterClass.internal_static_proto_IDBuf_descriptor;
+        return win.liyufan.im.proto.IDBufOuterClass.internal_static_mars_stn_IDBuf_descriptor;
       }
 
       public win.liyufan.im.proto.IDBufOuterClass.IDBuf getDefaultInstanceForType() {
@@ -490,10 +490,10 @@ public final class IDBufOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.IDBuf)
+      // @@protoc_insertion_point(builder_scope:mars.stn.IDBuf)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.IDBuf)
+    // @@protoc_insertion_point(class_scope:mars.stn.IDBuf)
     private static final win.liyufan.im.proto.IDBufOuterClass.IDBuf DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.IDBufOuterClass.IDBuf();
@@ -529,10 +529,10 @@ public final class IDBufOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_IDBuf_descriptor;
+    internal_static_mars_stn_IDBuf_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_IDBuf_fieldAccessorTable;
+      internal_static_mars_stn_IDBuf_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -542,9 +542,9 @@ public final class IDBufOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\014id_buf.proto\022\005proto\"\023\n\005IDBuf\022\n\n\002id\030\001 \001" +
-      "(\tB\'\n\024win.liyufan.im.protoB\017IDBufOuterCl" +
-      "assb\006proto3"
+      "\n\014id_buf.proto\022\010mars.stn\"\023\n\005IDBuf\022\n\n\002id\030" +
+      "\001 \001(\tB\'\n\024win.liyufan.im.protoB\017IDBufOute" +
+      "rClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -558,11 +558,11 @@ public final class IDBufOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_IDBuf_descriptor =
+    internal_static_mars_stn_IDBuf_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_IDBuf_fieldAccessorTable = new
+    internal_static_mars_stn_IDBuf_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_IDBuf_descriptor,
+        internal_static_mars_stn_IDBuf_descriptor,
         new java.lang.String[] { "Id", });
   }
 

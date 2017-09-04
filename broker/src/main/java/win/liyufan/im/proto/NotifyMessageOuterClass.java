@@ -15,7 +15,7 @@ public final class NotifyMessageOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   /**
-   * Protobuf enum {@code proto.PullType}
+   * Protobuf enum {@code mars.stn.PullType}
    */
   public enum PullType
       implements com.google.protobuf.ProtocolMessageEnum {
@@ -118,19 +118,19 @@ public final class NotifyMessageOuterClass {
       this.value = value;
     }
 
-    // @@protoc_insertion_point(enum_scope:proto.PullType)
+    // @@protoc_insertion_point(enum_scope:mars.stn.PullType)
   }
 
   public interface NotifyMessageOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:proto.NotifyMessage)
+      // @@protoc_insertion_point(interface_extends:mars.stn.NotifyMessage)
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>.proto.PullType type = 1;</code>
+     * <code>.mars.stn.PullType type = 1;</code>
      */
     int getTypeValue();
     /**
-     * <code>.proto.PullType type = 1;</code>
+     * <code>.mars.stn.PullType type = 1;</code>
      */
     win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType();
 
@@ -150,11 +150,11 @@ public final class NotifyMessageOuterClass {
         getTargetBytes();
   }
   /**
-   * Protobuf type {@code proto.NotifyMessage}
+   * Protobuf type {@code mars.stn.NotifyMessage}
    */
   public  static final class NotifyMessage extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:proto.NotifyMessage)
+      // @@protoc_insertion_point(message_implements:mars.stn.NotifyMessage)
       NotifyMessageOrBuilder {
     // Use NotifyMessage.newBuilder() to construct.
     private NotifyMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -221,12 +221,12 @@ public final class NotifyMessageOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_proto_NotifyMessage_descriptor;
+      return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_mars_stn_NotifyMessage_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_proto_NotifyMessage_fieldAccessorTable
+      return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_mars_stn_NotifyMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage.class, win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage.Builder.class);
     }
@@ -234,13 +234,13 @@ public final class NotifyMessageOuterClass {
     public static final int TYPE_FIELD_NUMBER = 1;
     private int type_;
     /**
-     * <code>.proto.PullType type = 1;</code>
+     * <code>.mars.stn.PullType type = 1;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.proto.PullType type = 1;</code>
+     * <code>.mars.stn.PullType type = 1;</code>
      */
     public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
       win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
@@ -461,20 +461,20 @@ public final class NotifyMessageOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code proto.NotifyMessage}
+     * Protobuf type {@code mars.stn.NotifyMessage}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:proto.NotifyMessage)
+        // @@protoc_insertion_point(builder_implements:mars.stn.NotifyMessage)
         win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessageOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_proto_NotifyMessage_descriptor;
+        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_mars_stn_NotifyMessage_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_proto_NotifyMessage_fieldAccessorTable
+        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_mars_stn_NotifyMessage_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
                 win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage.class, win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage.Builder.class);
       }
@@ -507,7 +507,7 @@ public final class NotifyMessageOuterClass {
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_proto_NotifyMessage_descriptor;
+        return win.liyufan.im.proto.NotifyMessageOuterClass.internal_static_mars_stn_NotifyMessage_descriptor;
       }
 
       public win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage getDefaultInstanceForType() {
@@ -606,13 +606,13 @@ public final class NotifyMessageOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.proto.PullType type = 1;</code>
+       * <code>.mars.stn.PullType type = 1;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.proto.PullType type = 1;</code>
+       * <code>.mars.stn.PullType type = 1;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -620,14 +620,14 @@ public final class NotifyMessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.PullType type = 1;</code>
+       * <code>.mars.stn.PullType type = 1;</code>
        */
       public win.liyufan.im.proto.NotifyMessageOuterClass.PullType getType() {
         win.liyufan.im.proto.NotifyMessageOuterClass.PullType result = win.liyufan.im.proto.NotifyMessageOuterClass.PullType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.NotifyMessageOuterClass.PullType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.proto.PullType type = 1;</code>
+       * <code>.mars.stn.PullType type = 1;</code>
        */
       public Builder setType(win.liyufan.im.proto.NotifyMessageOuterClass.PullType value) {
         if (value == null) {
@@ -639,7 +639,7 @@ public final class NotifyMessageOuterClass {
         return this;
       }
       /**
-       * <code>.proto.PullType type = 1;</code>
+       * <code>.mars.stn.PullType type = 1;</code>
        */
       public Builder clearType() {
         
@@ -753,10 +753,10 @@ public final class NotifyMessageOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:proto.NotifyMessage)
+      // @@protoc_insertion_point(builder_scope:mars.stn.NotifyMessage)
     }
 
-    // @@protoc_insertion_point(class_scope:proto.NotifyMessage)
+    // @@protoc_insertion_point(class_scope:mars.stn.NotifyMessage)
     private static final win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage DEFAULT_INSTANCE;
     static {
       DEFAULT_INSTANCE = new win.liyufan.im.proto.NotifyMessageOuterClass.NotifyMessage();
@@ -792,10 +792,10 @@ public final class NotifyMessageOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_proto_NotifyMessage_descriptor;
+    internal_static_mars_stn_NotifyMessage_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_proto_NotifyMessage_fieldAccessorTable;
+      internal_static_mars_stn_NotifyMessage_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -805,12 +805,12 @@ public final class NotifyMessageOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\024notify_message.proto\022\005proto\"L\n\rNotifyM" +
-      "essage\022\035\n\004type\030\001 \001(\0162\017.proto.PullType\022\014\n" +
-      "\004head\030\002 \001(\003\022\016\n\006target\030\003 \001(\t*>\n\010PullType\022" +
-      "\017\n\013Pull_Normal\020\000\022\021\n\rPull_ChatRoom\020\001\022\016\n\nP" +
-      "ull_Group\020\002B/\n\024win.liyufan.im.protoB\027Not" +
-      "ifyMessageOuterClassb\006proto3"
+      "\n\024notify_message.proto\022\010mars.stn\"O\n\rNoti" +
+      "fyMessage\022 \n\004type\030\001 \001(\0162\022.mars.stn.PullT" +
+      "ype\022\014\n\004head\030\002 \001(\003\022\016\n\006target\030\003 \001(\t*>\n\010Pul" +
+      "lType\022\017\n\013Pull_Normal\020\000\022\021\n\rPull_ChatRoom\020" +
+      "\001\022\016\n\nPull_Group\020\002B/\n\024win.liyufan.im.prot" +
+      "oB\027NotifyMessageOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -824,11 +824,11 @@ public final class NotifyMessageOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_proto_NotifyMessage_descriptor =
+    internal_static_mars_stn_NotifyMessage_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_proto_NotifyMessage_fieldAccessorTable = new
+    internal_static_mars_stn_NotifyMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_proto_NotifyMessage_descriptor,
+        internal_static_mars_stn_NotifyMessage_descriptor,
         new java.lang.String[] { "Type", "Head", "Target", });
   }
 

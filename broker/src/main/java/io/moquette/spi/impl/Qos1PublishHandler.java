@@ -16,7 +16,23 @@
 
 package io.moquette.spi.impl;
 
+import static io.moquette.spi.impl.ProtocolProcessor.asStoredMessage;
+import static io.moquette.spi.impl.Utils.readBytesAndRewind;
+import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
+import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.qiniu.util.Auth;
+
 import io.moquette.server.ConnectionDescriptorStore;
+import io.moquette.server.config.QiniuConfig;
 import io.moquette.server.netty.NettyUtils;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.ISessionsStore;
@@ -27,7 +43,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.handler.codec.mqtt.MqttFixedHeader;
 import io.netty.handler.codec.mqtt.MqttMessageType;
-import io.netty.handler.codec.mqtt.MqttPubAckMessage;
 import io.netty.handler.codec.mqtt.MqttPublishMessage;
 import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
@@ -35,6 +50,7 @@ import win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberReques
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.CreateGroupRequestOuterClass.CreateGroupRequest;
 import win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest;
+import win.liyufan.im.proto.GetUploadTokenResultOuterClass.GetUploadTokenResult;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.IDBufOuterClass.IDBuf;
@@ -48,22 +64,6 @@ import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
 import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.protobuf.InvalidProtocolBufferException;
-
-import static io.moquette.spi.impl.ProtocolProcessor.asStoredMessage;
-import static io.moquette.spi.impl.Utils.readBytesAndRewind;
-import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
-import static io.netty.handler.codec.mqtt.MqttQoS.AT_MOST_ONCE;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
 class Qos1PublishHandler extends QosPublishHandler {
 
@@ -329,6 +329,26 @@ class Qos1PublishHandler extends QosPublishHandler {
 				ack.writeBytes(result.toByteArray());
 				sendPubAck(clientID, messageID, ack);
 			} catch (InvalidProtocolBufferException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return;
+		} else if (topic.getTopic().equals(IMTopic.GetQiniuUploadTokenTopic)) {
+			try {
+				ByteBuf payload = msg.payload();
+				byte[] payloadContent = readBytesAndRewind(payload);
+				int type = payloadContent[0];
+				
+				Auth auth = Auth.create(QiniuConfig.QINIU_ACCESS_KEY, QiniuConfig.QINIU_SECRET_KEY);
+	            String token = auth.uploadToken(QiniuConfig.QINIU_BUCKET_NAME);
+				
+	            GetUploadTokenResult result = GetUploadTokenResult.newBuilder().setDomain(QiniuConfig.QINIU_BUCKET_DOMAIN)
+	            	.setServer(QiniuConfig.QINIU_SERVER_URL)
+	            	.setToken(token).build();
+				ByteBuf ack = Unpooled.buffer();
+				ack.writeBytes(result.toByteArray());
+				sendPubAck(clientID, messageID, ack);
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
