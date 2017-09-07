@@ -191,9 +191,34 @@ public final class MessageContentOuterClass {
         getPushContentBytes();
 
     /**
-     * <code>bytes data = 4;</code>
+     * <code>string content = 4;</code>
+     */
+    java.lang.String getContent();
+    /**
+     * <code>string content = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getContentBytes();
+
+    /**
+     * <code>bytes data = 5;</code>
      */
     com.google.protobuf.ByteString getData();
+
+    /**
+     * <code>int32 mediaType = 6;</code>
+     */
+    int getMediaType();
+
+    /**
+     * <code>string remoteMediaUrl = 7;</code>
+     */
+    java.lang.String getRemoteMediaUrl();
+    /**
+     * <code>string remoteMediaUrl = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getRemoteMediaUrlBytes();
   }
   /**
    * Protobuf type {@code mars.stn.MessageContent}
@@ -210,7 +235,10 @@ public final class MessageContentOuterClass {
       type_ = 0;
       searchableContent_ = "";
       pushContent_ = "";
+      content_ = "";
       data_ = com.google.protobuf.ByteString.EMPTY;
+      mediaType_ = 0;
+      remoteMediaUrl_ = "";
     }
 
     @java.lang.Override
@@ -257,8 +285,25 @@ public final class MessageContentOuterClass {
               break;
             }
             case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              content_ = s;
+              break;
+            }
+            case 42: {
 
               data_ = input.readBytes();
+              break;
+            }
+            case 48: {
+
+              mediaType_ = input.readInt32();
+              break;
+            }
+            case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              remoteMediaUrl_ = s;
               break;
             }
           }
@@ -368,13 +413,90 @@ public final class MessageContentOuterClass {
       }
     }
 
-    public static final int DATA_FIELD_NUMBER = 4;
+    public static final int CONTENT_FIELD_NUMBER = 4;
+    private volatile java.lang.Object content_;
+    /**
+     * <code>string content = 4;</code>
+     */
+    public java.lang.String getContent() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        content_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string content = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getContentBytes() {
+      java.lang.Object ref = content_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        content_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int DATA_FIELD_NUMBER = 5;
     private com.google.protobuf.ByteString data_;
     /**
-     * <code>bytes data = 4;</code>
+     * <code>bytes data = 5;</code>
      */
     public com.google.protobuf.ByteString getData() {
       return data_;
+    }
+
+    public static final int MEDIATYPE_FIELD_NUMBER = 6;
+    private int mediaType_;
+    /**
+     * <code>int32 mediaType = 6;</code>
+     */
+    public int getMediaType() {
+      return mediaType_;
+    }
+
+    public static final int REMOTEMEDIAURL_FIELD_NUMBER = 7;
+    private volatile java.lang.Object remoteMediaUrl_;
+    /**
+     * <code>string remoteMediaUrl = 7;</code>
+     */
+    public java.lang.String getRemoteMediaUrl() {
+      java.lang.Object ref = remoteMediaUrl_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        remoteMediaUrl_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string remoteMediaUrl = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getRemoteMediaUrlBytes() {
+      java.lang.Object ref = remoteMediaUrl_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        remoteMediaUrl_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -398,8 +520,17 @@ public final class MessageContentOuterClass {
       if (!getPushContentBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, pushContent_);
       }
+      if (!getContentBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, content_);
+      }
       if (!data_.isEmpty()) {
-        output.writeBytes(4, data_);
+        output.writeBytes(5, data_);
+      }
+      if (mediaType_ != 0) {
+        output.writeInt32(6, mediaType_);
+      }
+      if (!getRemoteMediaUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, remoteMediaUrl_);
       }
     }
 
@@ -418,9 +549,19 @@ public final class MessageContentOuterClass {
       if (!getPushContentBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, pushContent_);
       }
+      if (!getContentBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, content_);
+      }
       if (!data_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(4, data_);
+          .computeBytesSize(5, data_);
+      }
+      if (mediaType_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(6, mediaType_);
+      }
+      if (!getRemoteMediaUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, remoteMediaUrl_);
       }
       memoizedSize = size;
       return size;
@@ -443,8 +584,14 @@ public final class MessageContentOuterClass {
           .equals(other.getSearchableContent());
       result = result && getPushContent()
           .equals(other.getPushContent());
+      result = result && getContent()
+          .equals(other.getContent());
       result = result && getData()
           .equals(other.getData());
+      result = result && (getMediaType()
+          == other.getMediaType());
+      result = result && getRemoteMediaUrl()
+          .equals(other.getRemoteMediaUrl());
       return result;
     }
 
@@ -461,8 +608,14 @@ public final class MessageContentOuterClass {
       hash = (53 * hash) + getSearchableContent().hashCode();
       hash = (37 * hash) + PUSH_CONTENT_FIELD_NUMBER;
       hash = (53 * hash) + getPushContent().hashCode();
+      hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+      hash = (53 * hash) + getContent().hashCode();
       hash = (37 * hash) + DATA_FIELD_NUMBER;
       hash = (53 * hash) + getData().hashCode();
+      hash = (37 * hash) + MEDIATYPE_FIELD_NUMBER;
+      hash = (53 * hash) + getMediaType();
+      hash = (37 * hash) + REMOTEMEDIAURL_FIELD_NUMBER;
+      hash = (53 * hash) + getRemoteMediaUrl().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -598,7 +751,13 @@ public final class MessageContentOuterClass {
 
         pushContent_ = "";
 
+        content_ = "";
+
         data_ = com.google.protobuf.ByteString.EMPTY;
+
+        mediaType_ = 0;
+
+        remoteMediaUrl_ = "";
 
         return this;
       }
@@ -625,7 +784,10 @@ public final class MessageContentOuterClass {
         result.type_ = type_;
         result.searchableContent_ = searchableContent_;
         result.pushContent_ = pushContent_;
+        result.content_ = content_;
         result.data_ = data_;
+        result.mediaType_ = mediaType_;
+        result.remoteMediaUrl_ = remoteMediaUrl_;
         onBuilt();
         return result;
       }
@@ -678,8 +840,19 @@ public final class MessageContentOuterClass {
           pushContent_ = other.pushContent_;
           onChanged();
         }
+        if (!other.getContent().isEmpty()) {
+          content_ = other.content_;
+          onChanged();
+        }
         if (other.getData() != com.google.protobuf.ByteString.EMPTY) {
           setData(other.getData());
+        }
+        if (other.getMediaType() != 0) {
+          setMediaType(other.getMediaType());
+        }
+        if (!other.getRemoteMediaUrl().isEmpty()) {
+          remoteMediaUrl_ = other.remoteMediaUrl_;
+          onChanged();
         }
         onChanged();
         return this;
@@ -889,15 +1062,84 @@ public final class MessageContentOuterClass {
         return this;
       }
 
+      private java.lang.Object content_ = "";
+      /**
+       * <code>string content = 4;</code>
+       */
+      public java.lang.String getContent() {
+        java.lang.Object ref = content_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          content_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string content = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getContentBytes() {
+        java.lang.Object ref = content_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          content_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string content = 4;</code>
+       */
+      public Builder setContent(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string content = 4;</code>
+       */
+      public Builder clearContent() {
+        
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string content = 4;</code>
+       */
+      public Builder setContentBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        content_ = value;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.ByteString data_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>bytes data = 4;</code>
+       * <code>bytes data = 5;</code>
        */
       public com.google.protobuf.ByteString getData() {
         return data_;
       }
       /**
-       * <code>bytes data = 4;</code>
+       * <code>bytes data = 5;</code>
        */
       public Builder setData(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -909,11 +1151,106 @@ public final class MessageContentOuterClass {
         return this;
       }
       /**
-       * <code>bytes data = 4;</code>
+       * <code>bytes data = 5;</code>
        */
       public Builder clearData() {
         
         data_ = getDefaultInstance().getData();
+        onChanged();
+        return this;
+      }
+
+      private int mediaType_ ;
+      /**
+       * <code>int32 mediaType = 6;</code>
+       */
+      public int getMediaType() {
+        return mediaType_;
+      }
+      /**
+       * <code>int32 mediaType = 6;</code>
+       */
+      public Builder setMediaType(int value) {
+        
+        mediaType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 mediaType = 6;</code>
+       */
+      public Builder clearMediaType() {
+        
+        mediaType_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object remoteMediaUrl_ = "";
+      /**
+       * <code>string remoteMediaUrl = 7;</code>
+       */
+      public java.lang.String getRemoteMediaUrl() {
+        java.lang.Object ref = remoteMediaUrl_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          remoteMediaUrl_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>string remoteMediaUrl = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getRemoteMediaUrlBytes() {
+        java.lang.Object ref = remoteMediaUrl_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          remoteMediaUrl_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string remoteMediaUrl = 7;</code>
+       */
+      public Builder setRemoteMediaUrl(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        remoteMediaUrl_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string remoteMediaUrl = 7;</code>
+       */
+      public Builder clearRemoteMediaUrl() {
+        
+        remoteMediaUrl_ = getDefaultInstance().getRemoteMediaUrl();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string remoteMediaUrl = 7;</code>
+       */
+      public Builder setRemoteMediaUrlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        remoteMediaUrl_ = value;
         onChanged();
         return this;
       }
@@ -980,14 +1317,16 @@ public final class MessageContentOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\025message_content.proto\022\010mars.stn\"u\n\016Mes" +
-      "sageContent\022#\n\004type\030\001 \001(\0162\025.mars.stn.Con" +
-      "tentType\022\032\n\022searchable_content\030\002 \001(\t\022\024\n\014" +
-      "push_content\030\003 \001(\t\022\014\n\004data\030\004 \001(\014*a\n\013Cont" +
-      "entType\022\010\n\004Text\020\000\022\t\n\005Image\020\001\022\t\n\005Voice\020\002\022" +
-      "\014\n\010Location\020\003\022\t\n\005Video\020\004\022\r\n\tRichMedia\020\005\022" +
-      "\n\n\006Custom\020\006B0\n\024win.liyufan.im.protoB\030Mes" +
-      "sageContentOuterClassb\006proto3"
+      "\n\025message_content.proto\022\010mars.stn\"\261\001\n\016Me" +
+      "ssageContent\022#\n\004type\030\001 \001(\0162\025.mars.stn.Co" +
+      "ntentType\022\032\n\022searchable_content\030\002 \001(\t\022\024\n" +
+      "\014push_content\030\003 \001(\t\022\017\n\007content\030\004 \001(\t\022\014\n\004" +
+      "data\030\005 \001(\014\022\021\n\tmediaType\030\006 \001(\005\022\026\n\016remoteM" +
+      "ediaUrl\030\007 \001(\t*a\n\013ContentType\022\010\n\004Text\020\000\022\t" +
+      "\n\005Image\020\001\022\t\n\005Voice\020\002\022\014\n\010Location\020\003\022\t\n\005Vi" +
+      "deo\020\004\022\r\n\tRichMedia\020\005\022\n\n\006Custom\020\006B0\n\024win." +
+      "liyufan.im.protoB\030MessageContentOuterCla" +
+      "ssb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1006,7 +1345,7 @@ public final class MessageContentOuterClass {
     internal_static_mars_stn_MessageContent_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_MessageContent_descriptor,
-        new java.lang.String[] { "Type", "SearchableContent", "PushContent", "Data", });
+        new java.lang.String[] { "Type", "SearchableContent", "PushContent", "Content", "Data", "MediaType", "RemoteMediaUrl", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

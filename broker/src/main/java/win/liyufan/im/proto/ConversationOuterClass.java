@@ -161,6 +161,11 @@ public final class ConversationOuterClass {
      */
     com.google.protobuf.ByteString
         getTargetBytes();
+
+    /**
+     * <code>int32 line = 3;</code>
+     */
+    int getLine();
   }
   /**
    * Protobuf type {@code mars.stn.Conversation}
@@ -176,6 +181,7 @@ public final class ConversationOuterClass {
     private Conversation() {
       type_ = 0;
       target_ = "";
+      line_ = 0;
     }
 
     @java.lang.Override
@@ -213,6 +219,11 @@ public final class ConversationOuterClass {
               java.lang.String s = input.readStringRequireUtf8();
 
               target_ = s;
+              break;
+            }
+            case 24: {
+
+              line_ = input.readInt32();
               break;
             }
           }
@@ -288,6 +299,15 @@ public final class ConversationOuterClass {
       }
     }
 
+    public static final int LINE_FIELD_NUMBER = 3;
+    private int line_;
+    /**
+     * <code>int32 line = 3;</code>
+     */
+    public int getLine() {
+      return line_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -306,6 +326,9 @@ public final class ConversationOuterClass {
       if (!getTargetBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, target_);
       }
+      if (line_ != 0) {
+        output.writeInt32(3, line_);
+      }
     }
 
     public int getSerializedSize() {
@@ -319,6 +342,10 @@ public final class ConversationOuterClass {
       }
       if (!getTargetBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, target_);
+      }
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(3, line_);
       }
       memoizedSize = size;
       return size;
@@ -339,6 +366,8 @@ public final class ConversationOuterClass {
       result = result && type_ == other.type_;
       result = result && getTarget()
           .equals(other.getTarget());
+      result = result && (getLine()
+          == other.getLine());
       return result;
     }
 
@@ -353,6 +382,8 @@ public final class ConversationOuterClass {
       hash = (53 * hash) + type_;
       hash = (37 * hash) + TARGET_FIELD_NUMBER;
       hash = (53 * hash) + getTarget().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -486,6 +517,8 @@ public final class ConversationOuterClass {
 
         target_ = "";
 
+        line_ = 0;
+
         return this;
       }
 
@@ -510,6 +543,7 @@ public final class ConversationOuterClass {
         win.liyufan.im.proto.ConversationOuterClass.Conversation result = new win.liyufan.im.proto.ConversationOuterClass.Conversation(this);
         result.type_ = type_;
         result.target_ = target_;
+        result.line_ = line_;
         onBuilt();
         return result;
       }
@@ -557,6 +591,9 @@ public final class ConversationOuterClass {
         if (!other.getTarget().isEmpty()) {
           target_ = other.target_;
           onChanged();
+        }
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
         }
         onChanged();
         return this;
@@ -696,6 +733,32 @@ public final class ConversationOuterClass {
         onChanged();
         return this;
       }
+
+      private int line_ ;
+      /**
+       * <code>int32 line = 3;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 3;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 3;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -759,15 +822,15 @@ public final class ConversationOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\022conversation.proto\022\010mars.stn\"H\n\014Conver" +
+      "\n\022conversation.proto\022\010mars.stn\"V\n\014Conver" +
       "sation\022(\n\004type\030\001 \001(\0162\032.mars.stn.Conversa" +
-      "tionType\022\016\n\006target\030\002 \001(\t*\246\001\n\020Conversatio" +
-      "nType\022\034\n\030ConversationType_Private\020\000\022\032\n\026C" +
-      "onversationType_Group\020\001\022\033\n\027ConversationT" +
-      "ype_System\020\002\022\035\n\031ConversationType_ChatRoo" +
-      "m\020\003\022\034\n\030ConversationType_Command\020\004B.\n\024win" +
-      ".liyufan.im.protoB\026ConversationOuterClas" +
-      "sb\006proto3"
+      "tionType\022\016\n\006target\030\002 \001(\t\022\014\n\004line\030\003 \001(\005*\246" +
+      "\001\n\020ConversationType\022\034\n\030ConversationType_" +
+      "Private\020\000\022\032\n\026ConversationType_Group\020\001\022\033\n" +
+      "\027ConversationType_System\020\002\022\035\n\031Conversati" +
+      "onType_ChatRoom\020\003\022\034\n\030ConversationType_Co" +
+      "mmand\020\004B.\n\024win.liyufan.im.protoB\026Convers" +
+      "ationOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -786,7 +849,7 @@ public final class ConversationOuterClass {
     internal_static_mars_stn_Conversation_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_Conversation_descriptor,
-        new java.lang.String[] { "Type", "Target", });
+        new java.lang.String[] { "Type", "Target", "Line", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)

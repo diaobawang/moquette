@@ -2,15 +2,17 @@ DROP TABLE IF EXISTS `t_messages`;
 CREATE TABLE `t_messages` (
   `_mid` bigint(20) NOT NULL,
   `_from` varchar(64) NOT NULL,
-  `_target` varchar(64) NOT NULL,
   `_type` tinyint NOT NULL,
+  `_target` varchar(64) NOT NULL,
+  `_line` tinyint NOT NULL,
   `_data` BLOB NOT NULL,
   `_searchable_key` TEXT DEFAULT NULL,
   `_dt` bigint(20) NOT NULL,
   PRIMARY KEY (`_mid`),
   INDEX `message_from_index` (`_from` ASC),
   INDEX `message_target_index` (`_target` ASC),
-  INDEX `message_type_index` (`_type` ASC)
+  INDEX `message_type_index` (`_type` ASC),
+  INDEX `message_line_index` (`_line` ASC)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -21,9 +23,11 @@ CREATE TABLE `t_user_messages` (
   `_mid` bigint(20) NOT NULL,
   `_target` varchar(64) NOT NULL,
   `_type` tinyint NOT NULL,
+  `_line` tinyint NOT NULL,
   `_uid` varchar(64) NOT NULL,
   INDEX `message_user_target_index` (`_target` ASC),
   INDEX `message_user_type_index` (`_type` ASC),
+  INDEX `message_user_line_index` (`_line` ASC),
   INDEX `message_uid_index` (`_uid` ASC)
 )
 ENGINE = InnoDB
@@ -34,6 +38,7 @@ COLLATE = utf8mb4_unicode_ci;
 DROP TABLE IF EXISTS `t_group`;
 CREATE TABLE `t_group` (
   `_gid` varchar(64) NOT NULL,
+  `_line` tinyint NOT NULL,
   `_name` varchar(64) DEFAULT '',
   `_portrait` varchar(1024) DEFAULT '',
   `_owner` varchar(64) DEFAULT '',
@@ -41,6 +46,7 @@ CREATE TABLE `t_group` (
   `_extra` TEXT DEFAULT NULL,
   `_dt` bigint(20) NOT NULL,
   PRIMARY KEY (`_gid`),
+  INDEX `group_line_index` (`_line` ASC),
   INDEX `group_name_index` (`_name` ASC)
 )
 ENGINE = InnoDB
