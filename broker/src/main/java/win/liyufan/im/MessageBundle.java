@@ -13,6 +13,7 @@ public class MessageBundle implements Serializable {
 	private String fromUser;
 	private String fromClientId;
 	private ConversationType type;
+	private int line;
 	private String targetId;
 	private Message message;
 	private long messageId;
@@ -22,10 +23,15 @@ public class MessageBundle implements Serializable {
 		this.fromClientId = fromClientId;
 		this.type = message.getConversation().getType();
 		this.targetId = message.getConversation().getTarget();
+		this.line = message.getConversation().getLine();
 		this.message = message;
 		this.messageId = messageId;
 	}
 	
+	public int getLine() {
+		return line;
+	}
+
 	public long getMessageId() {
 		return messageId;
 	}

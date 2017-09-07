@@ -56,10 +56,11 @@ COLLATE = utf8mb4_unicode_ci;
 DROP TABLE IF EXISTS `t_group_member`;
 CREATE TABLE `t_group_member` (
   `_gid` varchar(64) NOT NULL,
+  `_line` tinyint NOT NULL,
   `_mid` varchar(64) DEFAULT '',
   `_type` tinyint DEFAULT 0 COMMENT "0普通成员；1，管理员；2，群主，与Owner相同",
   `_dt` bigint(20) NOT NULL,
-  PRIMARY KEY (`_gid`, `_mid`)
+  PRIMARY KEY (`_gid`, `_line`, `_mid`)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4

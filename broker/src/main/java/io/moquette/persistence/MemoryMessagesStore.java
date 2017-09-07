@@ -280,15 +280,22 @@ public class MemoryMessagesStore implements IMessagesStore {
 		IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
 		String groupId = null;
 		if (groupInfo.getTargetId() == null) {
-			groupId = Long.toString(counter.addAndGet(1));
+			groupId = "System_Created_Group_Num" + Long.toString(counter.addAndGet(1));
+			
+			groupInfo = groupInfo.toBuilder()
+					.setTargetId(groupId)
+					.setLine(groupInfo.getLine())
+					.setName(groupInfo.getName())
+					.setPortrait(groupInfo.getPortrait())
+					.setType(groupInfo.getType())
+					.setExtra(groupInfo.getExtra())
+					.setOwner(StringUtil.isNullOrEmpty(groupInfo.getOwner()) ? fromUser : groupInfo.getOwner())
+					.build();
 		} else {
 			groupId = groupInfo.getTargetId();
 		}
 		
-		groupInfo = groupInfo.toBuilder()
-				.setTargetId(groupId)
-				.setOwner(StringUtil.isNullOrEmpty(groupInfo.getOwner()) ? fromUser : groupInfo.getOwner())
-				.build();
+		
 		
 
 		mIMap.put(groupId, groupInfo);

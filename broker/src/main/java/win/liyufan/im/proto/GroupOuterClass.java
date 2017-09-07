@@ -160,46 +160,51 @@ public final class GroupOuterClass {
         getTargetIdBytes();
 
     /**
-     * <code>string name = 2;</code>
+     * <code>int32 line = 2;</code>
+     */
+    int getLine();
+
+    /**
+     * <code>string name = 3;</code>
      */
     java.lang.String getName();
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
-     * <code>string portrait = 3;</code>
+     * <code>string portrait = 4;</code>
      */
     java.lang.String getPortrait();
     /**
-     * <code>string portrait = 3;</code>
+     * <code>string portrait = 4;</code>
      */
     com.google.protobuf.ByteString
         getPortraitBytes();
 
     /**
-     * <code>string owner = 4;</code>
+     * <code>string owner = 5;</code>
      */
     java.lang.String getOwner();
     /**
-     * <code>string owner = 4;</code>
+     * <code>string owner = 5;</code>
      */
     com.google.protobuf.ByteString
         getOwnerBytes();
 
     /**
-     * <code>.mars.stn.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 6;</code>
      */
     int getTypeValue();
     /**
-     * <code>.mars.stn.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 6;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupType getType();
 
     /**
-     * <code>bytes extra = 6;</code>
+     * <code>bytes extra = 7;</code>
      */
     com.google.protobuf.ByteString getExtra();
   }
@@ -216,6 +221,7 @@ public final class GroupOuterClass {
     }
     private GroupInfo() {
       targetId_ = "";
+      line_ = 0;
       name_ = "";
       portrait_ = "";
       owner_ = "";
@@ -254,31 +260,36 @@ public final class GroupOuterClass {
               targetId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 16: {
 
-              name_ = s;
+              line_ = input.readInt32();
               break;
             }
             case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
-              portrait_ = s;
+              name_ = s;
               break;
             }
             case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
+              portrait_ = s;
+              break;
+            }
+            case 42: {
+              java.lang.String s = input.readStringRequireUtf8();
+
               owner_ = s;
               break;
             }
-            case 40: {
+            case 48: {
               int rawValue = input.readEnum();
 
               type_ = rawValue;
               break;
             }
-            case 50: {
+            case 58: {
 
               extra_ = input.readBytes();
               break;
@@ -340,10 +351,19 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int NAME_FIELD_NUMBER = 2;
+    public static final int LINE_FIELD_NUMBER = 2;
+    private int line_;
+    /**
+     * <code>int32 line = 2;</code>
+     */
+    public int getLine() {
+      return line_;
+    }
+
+    public static final int NAME_FIELD_NUMBER = 3;
     private volatile java.lang.Object name_;
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -358,7 +378,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string name = 2;</code>
+     * <code>string name = 3;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -374,10 +394,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int PORTRAIT_FIELD_NUMBER = 3;
+    public static final int PORTRAIT_FIELD_NUMBER = 4;
     private volatile java.lang.Object portrait_;
     /**
-     * <code>string portrait = 3;</code>
+     * <code>string portrait = 4;</code>
      */
     public java.lang.String getPortrait() {
       java.lang.Object ref = portrait_;
@@ -392,7 +412,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string portrait = 3;</code>
+     * <code>string portrait = 4;</code>
      */
     public com.google.protobuf.ByteString
         getPortraitBytes() {
@@ -408,10 +428,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int OWNER_FIELD_NUMBER = 4;
+    public static final int OWNER_FIELD_NUMBER = 5;
     private volatile java.lang.Object owner_;
     /**
-     * <code>string owner = 4;</code>
+     * <code>string owner = 5;</code>
      */
     public java.lang.String getOwner() {
       java.lang.Object ref = owner_;
@@ -426,7 +446,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string owner = 4;</code>
+     * <code>string owner = 5;</code>
      */
     public com.google.protobuf.ByteString
         getOwnerBytes() {
@@ -442,26 +462,26 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int TYPE_FIELD_NUMBER = 5;
+    public static final int TYPE_FIELD_NUMBER = 6;
     private int type_;
     /**
-     * <code>.mars.stn.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 6;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.mars.stn.GroupType type = 5;</code>
+     * <code>.mars.stn.GroupType type = 6;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
       win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
       return result == null ? win.liyufan.im.proto.GroupOuterClass.GroupType.UNRECOGNIZED : result;
     }
 
-    public static final int EXTRA_FIELD_NUMBER = 6;
+    public static final int EXTRA_FIELD_NUMBER = 7;
     private com.google.protobuf.ByteString extra_;
     /**
-     * <code>bytes extra = 6;</code>
+     * <code>bytes extra = 7;</code>
      */
     public com.google.protobuf.ByteString getExtra() {
       return extra_;
@@ -482,20 +502,23 @@ public final class GroupOuterClass {
       if (!getTargetIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, targetId_);
       }
+      if (line_ != 0) {
+        output.writeInt32(2, line_);
+      }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, name_);
       }
       if (!getPortraitBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, portrait_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, portrait_);
       }
       if (!getOwnerBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, owner_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, owner_);
       }
       if (type_ != win.liyufan.im.proto.GroupOuterClass.GroupType.GroupType_Normal.getNumber()) {
-        output.writeEnum(5, type_);
+        output.writeEnum(6, type_);
       }
       if (!extra_.isEmpty()) {
-        output.writeBytes(6, extra_);
+        output.writeBytes(7, extra_);
       }
     }
 
@@ -507,22 +530,26 @@ public final class GroupOuterClass {
       if (!getTargetIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, targetId_);
       }
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, line_);
+      }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, name_);
       }
       if (!getPortraitBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, portrait_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, portrait_);
       }
       if (!getOwnerBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, owner_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, owner_);
       }
       if (type_ != win.liyufan.im.proto.GroupOuterClass.GroupType.GroupType_Normal.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(5, type_);
+          .computeEnumSize(6, type_);
       }
       if (!extra_.isEmpty()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, extra_);
+          .computeBytesSize(7, extra_);
       }
       memoizedSize = size;
       return size;
@@ -542,6 +569,8 @@ public final class GroupOuterClass {
       boolean result = true;
       result = result && getTargetId()
           .equals(other.getTargetId());
+      result = result && (getLine()
+          == other.getLine());
       result = result && getName()
           .equals(other.getName());
       result = result && getPortrait()
@@ -563,6 +592,8 @@ public final class GroupOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TARGET_ID_FIELD_NUMBER;
       hash = (53 * hash) + getTargetId().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + PORTRAIT_FIELD_NUMBER;
@@ -704,6 +735,8 @@ public final class GroupOuterClass {
         super.clear();
         targetId_ = "";
 
+        line_ = 0;
+
         name_ = "";
 
         portrait_ = "";
@@ -737,6 +770,7 @@ public final class GroupOuterClass {
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo buildPartial() {
         win.liyufan.im.proto.GroupOuterClass.GroupInfo result = new win.liyufan.im.proto.GroupOuterClass.GroupInfo(this);
         result.targetId_ = targetId_;
+        result.line_ = line_;
         result.name_ = name_;
         result.portrait_ = portrait_;
         result.owner_ = owner_;
@@ -786,6 +820,9 @@ public final class GroupOuterClass {
         if (!other.getTargetId().isEmpty()) {
           targetId_ = other.targetId_;
           onChanged();
+        }
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
         }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
@@ -900,9 +937,35 @@ public final class GroupOuterClass {
         return this;
       }
 
+      private int line_ ;
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object name_ = "";
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -917,7 +980,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -933,7 +996,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -946,7 +1009,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder clearName() {
         
@@ -955,7 +1018,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string name = 2;</code>
+       * <code>string name = 3;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -971,7 +1034,7 @@ public final class GroupOuterClass {
 
       private java.lang.Object portrait_ = "";
       /**
-       * <code>string portrait = 3;</code>
+       * <code>string portrait = 4;</code>
        */
       public java.lang.String getPortrait() {
         java.lang.Object ref = portrait_;
@@ -986,7 +1049,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string portrait = 3;</code>
+       * <code>string portrait = 4;</code>
        */
       public com.google.protobuf.ByteString
           getPortraitBytes() {
@@ -1002,7 +1065,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string portrait = 3;</code>
+       * <code>string portrait = 4;</code>
        */
       public Builder setPortrait(
           java.lang.String value) {
@@ -1015,7 +1078,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string portrait = 3;</code>
+       * <code>string portrait = 4;</code>
        */
       public Builder clearPortrait() {
         
@@ -1024,7 +1087,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string portrait = 3;</code>
+       * <code>string portrait = 4;</code>
        */
       public Builder setPortraitBytes(
           com.google.protobuf.ByteString value) {
@@ -1040,7 +1103,7 @@ public final class GroupOuterClass {
 
       private java.lang.Object owner_ = "";
       /**
-       * <code>string owner = 4;</code>
+       * <code>string owner = 5;</code>
        */
       public java.lang.String getOwner() {
         java.lang.Object ref = owner_;
@@ -1055,7 +1118,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string owner = 4;</code>
+       * <code>string owner = 5;</code>
        */
       public com.google.protobuf.ByteString
           getOwnerBytes() {
@@ -1071,7 +1134,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string owner = 4;</code>
+       * <code>string owner = 5;</code>
        */
       public Builder setOwner(
           java.lang.String value) {
@@ -1084,7 +1147,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string owner = 4;</code>
+       * <code>string owner = 5;</code>
        */
       public Builder clearOwner() {
         
@@ -1093,7 +1156,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string owner = 4;</code>
+       * <code>string owner = 5;</code>
        */
       public Builder setOwnerBytes(
           com.google.protobuf.ByteString value) {
@@ -1109,13 +1172,13 @@ public final class GroupOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.mars.stn.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 6;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.mars.stn.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 6;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -1123,14 +1186,14 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 6;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
         win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.GroupOuterClass.GroupType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.mars.stn.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 6;</code>
        */
       public Builder setType(win.liyufan.im.proto.GroupOuterClass.GroupType value) {
         if (value == null) {
@@ -1142,7 +1205,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.GroupType type = 5;</code>
+       * <code>.mars.stn.GroupType type = 6;</code>
        */
       public Builder clearType() {
         
@@ -1153,13 +1216,13 @@ public final class GroupOuterClass {
 
       private com.google.protobuf.ByteString extra_ = com.google.protobuf.ByteString.EMPTY;
       /**
-       * <code>bytes extra = 6;</code>
+       * <code>bytes extra = 7;</code>
        */
       public com.google.protobuf.ByteString getExtra() {
         return extra_;
       }
       /**
-       * <code>bytes extra = 6;</code>
+       * <code>bytes extra = 7;</code>
        */
       public Builder setExtra(com.google.protobuf.ByteString value) {
         if (value == null) {
@@ -1171,7 +1234,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>bytes extra = 6;</code>
+       * <code>bytes extra = 7;</code>
        */
       public Builder clearExtra() {
         
@@ -2012,15 +2075,16 @@ public final class GroupOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013group.proto\022\010mars.stn\"\177\n\tGroupInfo\022\021\n\t" +
-      "target_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010portrai" +
-      "t\030\003 \001(\t\022\r\n\005owner\030\004 \001(\t\022!\n\004type\030\005 \001(\0162\023.m" +
-      "ars.stn.GroupType\022\r\n\005extra\030\006 \001(\014\"A\n\005Grou" +
-      "p\022\'\n\ngroup_info\030\001 \001(\0132\023.mars.stn.GroupIn" +
-      "fo\022\017\n\007members\030\002 \003(\t*O\n\tGroupType\022\024\n\020Grou" +
-      "pType_Normal\020\000\022\022\n\016GroupType_Free\020\001\022\030\n\024Gr" +
-      "oupType_Restricted\020\002B\'\n\024win.liyufan.im.p" +
-      "rotoB\017GroupOuterClassb\006proto3"
+      "\n\013group.proto\022\010mars.stn\"\215\001\n\tGroupInfo\022\021\n" +
+      "\ttarget_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\022\014\n\004name\030\003" +
+      " \001(\t\022\020\n\010portrait\030\004 \001(\t\022\r\n\005owner\030\005 \001(\t\022!\n" +
+      "\004type\030\006 \001(\0162\023.mars.stn.GroupType\022\r\n\005extr" +
+      "a\030\007 \001(\014\"A\n\005Group\022\'\n\ngroup_info\030\001 \001(\0132\023.m" +
+      "ars.stn.GroupInfo\022\017\n\007members\030\002 \003(\t*O\n\tGr" +
+      "oupType\022\024\n\020GroupType_Normal\020\000\022\022\n\016GroupTy" +
+      "pe_Free\020\001\022\030\n\024GroupType_Restricted\020\002B\'\n\024w" +
+      "in.liyufan.im.protoB\017GroupOuterClassb\006pr" +
+      "oto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2039,7 +2103,7 @@ public final class GroupOuterClass {
     internal_static_mars_stn_GroupInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_GroupInfo_descriptor,
-        new java.lang.String[] { "TargetId", "Name", "Portrait", "Owner", "Type", "Extra", });
+        new java.lang.String[] { "TargetId", "Line", "Name", "Portrait", "Owner", "Type", "Extra", });
     internal_static_mars_stn_Group_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_mars_stn_Group_fieldAccessorTable = new
