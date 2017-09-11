@@ -104,9 +104,9 @@ public class MemoryMessagesStore implements IMessagesStore {
 			connection = DBUtil.getConnection();
 			String sql;
 			if (StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
-				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?)";
+				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
 			} else {
-				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
+				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?)";
 			}
 			
 			statement = connection.prepareStatement(sql);
