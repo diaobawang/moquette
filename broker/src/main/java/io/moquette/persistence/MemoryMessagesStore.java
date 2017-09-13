@@ -29,13 +29,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.hazelcast.core.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.hazelcast.core.HazelcastInstance;
-import com.hazelcast.core.IAtomicLong;
-import com.hazelcast.core.IMap;
-import com.hazelcast.core.MultiMap;
 import com.hazelcast.util.StringUtil;
 
 import io.moquette.server.Server;
@@ -57,6 +54,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGE_ID_COUNTER = "message_id_counter";
 	private static final String GROUP_ID_COUNTER = "group_id_counter";
 	private static final String GROUP_MEMBERS = "group_members";
+    private static final String USER_GROUPS = "user_groups";
 	private static final String USER_MESSAGE_IDS = "user_message_ids";
 	private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
     private static final Logger LOG = LoggerFactory.getLogger(MemoryMessagesStore.class);
@@ -277,6 +275,8 @@ public class MemoryMessagesStore implements IMessagesStore {
     public int createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+
+
 		IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
 		String groupId = null;
 		if (groupInfo.getTargetId() == null) {
@@ -300,8 +300,11 @@ public class MemoryMessagesStore implements IMessagesStore {
 
 		mIMap.put(groupId, groupInfo);
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+
 		for (String member : memberList) {
 			groupMembers.put(groupId, member);
+			userGroups.put(member, groupId);
 		}
 		
     	return 0;
@@ -321,8 +324,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		for (String member : memberList) {
 			groupMembers.put(groupId, member);
+			userGroups.put(member, groupId);
 		}
 		
     	return 0;
@@ -342,8 +347,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		for (String member : memberList) {
 			groupMembers.remove(groupId, member);
+			userGroups.remove(member, groupId);
 		}
 		
     	return 0;
@@ -361,7 +368,9 @@ public class MemoryMessagesStore implements IMessagesStore {
 			return -3; //group owner cannot quit.
 		}
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		groupMembers.remove(groupId, operator);
+		userGroups.remove(operator, groupId);
 		
     	return 0;
     }
@@ -382,6 +391,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+        for (String member :
+            groupMembers.get(operator)) {
+            userGroups.remove(member, groupId);
+        }
+
 		groupMembers.remove(groupId);
     	return 0;
     }
@@ -463,6 +478,13 @@ public class MemoryMessagesStore implements IMessagesStore {
 
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
 		return new ArrayList<>(groupMembers.get(groupId));
+    }
+
+    @Override
+    public List<String> getMyGroups(String fromUser) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+        return new ArrayList<>(userGroups.get(fromUser));
     }
     
     @Override

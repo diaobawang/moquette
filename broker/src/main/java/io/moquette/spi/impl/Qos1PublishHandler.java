@@ -353,7 +353,21 @@ class Qos1PublishHandler extends QosPublishHandler {
 				e.printStackTrace();
 			}
 			return;
-		}
+		} else if (topic.getTopic().equals(IMTopic.GetMyGroupsTopic)) {
+            try {
+                List<String> members = m_messagesStore.getMyGroups(username);
+
+                IDListBuf result = IDListBuf.newBuilder().addAllId(members).build();
+
+                ByteBuf ack = Unpooled.buffer();
+                ack.writeBytes(result.toByteArray());
+                sendPubAck(clientID, messageID, ack);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
 
         // route message to subscribers
         IMessagesStore.StoredMessage toStoreMsg = asStoredMessage(msg);

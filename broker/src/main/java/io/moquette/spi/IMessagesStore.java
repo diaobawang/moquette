@@ -113,6 +113,7 @@ public interface IMessagesStore {
     List<GroupInfo> getGroupInfos(List<String> groupIds);
     GroupInfo getGroupInfo(String groupId);
     List<String> getGroupMembers(String groupId);
+    List<String> getMyGroups(String fromUser);
     /**
      * Used to initialize all persistent store structures
      */
