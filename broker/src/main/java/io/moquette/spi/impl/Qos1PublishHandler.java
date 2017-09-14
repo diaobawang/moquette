@@ -155,16 +155,16 @@ class Qos1PublishHandler extends QosPublishHandler {
 				ByteBuf payload = msg.payload();
 	            byte[] payloadContent = readBytesAndRewind(payload);
 				CreateGroupRequest request = CreateGroupRequest.parseFrom(payloadContent);
-				int errorCode = m_messagesStore.createGroup(username, request.getGroup().getGroupInfo(), request.getGroup().getMembersList());
-				if (errorCode == 0 && request.hasNotifyContent()) {
+                GroupInfo groupInfo = m_messagesStore.createGroup(username, request.getGroup().getGroupInfo(), request.getGroup().getMembersList());
+				if (groupInfo != null && request.hasNotifyContent()) {
 					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroup().getGroupInfo().getTargetId()));
+					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(groupInfo.getTargetId()));
 					long timestamp = System.currentTimeMillis();
 					builder.setFromUser(username);
 					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
 				}
 				ByteBuf ack = Unpooled.buffer();
-				ack.writeInt(errorCode);
+				ack.writeInt(0);
 				sendPubAck(clientID, messageID, ack);
 				return;
 			} catch (InvalidProtocolBufferException e) {

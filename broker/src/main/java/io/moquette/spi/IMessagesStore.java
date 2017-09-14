@@ -104,7 +104,7 @@ public interface IMessagesStore {
     public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp);
 	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
-    int createGroup(String operator, GroupInfo groupInfo, List<String> memberList);
+    GroupInfo createGroup(String operator, GroupInfo groupInfo, List<String> memberList);
     int addGroupMembers(String operator, String groupId, List<String> memberList);
     int kickoffGroupMembers(String operator, String groupId, List<String> memberList);
     int quitGroup(String operator, String groupId);

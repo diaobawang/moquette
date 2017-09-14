@@ -272,14 +272,14 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
     
     @Override
-    public int createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList) {
+    public GroupInfo createGroup(String fromUser, GroupInfo groupInfo, List<String> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
 
 		IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
 		String groupId = null;
-		if (groupInfo.getTargetId() == null) {
+		if (StringUtil.isNullOrEmpty(groupInfo.getTargetId())) {
 			groupId = "System_Created_Group_Num" + Long.toString(counter.addAndGet(1));
 			
 			groupInfo = groupInfo.toBuilder()
@@ -306,8 +306,13 @@ public class MemoryMessagesStore implements IMessagesStore {
 			groupMembers.put(groupId, member);
 			userGroups.put(member, groupId);
 		}
+
+		if (!memberList.contains(groupInfo.getOwner())) {
+            groupMembers.put(groupId, groupInfo.getOwner());
+            userGroups.put(groupInfo.getOwner(), groupId);
+        }
 		
-    	return 0;
+    	return groupInfo;
     }
     
     
