@@ -1,9 +1,11 @@
 package io.moquette.spi.impl.security;
 
+
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Base64;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -12,10 +14,32 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 
 public class DES {
-	private static final String Encrypt_Password = "9588028820109132570743325311898426347857298773549468758875018579537757772163084478873699447306034466200616411960574122434059469100235892702736860872901247123456";
-	
+	private static final String Encrypt_Password = "abcdefgh";
+    private static byte[] iv = { 1, 2, 3, 4, 5, 6, 7, 8 };
+    public static String decryptDES(String decryptString) throws Exception {
+        byte[] byteMi = Base64.getDecoder().decode(decryptString);
+        IvParameterSpec zeroIv = new IvParameterSpec(iv);
+        SecretKeySpec key = new SecretKeySpec(Encrypt_Password.getBytes(), "DES");
+        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+        cipher.init(Cipher.DECRYPT_MODE, key, zeroIv);
+        byte decryptedData[] = cipher.doFinal(byteMi);
+
+        return new String(decryptedData);
+    }
+
+    public static String encryptDES(String encryptString) throws Exception {
+        IvParameterSpec zeroIv = new IvParameterSpec(iv);
+        SecretKeySpec key = new SecretKeySpec(Encrypt_Password.getBytes(), "DES");
+        Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, key, zeroIv);
+        byte[] encryptedData = cipher.doFinal(encryptString.getBytes());
+        return new String(Base64.getEncoder().encode(encryptedData));
+    }
+
 	public static byte[] encrypt(byte[] datasource) throws InvalidKeyException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, IllegalBlockSizeException, BadPaddingException {
 		SecureRandom random = new SecureRandom();
 		DESKeySpec desKey = new DESKeySpec(Encrypt_Password.getBytes());
@@ -36,7 +60,6 @@ public class DES {
 	 * 
 	 * @param src
 	 *            byte[]
-	 * @param password
 	 *            String
 	 * @return byte[]
 	 * @throws Exception

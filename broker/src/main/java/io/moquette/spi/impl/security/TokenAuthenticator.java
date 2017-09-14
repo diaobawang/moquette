@@ -8,6 +8,8 @@ import java.util.Base64;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+
+import io.moquette.spi.impl.DesUtil;
 import io.moquette.spi.security.IAuthenticator;
 
 public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
@@ -25,12 +27,8 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 	
 	@Override
 	public boolean checkValid(String clientId, String username, byte[] password) {
-		// TODO Auto-generated method stub
-		byte[] decryResult;
 		try {
-			password = Base64.getDecoder().decode(password);
-			decryResult = DES.decrypt(password);
-			String signKey = new String(decryResult);
+			String signKey = DES.decryptDES(new String(password));
 			System.out.println("The signkey is " + signKey);
         
 			if (signKey.startsWith(KEY + "|")) {
@@ -57,9 +55,8 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 	public String generateToken(String username) {
 		String signKey = KEY + "|" + (System.currentTimeMillis()) + "|" + username;
 		try {
-			return Base64.getEncoder().encodeToString(DES.encrypt(signKey.getBytes()));
-		} catch (InvalidKeyException | NoSuchAlgorithmException | InvalidKeySpecException | NoSuchPaddingException
-				| IllegalBlockSizeException | BadPaddingException e) {
+			return DesUtil.encrypt(signKey);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
