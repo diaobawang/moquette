@@ -201,9 +201,15 @@ public class MemoryMessagesStore implements IMessagesStore {
 		} else if (type == ConversationType.ConversationType_Group) {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
-			userMessageIds.put(fromUser, messageId);
-			notifyReceivers.add(fromUser);
-			notifyReceivers.addAll(groupMembers.get(message.getConversation().getTarget()));
+
+			Collection<String> members = groupMembers.get(message.getConversation().getTarget());
+
+            for (String member : members) {
+                userMessageIds.put(member, messageId);
+            }
+
+            notifyReceivers.add(fromUser);
+			notifyReceivers.addAll(members);
 			persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
 			//如果是群助手的消息，返回pull type group，否则返回normal
 			pullType = PullType.Pull_Normal;
