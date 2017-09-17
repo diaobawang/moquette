@@ -250,7 +250,10 @@ class Qos1PublishHandler extends QosPublishHandler {
 				
 				int errorCode = 0;
 				GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
-				if (groupInfo != null && (groupInfo.getType() == GroupType.GroupType_Normal || groupInfo.getType() == GroupType.GroupType_Restricted) 
+				if (groupInfo == null ) {
+                    errorCode = m_messagesStore.dismissGroup(username, request.getGroupId());
+
+                } else if ((groupInfo.getType() == GroupType.GroupType_Normal || groupInfo.getType() == GroupType.GroupType_Restricted)
 						&& groupInfo.getOwner() != null && groupInfo.getOwner().equals(username)) {
 					
 					//send notify message first, then dismiss group
@@ -261,15 +264,16 @@ class Qos1PublishHandler extends QosPublishHandler {
 						builder.setFromUser(username);
 						long messageId = saveAndPublish(username, null, builder.build(), timestamp);
 					}
-					
-					errorCode = m_messagesStore.dismissGroup(username, request.getGroupId());
-					
-					ByteBuf ack = Unpooled.buffer();
-					ack.writeInt(errorCode);
-					sendPubAck(clientID, messageID, ack);
-					return;
-				}
-				
+                    errorCode = m_messagesStore.dismissGroup(username, request.getGroupId());
+				} else {
+				    errorCode = -3;
+                }
+
+
+                ByteBuf ack = Unpooled.buffer();
+                ack.writeInt(errorCode);
+                sendPubAck(clientID, messageID, ack);
+                return;
 
 			} catch (InvalidProtocolBufferException e) {
 				// TODO Auto-generated catch block

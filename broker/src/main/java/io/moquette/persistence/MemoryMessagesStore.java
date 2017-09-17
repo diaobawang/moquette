@@ -390,8 +390,20 @@ public class MemoryMessagesStore implements IMessagesStore {
     public int dismissGroup(String operator, String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+
+
 		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
+		    //maybe dirty data, remove it
+            MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+            MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+            for (String member :
+                groupMembers.get(operator)) {
+                userGroups.remove(member, groupId);
+            }
+            groupMembers.remove(groupId);
+
+
 			return -1;//group not exist
 		}
 		
@@ -404,11 +416,13 @@ public class MemoryMessagesStore implements IMessagesStore {
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
         for (String member :
-            groupMembers.get(operator)) {
+            groupMembers.get(groupId)) {
             userGroups.remove(member, groupId);
         }
 
 		groupMembers.remove(groupId);
+        mIMap.remove(groupId);
+
     	return 0;
     }
     
