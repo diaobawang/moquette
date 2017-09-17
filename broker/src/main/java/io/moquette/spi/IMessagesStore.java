@@ -114,6 +114,7 @@ public interface IMessagesStore {
     GroupInfo getGroupInfo(String groupId);
     List<String> getGroupMembers(String groupId);
     List<String> getMyGroups(String fromUser);
+    boolean isMemberInGroup(String member, String groupId);
     /**
      * Used to initialize all persistent store structures
      */

@@ -116,6 +116,15 @@ class Qos1PublishHandler extends QosPublishHandler {
     			Message message = Message.parseFrom(payloadContent);
     			if (message != null) {
     				long timestamp = System.currentTimeMillis();
+    				if (message.getConversation().getType() == ConversationType.ConversationType_Group) {
+    				    if (!m_messagesStore.isMemberInGroup(username, message.getConversation().getTarget())) {
+                            ByteBuf ack = Unpooled.buffer(16);
+                            ack.writeLong(0L);
+                            ack.writeLong(0L);
+                            sendPubAck(clientID, messageID, ack);
+                            return;
+                        }
+                    }
     				long messageId = saveAndPublish(username, clientID, message, timestamp);
     				
     				ByteBuf ack = Unpooled.buffer(16);
@@ -201,14 +210,29 @@ class Qos1PublishHandler extends QosPublishHandler {
 				ByteBuf payload = msg.payload();
 	            byte[] payloadContent = readBytesAndRewind(payload);
 				RemoveGroupMemberRequest request = RemoveGroupMemberRequest.parseFrom(payloadContent);
-				int errorCode = m_messagesStore.kickoffGroupMembers(username, request.getGroupId(), request.getRemovedMemberList());
-				if (errorCode == 0 && request.hasNotifyContent()) {
-					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-					long timestamp = System.currentTimeMillis();
-					builder.setFromUser(username);
-					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
-				}
+
+                int errorCode = 0;
+                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
+                if (groupInfo == null ) {
+                    errorCode = -3;
+
+                } else if ((groupInfo.getType() == GroupType.GroupType_Normal || groupInfo.getType() == GroupType.GroupType_Restricted)
+                    && groupInfo.getOwner() != null && groupInfo.getOwner().equals(username)) {
+
+                    //send notify message first, then kickoff the member
+                    if (request.hasNotifyContent()) {
+                        Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+                        builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+                        long timestamp = System.currentTimeMillis();
+                        builder.setFromUser(username);
+                        long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+                    }
+                    errorCode = m_messagesStore.kickoffGroupMembers(username, request.getGroupId(), request.getRemovedMemberList());
+                } else {
+                    errorCode = -3;
+                }
+
+
 				ByteBuf ack = Unpooled.buffer();
 				ack.writeInt(errorCode);
 				sendPubAck(clientID, messageID, ack);
@@ -223,15 +247,26 @@ class Qos1PublishHandler extends QosPublishHandler {
 			try {
 				ByteBuf payload = msg.payload();
 	            byte[] payloadContent = readBytesAndRewind(payload);
-				QuitGroupRequest request = QuitGroupRequest.parseFrom(payloadContent);				
-				int errorCode = m_messagesStore.quitGroup(username, request.getGroupId());
-				if (errorCode == 0 && request.hasNotifyContent()) {
-					Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-					builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-					long timestamp = System.currentTimeMillis();
-					builder.setFromUser(username);
-					long messageId = saveAndPublish(username, null, builder.build(), timestamp);
-				}
+				QuitGroupRequest request = QuitGroupRequest.parseFrom(payloadContent);
+
+
+                int errorCode = 0;
+                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
+                if (groupInfo == null ) {
+                    errorCode = m_messagesStore.quitGroup(username, request.getGroupId());
+                } else {
+                    //send notify message first, then quit group
+                    if (request.hasNotifyContent()) {
+                        Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+                        builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+                        long timestamp = System.currentTimeMillis();
+                        builder.setFromUser(username);
+                        long messageId = saveAndPublish(username, null, builder.build(), timestamp);
+                    }
+                    errorCode = m_messagesStore.quitGroup(username, request.getGroupId());
+                }
+
+
 				ByteBuf ack = Unpooled.buffer();
 				ack.writeInt(errorCode);
 				sendPubAck(clientID, messageID, ack);

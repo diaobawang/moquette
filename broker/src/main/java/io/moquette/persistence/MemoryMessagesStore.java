@@ -373,6 +373,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
+            MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+            MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+            groupMembers.remove(groupId, operator);
+            userGroups.remove(operator, groupId);
 			return -1;//group not exist
 		}
 		if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
@@ -511,7 +515,19 @@ public class MemoryMessagesStore implements IMessagesStore {
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
         return new ArrayList<>(userGroups.get(fromUser));
     }
-    
+
+    @Override
+    public boolean isMemberInGroup(String member, String groupId) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        Collection<String> members = groupMembers.get(groupId);
+
+        if (members.contains(member)) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {
         LOG.debug("Store retained message for topic={}, CId={}", topic, storedMessage.getClientID());
