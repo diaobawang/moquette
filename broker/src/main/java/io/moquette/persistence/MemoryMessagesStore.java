@@ -40,6 +40,7 @@ import io.moquette.spi.IMatchingCondition;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
 import win.liyufan.im.DBUtil;
+import win.liyufan.im.ErrorCode;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
@@ -323,15 +324,15 @@ public class MemoryMessagesStore implements IMessagesStore {
     
     
     @Override
-    public int addGroupMembers(String operator, String groupId, List<String> memberList) {
+    public ErrorCode addGroupMembers(String operator, String groupId, List<String> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
-			return -1;//group not exist
+			return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		if (groupInfo.getType() == GroupType.GroupType_Restricted && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
-			return -2;//no right
+			return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
@@ -341,20 +342,20 @@ public class MemoryMessagesStore implements IMessagesStore {
 			userGroups.put(member, groupId);
 		}
 		
-    	return 0;
+    	return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public int kickoffGroupMembers(String operator, String groupId, List<String> memberList) {
+    public ErrorCode kickoffGroupMembers(String operator, String groupId, List<String> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
-			return -1;//group not exist
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
 				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
-			return -2;//no right
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
@@ -363,12 +364,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 			groupMembers.remove(groupId, member);
 			userGroups.remove(member, groupId);
 		}
-		
-    	return 0;
+
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public int quitGroup(String operator, String groupId) {
+    public ErrorCode quitGroup(String operator, String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		GroupInfo groupInfo = mIMap.get(groupId);
@@ -377,21 +378,21 @@ public class MemoryMessagesStore implements IMessagesStore {
             MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
             groupMembers.remove(groupId, operator);
             userGroups.remove(operator, groupId);
-			return -1;//group not exist
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
-			return -3; //group owner cannot quit.
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
 		}
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		groupMembers.remove(groupId, operator);
 		userGroups.remove(operator, groupId);
-		
-    	return 0;
+
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public int dismissGroup(String operator, String groupId) {
+    public ErrorCode dismissGroup(String operator, String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
@@ -408,13 +409,13 @@ public class MemoryMessagesStore implements IMessagesStore {
             groupMembers.remove(groupId);
 
 
-			return -1;//group not exist
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		
 		if (groupInfo.getType() == GroupType.GroupType_Free || 
 				(groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
 				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
-			return -2;//no right
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
 		}
 		
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
@@ -427,13 +428,13 @@ public class MemoryMessagesStore implements IMessagesStore {
 		groupMembers.remove(groupId);
         mIMap.remove(groupId);
 
-    	return 0;
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public int modifyGroupInfo(String operator, GroupInfo groupInfo) {
+    public ErrorCode modifyGroupInfo(String operator, GroupInfo groupInfo) {
 		if (groupInfo == null) {
-			return -1;//group not exist
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
@@ -441,12 +442,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 		GroupInfo oldInfo = mIMap.get(groupInfo.getTargetId());
 
 		if (oldInfo == null) {
-			return -1;//group not exist
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		
 		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
 				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
-			return -2;//no right
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
 		}
 		
 		GroupInfo.Builder newInfoBuilder = oldInfo.toBuilder();
@@ -467,7 +468,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		
 		mIMap.put(groupInfo.getTargetId(), newInfoBuilder.build());
-    	return 0;
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
