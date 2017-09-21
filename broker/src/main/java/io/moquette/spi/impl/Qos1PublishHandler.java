@@ -65,6 +65,7 @@ import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
 import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
+import win.liyufan.im.proto.TransferGroupRequestOuterClass;
 
 class Qos1PublishHandler extends QosPublishHandler {
 
@@ -301,6 +302,20 @@ class Qos1PublishHandler extends QosPublishHandler {
 
                 IDListBuf result = IDListBuf.newBuilder().addAllId(members).build();
                 ackPayload.writeBytes(result.toByteArray());
+            } else if(IMTopic.TransferGroupTopic.equals(topic)) {
+                isConsumed = true;
+
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                TransferGroupRequestOuterClass.TransferGroupRequest request = TransferGroupRequestOuterClass.TransferGroupRequest.parseFrom(payloadContent);
+                errorCode = m_messagesStore.transferGroup(fromUser, request.getGroupId(), request.getNewOwner());
+                if (errorCode == ErrorCode.ERROR_CODE_SUCCESS && request.hasNotifyContent()) {
+                    Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
+                    builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
+                    long timestamp = System.currentTimeMillis();
+                    builder.setFromUser(fromUser);
+                    long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                }
             }
 
         } catch (InvalidProtocolBufferException e) {

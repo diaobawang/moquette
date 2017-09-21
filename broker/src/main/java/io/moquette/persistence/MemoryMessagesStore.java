@@ -518,6 +518,30 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
+    public ErrorCode transferGroup(String operator, String groupId, String newOwner) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        GroupInfo groupInfo = mIMap.get(groupId);
+
+        if (groupInfo == null) {
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
+        }
+
+        if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal)
+            && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
+        }
+
+        //check the new owner is in member list? is that necessary?
+
+        groupInfo = groupInfo.toBuilder().setOwner(newOwner).build();
+
+        mIMap.set(groupId, groupInfo);
+
+        return ErrorCode.ERROR_CODE_SUCCESS;
+    }
+
+    @Override
     public boolean isMemberInGroup(String member, String groupId) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
         MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
