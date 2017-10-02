@@ -1,7 +1,7 @@
 package com.xiaoleilu.loServer.action;
 
 import com.google.gson.Gson;
-import com.hazelcast.core.HazelcastInstance;
+import com.xiaoleilu.loServer.RestResult;
 import com.xiaoleilu.loServer.annotation.HttpMethod;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
@@ -20,44 +20,43 @@ public class CreateUserAction implements Action {
 
     @Override
     public void doAction(Request request, Response response, IMessagesStore messagesStore) {
-//        if (request instanceof HttpRequest) {
-//            HttpRequest httpRequest = (HttpRequest)request
+        if (request.getNettyRequest() instanceof FullHttpRequest) {
+            FullHttpRequest fullHttpRequest = (FullHttpRequest)request.getNettyRequest();
+            byte[] bytes = Utils.readBytesAndRewind(fullHttpRequest.content());
+            String content = new String(bytes);
+            Gson gson = new Gson();
+            InputCreateUser inputCreateUser = gson.fromJson(content, InputCreateUser.class);
+            if (inputCreateUser != null && inputCreateUser.getUserId() != null && inputCreateUser.getUserId().length() > 0) {
+                if (inputCreateUser.getPortrait() == null || inputCreateUser.getPortrait().length() == 0) {
+                    inputCreateUser.setPortrait("https://avatars.io/gravatar/" + inputCreateUser.getUserId());
+                }
 
-        FullHttpRequest fullHttpRequest = (FullHttpRequest)request.getNettyRequest();
-        byte[] bytes = Utils.readBytesAndRewind(fullHttpRequest.content());
-        String content = new String(bytes);
-        Gson gson = new Gson();
-        InputCreateUser inputCreateUser = gson.fromJson(content, InputCreateUser.class);
-        if (inputCreateUser != null && inputCreateUser.getUserId() != null && inputCreateUser.getUserId().length() > 0) {
-            if (inputCreateUser.getPortrait()== null || inputCreateUser.getPortrait().length() == 0) {
-                inputCreateUser.setPortrait("https://avatars.io/gravatar/" + inputCreateUser.getUserId());
+                UserOuterClass.User.Builder newUserBuilder = UserOuterClass.User.newBuilder()
+                    .setUid(inputCreateUser.getUserId());
+                if (inputCreateUser.getName() != null)
+                    newUserBuilder.setName(inputCreateUser.getName());
+                if (inputCreateUser.getDisplayName() != null)
+                    newUserBuilder.setDisplayName(inputCreateUser.getDisplayName());
+                if (inputCreateUser.getPortrait() != null)
+                    newUserBuilder.setPortrait(inputCreateUser.getPortrait());
+                if (inputCreateUser.getEmail() != null)
+                    newUserBuilder.setEmail(inputCreateUser.getEmail());
+                if (inputCreateUser.getAddress() != null)
+                    newUserBuilder.setAddress(inputCreateUser.getAddress());
+                if (inputCreateUser.getCompany() != null)
+                    newUserBuilder.setCompany(inputCreateUser.getCompany());
+                if (inputCreateUser.getMobile() != null)
+                    newUserBuilder.setMobile(inputCreateUser.getMobile());
+                if (inputCreateUser.getExtra() != null)
+                    newUserBuilder.setExtra(inputCreateUser.getExtra());
+
+                newUserBuilder.setUpdateDt(System.currentTimeMillis());
+
+                messagesStore.addUserInfo(newUserBuilder.build());
             }
-
-            UserOuterClass.User.Builder newUserBuilder = UserOuterClass.User.newBuilder()
-                .setUid(inputCreateUser.getUserId());
-            if (inputCreateUser.getName() != null)
-                newUserBuilder.setName(inputCreateUser.getName());
-            if (inputCreateUser.getDisplayName() != null)
-                newUserBuilder.setDisplayName(inputCreateUser.getDisplayName());
-            if (inputCreateUser.getPortrait() != null)
-                newUserBuilder.setPortrait(inputCreateUser.getPortrait());
-            if (inputCreateUser.getEmail() != null)
-                newUserBuilder.setEmail(inputCreateUser.getEmail());
-            if (inputCreateUser.getAddress() != null)
-                newUserBuilder.setAddress(inputCreateUser.getAddress());
-            if (inputCreateUser.getCompany() != null)
-                newUserBuilder.setCompany(inputCreateUser.getCompany());
-            if (inputCreateUser.getMobile()!= null)
-                newUserBuilder.setMobile(inputCreateUser.getMobile());
-            if (inputCreateUser.getExtra() != null)
-                newUserBuilder.setExtra(inputCreateUser.getExtra());
-
-            newUserBuilder.setUpdateDt(System.currentTimeMillis());
-
-            messagesStore.addUserInfo(newUserBuilder.build());
-        }
             response.setStatus(HttpResponseStatus.OK);
-            response.setContent("Welcome get example");
-//        }
+            RestResult result = RestResult.ok(inputCreateUser.getUserId());
+            response.setContent(new Gson().toJson(result));
+        }
     }
 }

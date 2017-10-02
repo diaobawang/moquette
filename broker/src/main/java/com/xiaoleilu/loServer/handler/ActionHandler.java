@@ -49,7 +49,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 		} catch (Exception e) {
 			Action errorAction = ServerSetting.getAction(ServerSetting.MAPPING_ERROR, request.getMethod());
 			request.putParam(UnknownErrorAction.ERROR_PARAM_NAME, e);
-			response.setContent(e.getMessage());
+			response.setContent(e.toString());
 			errorAction.doAction(request, response, messagesStore);
 		}
 		

@@ -2,10 +2,9 @@ package com.xiaoleilu.loServer.pojos;
 
 import win.liyufan.im.proto.UserOuterClass;
 
-public class InputCreateUser {
+public class OutputGetUser {
     private String userId;
     private String name;
-    private String password;
     private String displayName;
     private String portrait;
     private String mobile;
@@ -13,31 +12,22 @@ public class InputCreateUser {
     private String address;
     private String company;
     private String extra;
+    private long updateDt;
 
-    public UserOuterClass.User toUser() {
-        UserOuterClass.User.Builder newUserBuilder = UserOuterClass.User.newBuilder()
-            .setUid(userId);
-        if (name != null)
-            newUserBuilder.setName(name);
-        if (displayName != null)
-            newUserBuilder.setDisplayName(displayName);
-        if (getPortrait() != null)
-            newUserBuilder.setPortrait(getPortrait());
-        if (getEmail() != null)
-            newUserBuilder.setEmail(getEmail());
-        if (getAddress() != null)
-            newUserBuilder.setAddress(getAddress());
-        if (getCompany() != null)
-            newUserBuilder.setCompany(getCompany());
-        if (getMobile() != null)
-            newUserBuilder.setMobile(getMobile());
-        if (getExtra() != null)
-            newUserBuilder.setExtra(getExtra());
-
-        newUserBuilder.setUpdateDt(System.currentTimeMillis());
-        return newUserBuilder.build();
+    public static OutputGetUser fromUser(UserOuterClass.User user) {
+        OutputGetUser out = new OutputGetUser();
+        out.userId = user.getUid();
+        out.name = user.getName();
+        out.displayName = user.getDisplayName();
+        out.portrait = user.getPortrait();
+        out.mobile = user.getMobile();
+        out.email = user.getEmail();
+        out.address = user.getAddress();
+        out.company = user.getCompany();
+        out.extra = user.getExtra();
+        out.updateDt = user.getUpdateDt();
+        return out;
     }
-
     public String getUserId() {
         return userId;
     }
@@ -52,14 +42,6 @@ public class InputCreateUser {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getDisplayName() {
@@ -116,5 +98,13 @@ public class InputCreateUser {
 
     public void setExtra(String extra) {
         this.extra = extra;
+    }
+
+    public long getUpdateDt() {
+        return updateDt;
+    }
+
+    public void setUpdateDt(long updateDt) {
+        this.updateDt = updateDt;
     }
 }

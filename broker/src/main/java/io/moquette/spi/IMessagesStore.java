@@ -124,6 +124,7 @@ public interface IMessagesStore {
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);
     void addUserInfo(UserOuterClass.User user);
+    UserOuterClass.User getUserInfo(String userId);
     /**
      * Used to initialize all persistent store structures
      */
