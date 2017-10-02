@@ -3,6 +3,7 @@ package com.xiaoleilu.loServer.action;
 import com.hazelcast.core.HazelcastInstance;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
+import io.moquette.spi.IMessagesStore;
 
 /**
  * 默认的主页Action，当访问主页且没有定义主页Action时，调用此Action
@@ -12,7 +13,7 @@ import com.xiaoleilu.loServer.handler.Response;
 public class DefaultIndexAction implements Action{
 
 	@Override
-	public void doAction(Request request, Response response, HazelcastInstance hzInstance) {
+	public void doAction(Request request, Response response, IMessagesStore messagesStore) {
 		response.setContent("Welcome to LoServer.");
 	}
 

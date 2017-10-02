@@ -12,6 +12,7 @@ import com.xiaoleilu.loServer.action.UnknownErrorAction;
 import com.xiaoleilu.loServer.action.FileAction;
 import com.xiaoleilu.loServer.filter.Filter;
 
+import io.moquette.spi.IMessagesStore;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -25,10 +26,10 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 	private static final Log log = StaticLog.get();
 
-	private HazelcastInstance hzInstance;
+	private IMessagesStore messagesStore;
 
-    public ActionHandler(HazelcastInstance hzInstance) {
-        this.hzInstance = hzInstance;
+    public ActionHandler(IMessagesStore messagesStore) {
+        this.messagesStore = messagesStore;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 			Action errorAction = ServerSetting.getAction(ServerSetting.MAPPING_ERROR, request.getMethod());
 			request.putParam(UnknownErrorAction.ERROR_PARAM_NAME, e);
 			response.setContent(e.getMessage());
-			errorAction.doAction(request, response, hzInstance);
+			errorAction.doAction(request, response, messagesStore);
 		}
 		
 		//如果发送请求未被触发，则触发之，否则跳过。
@@ -110,7 +111,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 			}
 		}
 
-		action.doAction(request, response, hzInstance);
+		action.doAction(request, response, messagesStore);
 	}
 	//---------------------------------------------------------------------------------------- Private method start
 }

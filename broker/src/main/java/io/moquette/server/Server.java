@@ -80,7 +80,7 @@ public class Server {
         server.startServer();
         System.out.println("Server started, version 0.10");
 
-        final LoServer httpServer = new LoServer(18090, server.hazelcastInstance);
+        final LoServer httpServer = new LoServer(18090, server.m_processor.getMessagesStore());
 
         try {
             httpServer.start();

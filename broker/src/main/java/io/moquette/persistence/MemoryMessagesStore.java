@@ -588,6 +588,12 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
+    public void addUserInfo(UserOuterClass.User user) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+        mUserMap.put(user.getUid(), user);
+    }
+    @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {
         LOG.debug("Store retained message for topic={}, CId={}", topic, storedMessage.getClientID());
         if (storedMessage.getClientID() == null) {

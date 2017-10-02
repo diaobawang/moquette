@@ -39,6 +39,7 @@ import com.hazelcast.core.IAtomicLong;
 import com.hazelcast.core.IMap;
 import win.liyufan.im.proto.PullUserRequestOuterClass;
 import win.liyufan.im.proto.PullUserResultOuterClass;
+import win.liyufan.im.proto.UserOuterClass;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -122,6 +123,7 @@ public interface IMessagesStore {
 
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);
+    void addUserInfo(UserOuterClass.User user);
     /**
      * Used to initialize all persistent store structures
      */

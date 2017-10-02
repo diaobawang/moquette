@@ -8,6 +8,7 @@ import com.xiaoleilu.loServer.action.Action;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.ActionHandler;
 
+import io.moquette.spi.IMessagesStore;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -34,12 +35,12 @@ import java.io.IOException;
 public class LoServer {
 	private static final Log log = StaticLog.get();
 	private int port;
-    private HazelcastInstance hzInstance;
+    private IMessagesStore messagesStore;
     private Channel channel;
 
-    public LoServer(int port, HazelcastInstance hzInstance) {
+    public LoServer(int port, IMessagesStore messagesStore) {
         this.port = port;
-        this.hzInstance = hzInstance;
+        this.messagesStore = messagesStore;
     }
 
     /**
@@ -73,7 +74,7 @@ public class LoServer {
 						//大文件支持
 						.addLast(new ChunkedWriteHandler())
 						
-						.addLast(new ActionHandler(hzInstance));
+						.addLast(new ActionHandler(messagesStore));
 					}
 				});
 			

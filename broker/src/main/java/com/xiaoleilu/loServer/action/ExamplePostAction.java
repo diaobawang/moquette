@@ -5,6 +5,7 @@ import com.xiaoleilu.loServer.annotation.HttpMethod;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
+import io.moquette.spi.IMessagesStore;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
 @Route("/api/example")
@@ -12,7 +13,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 public class ExamplePostAction implements Action {
 
     @Override
-    public void doAction(Request request, Response response, HazelcastInstance hzInstance) {
+    public void doAction(Request request, Response response, IMessagesStore messagesStore) {
         response.setStatus(HttpResponseStatus.OK);
         response.setContent("Welcome post example");
     }

@@ -19,6 +19,7 @@ import com.xiaoleilu.loServer.ServerSetting;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
 
+import io.moquette.spi.IMessagesStore;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
@@ -35,7 +36,7 @@ public class FileAction implements Action {
 	private static final SimpleDateFormat HTTP_DATE_FORMATER = new SimpleDateFormat(DateUtil.HTTP_DATETIME_PATTERN, Locale.US);
 
 	@Override
-	public void doAction(Request request, Response response, HazelcastInstance hzInstance) {
+	public void doAction(Request request, Response response, IMessagesStore messagesStore) {
 		if (false == Request.METHOD_GET.equalsIgnoreCase(request.getMethod())) {
 			response.sendError(HttpResponseStatus.METHOD_NOT_ALLOWED, "Please use GET method to request file!");
 			return;
