@@ -63,6 +63,8 @@ import win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult;
 import win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
+import win.liyufan.im.proto.PullUserRequestOuterClass;
+import win.liyufan.im.proto.PullUserResultOuterClass;
 import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
 import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
 import win.liyufan.im.proto.TransferGroupRequestOuterClass;
@@ -316,6 +318,20 @@ class Qos1PublishHandler extends QosPublishHandler {
                     builder.setFromUser(fromUser);
                     long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
                 }
+            } else if(IMTopic.GetUserInfoTopic.equals(topic)) {
+                isConsumed = true;
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                PullUserRequestOuterClass.PullUserRequest request = PullUserRequestOuterClass.PullUserRequest.parseFrom(payloadContent);
+                PullUserResultOuterClass.PullUserResult.Builder resultBuilder = PullUserResultOuterClass.PullUserResult.newBuilder();
+
+                errorCode = m_messagesStore.getUserInfo(request.getRequestList(), resultBuilder);
+                if (errorCode == ErrorCode.ERROR_CODE_SUCCESS) {
+                    ackPayload.writeBytes(resultBuilder.build().toByteArray());
+                }
+            } else {
+                isConsumed = true;
+                errorCode = ErrorCode.ERROR_CODE_UNKNOWN_METHOD;
             }
 
         } catch (InvalidProtocolBufferException e) {

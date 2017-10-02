@@ -18,4 +18,6 @@ public interface IMTopic {
     public static final String TransferGroupTopic = "GTG";
 	
 	public static final String GetQiniuUploadTokenTopic = "GQNUT";
+
+    public static final String GetUserInfoTopic = "UPUI";
 }

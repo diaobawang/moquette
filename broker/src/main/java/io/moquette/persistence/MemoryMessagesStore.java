@@ -48,6 +48,9 @@ import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
+import win.liyufan.im.proto.PullUserRequestOuterClass;
+import win.liyufan.im.proto.PullUserResultOuterClass;
+import win.liyufan.im.proto.UserOuterClass;
 
 public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGES_MAP = "messages_map";
@@ -58,6 +61,8 @@ public class MemoryMessagesStore implements IMessagesStore {
     private static final String USER_GROUPS = "user_groups";
 	private static final String USER_MESSAGE_IDS = "user_message_ids";
 	private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
+
+    private static final String USERS = "users";
     private static final Logger LOG = LoggerFactory.getLogger(MemoryMessagesStore.class);
 
     private Map<Topic, StoredMessage> m_retainedStore = new HashMap<>();
@@ -551,6 +556,35 @@ public class MemoryMessagesStore implements IMessagesStore {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+
+        for (PullUserRequestOuterClass.UserRequest request : requestList
+             ) {
+            UserOuterClass.User user = mUserMap.get(request.getUid());
+            PullUserResultOuterClass.UserResult.Builder resultBuilder = PullUserResultOuterClass.UserResult.newBuilder();
+            if (user == null) {
+                user = UserOuterClass.User.newBuilder().setUid(request.getUid()).build();
+                resultBuilder.setUser(user);
+                resultBuilder.setCode(PullUserResultOuterClass.UserResultCode.NotFound);
+            } else {
+                if (user.getUpdateDt() > request.getUpdateDt()) {
+                    resultBuilder.setUser(user);
+                } else {
+                    user = UserOuterClass.User.newBuilder().setUid(request.getUid()).build();
+                    resultBuilder.setUser(user);
+                    resultBuilder.setCode(PullUserResultOuterClass.UserResultCode.NotModified);
+                }
+            }
+            builder.getResultList().add(resultBuilder.build());
+
+        }
+
+        return  ErrorCode.ERROR_CODE_SUCCESS;
     }
 
     @Override

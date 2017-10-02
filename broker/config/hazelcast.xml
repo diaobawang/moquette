@@ -13,6 +13,9 @@
     <map name="groups_map">
     </map>
 
+    <map name="users">
+    </map>
+
     <multimap name="group_members">
     </multimap>
 

@@ -37,6 +37,8 @@ import java.util.Set;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IAtomicLong;
 import com.hazelcast.core.IMap;
+import win.liyufan.im.proto.PullUserRequestOuterClass;
+import win.liyufan.im.proto.PullUserResultOuterClass;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -117,6 +119,9 @@ public interface IMessagesStore {
     List<String> getMyGroups(String fromUser);
     ErrorCode transferGroup(String operator, String groupId, String newOwner);
     boolean isMemberInGroup(String member, String groupId);
+
+
+    ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);
     /**
      * Used to initialize all persistent store structures
      */

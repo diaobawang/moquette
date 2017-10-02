@@ -23,6 +23,7 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
 import com.hazelcast.core.ITopic;
+import com.xiaoleilu.loServer.LoServer;
 import io.moquette.BrokerConstants;
 import io.moquette.connections.IConnectionsManager;
 import io.moquette.interception.HazelcastInterceptHandler;
@@ -78,8 +79,18 @@ public class Server {
         DBUtil.initDB();
         server.startServer();
         System.out.println("Server started, version 0.10");
+
+        final LoServer httpServer = new LoServer(18090, server.hazelcastInstance);
+
+        try {
+            httpServer.start();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         //Bind  a shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(server::stopServer));
+        Runtime.getRuntime().addShutdownHook(new Thread(httpServer::shutdown));
     }
 
     /**
