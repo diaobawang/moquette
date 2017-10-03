@@ -40,6 +40,14 @@ import java.sql.ParameterMetaData;
 
 public class DBUtil {
     private static ComboPooledDataSource comboPooledDataSource = null;
+    private static ThreadLocal<Connection> transactionConnection = new ThreadLocal<Connection>() {
+        @Override
+        protected Connection initialValue() {
+            super.initialValue();
+            return null;
+        }
+    };
+
         //静态代码块
         static{
             /*
@@ -50,8 +58,48 @@ public class DBUtil {
         }
         //从数据源中获取数据库的连接
         public static Connection getConnection() throws SQLException {
+            Connection connection = transactionConnection.get();
+            if (connection != null) {
+                return connection;
+            }
            return comboPooledDataSource.getConnection();
         }
+
+        public static void beginTransaction() {
+            try {
+                Connection connection = getConnection();
+                connection.setAutoCommit(false);
+                transactionConnection.set(connection);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    public static void commit() {
+        try {
+            Connection connection = transactionConnection.get();
+            if (connection != null) {
+                connection.commit();
+                connection.setAutoCommit(true);
+                transactionConnection.remove();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void roolback() {
+        try {
+            Connection connection = transactionConnection.get();
+            if (connection != null) {
+                connection.rollback();
+                connection.setAutoCommit(true);
+                transactionConnection.remove();
+            };
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
         public static void initDB() {
 			try {

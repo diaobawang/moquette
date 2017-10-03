@@ -11,10 +11,9 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 @Route("/api/example")
 @HttpMethod("GET")
-public class ExampleGetAction implements Action {
-
+public class ExampleGetAction extends Action {
     @Override
-    public void doAction(Request request, Response response, IMessagesStore messagesStore) {
+    public void action(Request request, Response response) {
         response.setStatus(HttpResponseStatus.OK);
         response.setContent("Welcome get example");
     }

@@ -4,6 +4,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
 import io.moquette.spi.IMessagesStore;
+import win.liyufan.im.DBUtil;
 
 /**
  * 请求处理接口<br>
@@ -12,6 +13,35 @@ import io.moquette.spi.IMessagesStore;
  *
  */
 
-public interface Action {
-	public void doAction(Request request, Response response, IMessagesStore messagesStore);
+abstract public class Action {
+    public static IMessagesStore messagesStore = null;
+
+    public boolean preAction(Request request, Response response) {
+        return true;
+    }
+	public void doAction(Request request, Response response) {
+        if (preAction(request, response)) {
+            if (isTransactionAction()) {
+                DBUtil.beginTransaction();
+                try {
+                    action(request, response);
+                    DBUtil.commit();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    DBUtil.roolback();
+                    throw e;
+                }
+            }
+            afterAction(request, response);
+        } else {
+
+        }
+    }
+    public boolean isTransactionAction() {
+        return false;
+    }
+    abstract public void action(Request request, Response response);
+    public void afterAction(Request request, Response response) {
+
+    }
 }

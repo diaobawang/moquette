@@ -10,10 +10,9 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 @Route("/api/example")
 @HttpMethod("POST")
-public class ExamplePostAction implements Action {
-
+public class ExamplePostAction extends Action {
     @Override
-    public void doAction(Request request, Response response, IMessagesStore messagesStore) {
+    public void action(Request request, Response response) {
         response.setStatus(HttpResponseStatus.OK);
         response.setContent("Welcome post example");
     }

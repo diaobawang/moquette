@@ -16,10 +16,10 @@ import win.liyufan.im.proto.UserOuterClass;
 
 @Route("/api/user")
 @HttpMethod("GET")
-public class GetUserAction implements Action {
+public class GetUserAction extends Action {
 
     @Override
-    public void doAction(Request request, Response response, IMessagesStore messagesStore) {
+    public void action(Request request, Response response) {
         if (request.getNettyRequest() instanceof FullHttpRequest) {
             RestResult result = null;
             String userId = request.getParam("userId");

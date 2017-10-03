@@ -26,10 +26,8 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 	private static final Log log = StaticLog.get();
 
-	private IMessagesStore messagesStore;
-
     public ActionHandler(IMessagesStore messagesStore) {
-        this.messagesStore = messagesStore;
+        Action.messagesStore = messagesStore;
     }
 
     @Override
@@ -50,7 +48,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 			Action errorAction = ServerSetting.getAction(ServerSetting.MAPPING_ERROR, request.getMethod());
 			request.putParam(UnknownErrorAction.ERROR_PARAM_NAME, e);
 			response.setContent(e.toString());
-			errorAction.doAction(request, response, messagesStore);
+			errorAction.doAction(request, response);
 		}
 		
 		//如果发送请求未被触发，则触发之，否则跳过。
@@ -111,7 +109,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 			}
 		}
 
-		action.doAction(request, response, messagesStore);
+		action.doAction(request, response);
 	}
 	//---------------------------------------------------------------------------------------- Private method start
 }

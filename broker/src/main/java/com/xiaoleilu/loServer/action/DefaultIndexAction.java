@@ -10,11 +10,9 @@ import io.moquette.spi.IMessagesStore;
  * @author Looly
  *
  */
-public class DefaultIndexAction implements Action{
-
-	@Override
-	public void doAction(Request request, Response response, IMessagesStore messagesStore) {
-		response.setContent("Welcome to LoServer.");
-	}
-
+public class DefaultIndexAction extends Action{
+    @Override
+    public void action(Request request, Response response) {
+        response.setContent("Welcome to LoServer.");
+    }
 }

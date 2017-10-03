@@ -29,62 +29,63 @@ import io.netty.handler.codec.http.HttpResponseStatus;
  * @author Looly
  *
  */
-public class FileAction implements Action {
+public class FileAction extends Action {
 	private static final Log log = StaticLog.get();
 
-	private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
+    @Override
+    public void action(Request request, Response response) {
+        if (false == Request.METHOD_GET.equalsIgnoreCase(request.getMethod())) {
+            response.sendError(HttpResponseStatus.METHOD_NOT_ALLOWED, "Please use GET method to request file!");
+            return;
+        }
+
+        if(ServerSetting.isRootAvailable() == false){
+            response.sendError(HttpResponseStatus.NOT_FOUND, "404 Root dir not avaliable!");
+            return;
+        }
+
+        final File file = getFileByPath(request.getPath());
+        log.debug("Client [{}] get file [{}]", request.getIp(), file.getPath());
+
+        // 隐藏文件，跳过
+        if (file.isHidden() || !file.exists()) {
+            response.sendError(HttpResponseStatus.NOT_FOUND, "404 File not found!");
+            return;
+        }
+
+        // 非文件，跳过
+        if (false == file.isFile()) {
+            response.sendError(HttpResponseStatus.FORBIDDEN, "403 Forbidden!");
+            return;
+        }
+
+        // Cache Validation
+        String ifModifiedSince = request.getHeader(HttpHeaderNames.IF_MODIFIED_SINCE.toString());
+        if (StrUtil.isNotBlank(ifModifiedSince)) {
+            Date ifModifiedSinceDate = null;
+            try {
+                ifModifiedSinceDate = DateUtil.parse(ifModifiedSince, HTTP_DATE_FORMATER);
+            } catch (Exception e) {
+                log.warn("If-Modified-Since header parse error: {}", e.getMessage());
+            }
+            if(ifModifiedSinceDate != null) {
+                // 只对比到秒一级别
+                long ifModifiedSinceDateSeconds = ifModifiedSinceDate.getTime() / 1000;
+                long fileLastModifiedSeconds = file.lastModified() / 1000;
+                if (ifModifiedSinceDateSeconds == fileLastModifiedSeconds) {
+                    log.debug("File {} not modified.", file.getPath());
+                    response.sendNotModified();
+                    return;
+                }
+            }
+        }
+
+        response.setContent(file);
+    }
+
+    private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 	private static final SimpleDateFormat HTTP_DATE_FORMATER = new SimpleDateFormat(DateUtil.HTTP_DATETIME_PATTERN, Locale.US);
 
-	@Override
-	public void doAction(Request request, Response response, IMessagesStore messagesStore) {
-		if (false == Request.METHOD_GET.equalsIgnoreCase(request.getMethod())) {
-			response.sendError(HttpResponseStatus.METHOD_NOT_ALLOWED, "Please use GET method to request file!");
-			return;
-		}
-		
-		if(ServerSetting.isRootAvailable() == false){
-			response.sendError(HttpResponseStatus.NOT_FOUND, "404 Root dir not avaliable!");
-			return;
-		}
-
-		final File file = getFileByPath(request.getPath());
-		log.debug("Client [{}] get file [{}]", request.getIp(), file.getPath());
-		
-		// 隐藏文件，跳过
-		if (file.isHidden() || !file.exists()) {
-			response.sendError(HttpResponseStatus.NOT_FOUND, "404 File not found!");
-			return;
-		}
-
-		// 非文件，跳过
-		if (false == file.isFile()) {
-			response.sendError(HttpResponseStatus.FORBIDDEN, "403 Forbidden!");
-			return;
-		}
-
-		// Cache Validation
-		String ifModifiedSince = request.getHeader(HttpHeaderNames.IF_MODIFIED_SINCE.toString());
-		if (StrUtil.isNotBlank(ifModifiedSince)) {
-			Date ifModifiedSinceDate = null;
-			try {
-				ifModifiedSinceDate = DateUtil.parse(ifModifiedSince, HTTP_DATE_FORMATER);
-			} catch (Exception e) {
-				log.warn("If-Modified-Since header parse error: {}", e.getMessage());
-			}
-			if(ifModifiedSinceDate != null) {
-				// 只对比到秒一级别
-				long ifModifiedSinceDateSeconds = ifModifiedSinceDate.getTime() / 1000;
-				long fileLastModifiedSeconds = file.lastModified() / 1000;
-				if (ifModifiedSinceDateSeconds == fileLastModifiedSeconds) {
-					log.debug("File {} not modified.", file.getPath());
-					response.sendNotModified();
-					return;
-				}
-			}
-		}
-		
-		response.setContent(file);
-	}
 	
 	/**
 	 * 通过URL中的path获得文件的绝对路径

@@ -16,10 +16,15 @@ import win.liyufan.im.proto.UserOuterClass;
 
 @Route("/api/user")
 @HttpMethod("PUT")
-public class CreateUserAction implements Action {
+public class CreateUserAction extends Action {
 
     @Override
-    public void doAction(Request request, Response response, IMessagesStore messagesStore) {
+    public boolean isTransactionAction() {
+        return true;
+    }
+
+    @Override
+    public void action(Request request, Response response) {
         if (request.getNettyRequest() instanceof FullHttpRequest) {
             FullHttpRequest fullHttpRequest = (FullHttpRequest)request.getNettyRequest();
             byte[] bytes = Utils.readBytesAndRewind(fullHttpRequest.content());
