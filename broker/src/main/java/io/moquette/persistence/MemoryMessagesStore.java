@@ -44,16 +44,13 @@ import sun.misc.BASE64Encoder;
 import win.liyufan.im.DBUtil;
 import win.liyufan.im.ErrorCode;
 import win.liyufan.im.MessageBundle;
+import win.liyufan.im.proto.*;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
-import win.liyufan.im.proto.GroupOuterClass;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
-import win.liyufan.im.proto.PullUserRequestOuterClass;
-import win.liyufan.im.proto.PullUserResultOuterClass;
-import win.liyufan.im.proto.UserOuterClass;
 
 public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGES_MAP = "messages_map";
@@ -64,6 +61,9 @@ public class MemoryMessagesStore implements IMessagesStore {
     private static final String USER_GROUPS = "user_groups";
 	private static final String USER_MESSAGE_IDS = "user_message_ids";
 	private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
+
+	private static final String USER_FRIENDS = "user_friends";
+    private static final String USER_FRIENDS_REQUEST = "user_friends_request";
 
     private static final String USERS = "users";
     private static final Logger LOG = LoggerFactory.getLogger(MemoryMessagesStore.class);
@@ -383,6 +383,96 @@ public class MemoryMessagesStore implements IMessagesStore {
 
                 return builder.build();
             }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+        return null;
+    }
+
+    private List<String> getPersistFriends(String userId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select `_friend_uid` from t_friend where `_uid` = ?";
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, userId);
+
+
+            rs = statement.executeQuery();
+            List<String> out = new ArrayList<>();
+            while (rs.next()) {
+                String value = rs.getString(1);
+                out.add(value);
+            }
+            return  out;
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+        return null;
+    }
+
+    private List<FriendRequestOuterClass.FriendRequest> getPersistFriendRequests(String userId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select   `_uid`" +
+                ", `_friend_uid`" +
+                ", `_reason`" +
+                ", `_status`" +
+                ", `_dt`" +
+                ", `_from_read_status`" +
+                ", `_to_read_status` from t_friend_request where `_uid` = ? or `_friend_uid` = ?";
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, userId);
+
+
+            rs = statement.executeQuery();
+            List<FriendRequestOuterClass.FriendRequest> out = new ArrayList<>();
+            while (rs.next()) {
+                FriendRequestOuterClass.FriendRequest.Builder builder = FriendRequestOuterClass.FriendRequest.newBuilder();
+                index = 1;
+                String value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setFromUid(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setToUid(value);
+
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setReason(value);
+
+                int intValue = rs.getInt(index++);
+                builder.setStatus(FriendRequestOuterClass.RequestStatus.valueOf(intValue));
+
+                long longValue = rs.getLong(index++);
+                builder.setUpdateDt(longValue);
+
+                boolean b = rs.getBoolean(index++);
+                builder.setFromReadStatus(b);
+
+                b = rs.getBoolean(index++);
+                builder.setToReadStatus(b);
+
+                out.add(builder.build());
+            }
+            return  out;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -881,6 +971,47 @@ public class MemoryMessagesStore implements IMessagesStore {
             DBUtil.closeDB(connection, statement, rs);
         }
     }
+
+    @Override
+    public List<String> getFriendList(String userId) {
+        List<String> out = new ArrayList<String>();
+
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, String> friendsMap = hzInstance.getMultiMap(USER_FRIENDS);
+        Collection<String> friends = friendsMap.get(userId);
+        if (friends == null || friends.size() == 0) {
+            friends = getPersistFriends(userId);
+            for (String friend :
+                friends) {
+                friendsMap.put(userId, friend);
+            }
+        }
+
+        out.addAll(friends);
+        return out;
+    }
+
+    @Override
+    public List<FriendRequestOuterClass.FriendRequest> getFriendRequestList(String userId) {
+        List<FriendRequestOuterClass.FriendRequest> out = new ArrayList<>();
+
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, FriendRequestOuterClass.FriendRequest> requestMap = hzInstance.getMultiMap(USER_FRIENDS_REQUEST);
+        Collection<FriendRequestOuterClass.FriendRequest> requests = requestMap.get(userId);
+        if (requests == null || requests.size() == 0) {
+            requests = getPersistFriendRequests(userId);
+            if (requests != null) {
+                for (FriendRequestOuterClass.FriendRequest request: requests
+                     ) {
+                    requestMap.put(userId, request);
+                }
+            }
+        }
+
+        out.addAll(requests);
+        return out;
+    }
+
 
     @Override
     public void storeRetained(Topic topic, StoredMessage storedMessage) {

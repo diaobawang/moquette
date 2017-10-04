@@ -22,6 +22,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import win.liyufan.im.ErrorCode;
 import win.liyufan.im.MessageBundle;
+import win.liyufan.im.proto.FriendRequestOuterClass;
 import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -127,6 +128,8 @@ public interface IMessagesStore {
     UserOuterClass.User getUserInfo(String userId);
     ErrorCode login(String name, String password, List<String> userIdRet);
 
+    List<String> getFriendList(String userId);
+    List<FriendRequestOuterClass.FriendRequest> getFriendRequestList(String userId);
     /**
      * Used to initialize all persistent store structures
      */
