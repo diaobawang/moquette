@@ -189,7 +189,7 @@ public class MemoryMessagesStore implements IMessagesStore {
             statement.setString(index++, groupInfo.getPortrait());
             statement.setString(index++, groupInfo.getOwner());
             statement.setInt(index++, groupInfo.getType().getNumber());
-            statement.setString(index++, "");
+            statement.setString(index++, groupInfo.getExtra());
             statement.setLong(index++, System.currentTimeMillis());
 
             statement.executeUpdate();
@@ -241,6 +241,10 @@ public class MemoryMessagesStore implements IMessagesStore {
                 strValue = rs.getString(index++);
                 strValue = (strValue == null ? "" : strValue);
                 builder.setOwner(strValue);
+
+                strValue = rs.getString(index++);
+                strValue = (strValue == null ? "" : strValue);
+                builder.setExtra(strValue);
 
                 intValue = rs.getInt(index++);
                 builder.setTypeValue(intValue);
@@ -693,7 +697,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 			newInfoBuilder = newInfoBuilder.setPortrait(groupInfo.getPortrait());
 		}
 		
-		if (groupInfo.getExtra() == null || groupInfo.getExtra().size() > 0) {
+		if (groupInfo.getExtra() == null || groupInfo.getExtra().length() > 0) {
 			newInfoBuilder = newInfoBuilder.setExtra(groupInfo.getExtra());
 		}
 		
