@@ -34,6 +34,8 @@ abstract public class Action {
                     DBUtil.roolback();
                     throw e;
                 }
+            } else {
+                action(request, response);
             }
             afterAction(request, response);
         } else {

@@ -225,7 +225,7 @@ public class MemoryMessagesStore implements IMessagesStore {
                 String strValue;
                 int intValue;
                 GroupInfo.Builder builder = GroupInfo.newBuilder();
-                index = 0;
+                index = 1;
 
                 intValue = rs.getInt(index++);
                 builder.setLine(intValue);
@@ -294,14 +294,14 @@ public class MemoryMessagesStore implements IMessagesStore {
             statement.setString(index++, "");
 
             try {
-                index++;
                 MessageDigest md5= MessageDigest.getInstance("MD5");
                 BASE64Encoder base64en = new BASE64Encoder();
                 String passwdMd5=base64en.encode(md5.digest(password.getBytes("utf-8")));
                 statement.setString(index, passwdMd5  );
             } catch (Exception e) {
-
+                statement.setString(index, "");
             }
+            index++;
 
             statement.setString(index++, user.getExtra());
             statement.setLong(index++, System.currentTimeMillis());
@@ -340,44 +340,45 @@ public class MemoryMessagesStore implements IMessagesStore {
             rs = statement.executeQuery();
             if (rs.next()) {
                 UserOuterClass.User.Builder builder = UserOuterClass.User.newBuilder();
-                String value = rs.getString(0);
+                index = 1;
+                String value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setUid(userId);
                 builder.setName(value);
 
-                value = rs.getString(1);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setDisplayName(value);
 
-                value = rs.getString(2);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setPortrait(value);
 
-                value = rs.getString(3);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setMobile(value);
 
-                value = rs.getString(4);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setEmail(value);
 
-                value = rs.getString(5);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setAddress(value);
 
-                value = rs.getString(6);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setCompany(value);
 
-                value = rs.getString(7);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
 //                builder.setSocial(value);
 
-                value = rs.getString(8);
+                value = rs.getString(index++);
                 value = (value == null ? "" : value);
                 builder.setExtra(value);
 
-                long longValue = rs.getLong(9);
+                long longValue = rs.getLong(index++);
                 builder.setUpdateDt(longValue);
 
                 return builder.build();
@@ -534,9 +535,6 @@ public class MemoryMessagesStore implements IMessagesStore {
 		} else {
 			groupId = groupInfo.getTargetId();
 		}
-		
-		
-		
 
 		mIMap.put(groupId, groupInfo);
 		persistGroupInfo(groupInfo);
@@ -857,8 +855,8 @@ public class MemoryMessagesStore implements IMessagesStore {
 
             rs = statement.executeQuery();
             if (rs.next()) {
-                String uid = rs.getString(0);
-                String pwd_md5 = rs.getString(1);
+                String uid = rs.getString(1);
+                String pwd_md5 = rs.getString(2);
                 try {
                     index++;
                     MessageDigest md5= MessageDigest.getInstance("MD5");

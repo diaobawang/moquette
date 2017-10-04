@@ -77,10 +77,12 @@ CREATE TABLE `t_user` (
   `_address` varchar(64) DEFAULT '',
   `_company` varchar(64) DEFAULT '',
   `_social` varchar(64) DEFAULT '',
+  `_passwd_md5` varchar(64) DEFAULT '',
+  `_salt` varchar(64) DEFAULT '',
   `_extra` TEXT DEFAULT NULL,
   `_dt` bigint(20) NOT NULL,
   PRIMARY KEY (`_uid`),
-  INDEX `user_name_index` (`_name` ASC),
+  UNIQUE INDEX `user_name_index` (`_name` ASC),
   INDEX `user_display_name_index` (`_display_name` ASC),
   INDEX `user_mobile_index` (`_mobile` ASC),
   INDEX `user_email_index` (`_email` ASC)

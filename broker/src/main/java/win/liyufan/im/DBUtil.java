@@ -145,7 +145,7 @@ public class DBUtil {
                 e.printStackTrace();
             } finally{
                 try {
-                    if (conn!=null) {
+                    if (conn!=null && transactionConnection.get() != conn) {
                         conn.close();
                     }
                 } catch (SQLException e) {
