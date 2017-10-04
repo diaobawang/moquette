@@ -204,9 +204,19 @@ public final class GroupOuterClass {
     win.liyufan.im.proto.GroupOuterClass.GroupType getType();
 
     /**
-     * <code>bytes extra = 7;</code>
+     * <code>string extra = 7;</code>
      */
-    com.google.protobuf.ByteString getExtra();
+    java.lang.String getExtra();
+    /**
+     * <code>string extra = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtraBytes();
+
+    /**
+     * <code>int64 update_dt = 8;</code>
+     */
+    long getUpdateDt();
   }
   /**
    * Protobuf type {@code mars.stn.GroupInfo}
@@ -226,7 +236,8 @@ public final class GroupOuterClass {
       portrait_ = "";
       owner_ = "";
       type_ = 0;
-      extra_ = com.google.protobuf.ByteString.EMPTY;
+      extra_ = "";
+      updateDt_ = 0L;
     }
 
     @java.lang.Override
@@ -290,8 +301,14 @@ public final class GroupOuterClass {
               break;
             }
             case 58: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              extra_ = input.readBytes();
+              extra_ = s;
+              break;
+            }
+            case 64: {
+
+              updateDt_ = input.readInt64();
               break;
             }
           }
@@ -479,12 +496,46 @@ public final class GroupOuterClass {
     }
 
     public static final int EXTRA_FIELD_NUMBER = 7;
-    private com.google.protobuf.ByteString extra_;
+    private volatile java.lang.Object extra_;
     /**
-     * <code>bytes extra = 7;</code>
+     * <code>string extra = 7;</code>
      */
-    public com.google.protobuf.ByteString getExtra() {
-      return extra_;
+    public java.lang.String getExtra() {
+      java.lang.Object ref = extra_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        extra_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>string extra = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtraBytes() {
+      java.lang.Object ref = extra_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        extra_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int UPDATE_DT_FIELD_NUMBER = 8;
+    private long updateDt_;
+    /**
+     * <code>int64 update_dt = 8;</code>
+     */
+    public long getUpdateDt() {
+      return updateDt_;
     }
 
     private byte memoizedIsInitialized = -1;
@@ -517,8 +568,11 @@ public final class GroupOuterClass {
       if (type_ != win.liyufan.im.proto.GroupOuterClass.GroupType.GroupType_Normal.getNumber()) {
         output.writeEnum(6, type_);
       }
-      if (!extra_.isEmpty()) {
-        output.writeBytes(7, extra_);
+      if (!getExtraBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, extra_);
+      }
+      if (updateDt_ != 0L) {
+        output.writeInt64(8, updateDt_);
       }
     }
 
@@ -547,9 +601,12 @@ public final class GroupOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(6, type_);
       }
-      if (!extra_.isEmpty()) {
+      if (!getExtraBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, extra_);
+      }
+      if (updateDt_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(7, extra_);
+          .computeInt64Size(8, updateDt_);
       }
       memoizedSize = size;
       return size;
@@ -580,6 +637,8 @@ public final class GroupOuterClass {
       result = result && type_ == other.type_;
       result = result && getExtra()
           .equals(other.getExtra());
+      result = result && (getUpdateDt()
+          == other.getUpdateDt());
       return result;
     }
 
@@ -604,6 +663,9 @@ public final class GroupOuterClass {
       hash = (53 * hash) + type_;
       hash = (37 * hash) + EXTRA_FIELD_NUMBER;
       hash = (53 * hash) + getExtra().hashCode();
+      hash = (37 * hash) + UPDATE_DT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getUpdateDt());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -745,7 +807,9 @@ public final class GroupOuterClass {
 
         type_ = 0;
 
-        extra_ = com.google.protobuf.ByteString.EMPTY;
+        extra_ = "";
+
+        updateDt_ = 0L;
 
         return this;
       }
@@ -776,6 +840,7 @@ public final class GroupOuterClass {
         result.owner_ = owner_;
         result.type_ = type_;
         result.extra_ = extra_;
+        result.updateDt_ = updateDt_;
         onBuilt();
         return result;
       }
@@ -839,8 +904,12 @@ public final class GroupOuterClass {
         if (other.type_ != 0) {
           setTypeValue(other.getTypeValue());
         }
-        if (other.getExtra() != com.google.protobuf.ByteString.EMPTY) {
-          setExtra(other.getExtra());
+        if (!other.getExtra().isEmpty()) {
+          extra_ = other.extra_;
+          onChanged();
+        }
+        if (other.getUpdateDt() != 0L) {
+          setUpdateDt(other.getUpdateDt());
         }
         onChanged();
         return this;
@@ -1214,17 +1283,43 @@ public final class GroupOuterClass {
         return this;
       }
 
-      private com.google.protobuf.ByteString extra_ = com.google.protobuf.ByteString.EMPTY;
+      private java.lang.Object extra_ = "";
       /**
-       * <code>bytes extra = 7;</code>
+       * <code>string extra = 7;</code>
        */
-      public com.google.protobuf.ByteString getExtra() {
-        return extra_;
+      public java.lang.String getExtra() {
+        java.lang.Object ref = extra_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          extra_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>bytes extra = 7;</code>
+       * <code>string extra = 7;</code>
        */
-      public Builder setExtra(com.google.protobuf.ByteString value) {
+      public com.google.protobuf.ByteString
+          getExtraBytes() {
+        java.lang.Object ref = extra_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          extra_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>string extra = 7;</code>
+       */
+      public Builder setExtra(
+          java.lang.String value) {
         if (value == null) {
     throw new NullPointerException();
   }
@@ -1234,11 +1329,51 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>bytes extra = 7;</code>
+       * <code>string extra = 7;</code>
        */
       public Builder clearExtra() {
         
         extra_ = getDefaultInstance().getExtra();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>string extra = 7;</code>
+       */
+      public Builder setExtraBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        extra_ = value;
+        onChanged();
+        return this;
+      }
+
+      private long updateDt_ ;
+      /**
+       * <code>int64 update_dt = 8;</code>
+       */
+      public long getUpdateDt() {
+        return updateDt_;
+      }
+      /**
+       * <code>int64 update_dt = 8;</code>
+       */
+      public Builder setUpdateDt(long value) {
+        
+        updateDt_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int64 update_dt = 8;</code>
+       */
+      public Builder clearUpdateDt() {
+        
+        updateDt_ = 0L;
         onChanged();
         return this;
       }
@@ -2075,16 +2210,16 @@ public final class GroupOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013group.proto\022\010mars.stn\"\215\001\n\tGroupInfo\022\021\n" +
+      "\n\013group.proto\022\010mars.stn\"\240\001\n\tGroupInfo\022\021\n" +
       "\ttarget_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\022\014\n\004name\030\003" +
       " \001(\t\022\020\n\010portrait\030\004 \001(\t\022\r\n\005owner\030\005 \001(\t\022!\n" +
       "\004type\030\006 \001(\0162\023.mars.stn.GroupType\022\r\n\005extr" +
-      "a\030\007 \001(\014\"A\n\005Group\022\'\n\ngroup_info\030\001 \001(\0132\023.m" +
-      "ars.stn.GroupInfo\022\017\n\007members\030\002 \003(\t*O\n\tGr" +
-      "oupType\022\024\n\020GroupType_Normal\020\000\022\022\n\016GroupTy" +
-      "pe_Free\020\001\022\030\n\024GroupType_Restricted\020\002B\'\n\024w" +
-      "in.liyufan.im.protoB\017GroupOuterClassb\006pr" +
-      "oto3"
+      "a\030\007 \001(\t\022\021\n\tupdate_dt\030\010 \001(\003\"A\n\005Group\022\'\n\ng" +
+      "roup_info\030\001 \001(\0132\023.mars.stn.GroupInfo\022\017\n\007" +
+      "members\030\002 \003(\t*O\n\tGroupType\022\024\n\020GroupType_" +
+      "Normal\020\000\022\022\n\016GroupType_Free\020\001\022\030\n\024GroupTyp" +
+      "e_Restricted\020\002B\'\n\024win.liyufan.im.protoB\017" +
+      "GroupOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2103,7 +2238,7 @@ public final class GroupOuterClass {
     internal_static_mars_stn_GroupInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_GroupInfo_descriptor,
-        new java.lang.String[] { "TargetId", "Line", "Name", "Portrait", "Owner", "Type", "Extra", });
+        new java.lang.String[] { "TargetId", "Line", "Name", "Portrait", "Owner", "Type", "Extra", "UpdateDt", });
     internal_static_mars_stn_Group_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_mars_stn_Group_fieldAccessorTable = new

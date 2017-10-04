@@ -16,7 +16,7 @@ import win.liyufan.im.proto.UserOuterClass;
 
 @Route("/api/user")
 @HttpMethod("GET")
-public class GetUserAction extends Action {
+public class GetUserInfoAction extends Action {
 
     @Override
     public void action(Request request, Response response) {

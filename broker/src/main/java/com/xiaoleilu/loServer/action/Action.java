@@ -1,6 +1,6 @@
 package com.xiaoleilu.loServer.action;
 
-import com.hazelcast.core.HazelcastInstance;
+import com.xiaoleilu.loServer.annotation.RequireAuthentication;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
 import io.moquette.spi.IMessagesStore;
@@ -17,6 +17,9 @@ abstract public class Action {
     public static IMessagesStore messagesStore = null;
 
     public boolean preAction(Request request, Response response) {
+        if (getClass().getAnnotation(RequireAuthentication.class) != null) {
+            //do authentication
+        }
         return true;
     }
 	public void doAction(Request request, Response response) {

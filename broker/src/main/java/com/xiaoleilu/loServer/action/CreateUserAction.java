@@ -3,6 +3,7 @@ package com.xiaoleilu.loServer.action;
 import com.google.gson.Gson;
 import com.xiaoleilu.loServer.RestResult;
 import com.xiaoleilu.loServer.annotation.HttpMethod;
+import com.xiaoleilu.loServer.annotation.RequireAuthentication;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
@@ -16,6 +17,7 @@ import win.liyufan.im.proto.UserOuterClass;
 
 @Route("/api/user")
 @HttpMethod("PUT")
+@RequireAuthentication
 public class CreateUserAction extends Action {
 
     @Override
@@ -57,7 +59,7 @@ public class CreateUserAction extends Action {
 
                 newUserBuilder.setUpdateDt(System.currentTimeMillis());
 
-                messagesStore.addUserInfo(newUserBuilder.build());
+                messagesStore.addUserInfo(newUserBuilder.build(), inputCreateUser.getPassword());
             }
             response.setStatus(HttpResponseStatus.OK);
             RestResult result = RestResult.ok(inputCreateUser.getUserId());

@@ -16,6 +16,7 @@
 
 package io.moquette.persistence;
 
+import java.security.MessageDigest;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,10 +40,12 @@ import io.moquette.server.Server;
 import io.moquette.spi.IMatchingCondition;
 import io.moquette.spi.IMessagesStore;
 import io.moquette.spi.impl.subscriptions.Topic;
+import sun.misc.BASE64Encoder;
 import win.liyufan.im.DBUtil;
 import win.liyufan.im.ErrorCode;
 import win.liyufan.im.MessageBundle;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
+import win.liyufan.im.proto.GroupOuterClass;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -162,7 +165,228 @@ public class MemoryMessagesStore implements IMessagesStore {
 			DBUtil.closeDB(connection, statement);
 		}
 	}
-    
+
+    private void persistGroupInfo(GroupInfo groupInfo) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "insert into t_group (`_gid`" +
+                ", `_line`" +
+                ", `_name`" +
+                ", `_portrait`" +
+                ", `_owner`" +
+                ", `_type`" +
+                ", `_extra`" +
+                ", `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?)";
+
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, groupInfo.getTargetId());
+            statement.setInt(index++, groupInfo.getLine());
+            statement.setString(index++, groupInfo.getName());
+            statement.setString(index++, groupInfo.getPortrait());
+            statement.setString(index++, groupInfo.getOwner());
+            statement.setInt(index++, groupInfo.getType().getNumber());
+            statement.setString(index++, "");
+            statement.setLong(index++, System.currentTimeMillis());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+    }
+
+    private GroupInfo getPersistGroupInfo(String groupId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select `_line`" +
+                ", `_name`" +
+                ", `_portrait`" +
+                ", `_owner`" +
+                ", `_type`" +
+                ", `_extra`" +
+                ", `_dt` from t_group  where _git = ?";
+
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, groupId);
+
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                String strValue;
+                int intValue;
+                GroupInfo.Builder builder = GroupInfo.newBuilder();
+                index = 0;
+
+                intValue = rs.getInt(index++);
+                builder.setLine(intValue);
+
+                strValue = rs.getString(index++);
+                strValue = (strValue == null ? "" : strValue);
+                builder.setName(strValue);
+
+                strValue = rs.getString(index++);
+                strValue = (strValue == null ? "" : strValue);
+                builder.setPortrait(strValue);
+
+                strValue = rs.getString(index++);
+                strValue = (strValue == null ? "" : strValue);
+                builder.setOwner(strValue);
+
+                intValue = rs.getInt(index++);
+                builder.setTypeValue(intValue);
+
+                long longValue = rs.getLong(index++);
+
+                return builder.build();
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+        return null;
+    }
+
+	private void persistUser(UserOuterClass.User user, String password) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "insert into t_user (`_uid`" +
+                    ", `_name`" +
+                    ", `_display_name`" +
+                    ", `_portrait`" +
+                    ", `_mobile`" +
+                    ", `_email`" +
+                    ", `_address`" +
+                    ", `_company`" +
+                    ", `_social`" +
+                    ", `_passwd_md5`" +
+                    ", `_extra`" +
+                    ", `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, user.getUid());
+            statement.setString(index++, user.getName());
+            statement.setString(index++, user.getDisplayName());
+            statement.setString(index++, user.getPortrait());
+            statement.setString(index++, user.getMobile());
+            statement.setString(index++, user.getEmail());
+            statement.setString(index++, user.getAddress());
+            statement.setString(index++, user.getCompany());
+            statement.setString(index++, "");
+
+            try {
+                index++;
+                MessageDigest md5= MessageDigest.getInstance("MD5");
+                BASE64Encoder base64en = new BASE64Encoder();
+                String passwdMd5=base64en.encode(md5.digest(password.getBytes("utf-8")));
+                statement.setString(index, passwdMd5  );
+            } catch (Exception e) {
+
+            }
+
+            statement.setString(index++, user.getExtra());
+            statement.setLong(index++, System.currentTimeMillis());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+    }
+
+    private UserOuterClass.User getPersistUser(String userId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select `_name`" +
+                ", `_display_name`" +
+                ", `_portrait`" +
+                ", `_mobile`" +
+                ", `_email`" +
+                ", `_address`" +
+                ", `_company`" +
+                ", `_social`" +
+                ", `_extra`" +
+                ", `_dt` from t_user where `_uid` = ?";
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, userId);
+
+
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                UserOuterClass.User.Builder builder = UserOuterClass.User.newBuilder();
+                String value = rs.getString(0);
+                value = (value == null ? "" : value);
+                builder.setUid(userId);
+                builder.setName(value);
+
+                value = rs.getString(1);
+                value = (value == null ? "" : value);
+                builder.setDisplayName(value);
+
+                value = rs.getString(2);
+                value = (value == null ? "" : value);
+                builder.setPortrait(value);
+
+                value = rs.getString(3);
+                value = (value == null ? "" : value);
+                builder.setMobile(value);
+
+                value = rs.getString(4);
+                value = (value == null ? "" : value);
+                builder.setEmail(value);
+
+                value = rs.getString(5);
+                value = (value == null ? "" : value);
+                builder.setAddress(value);
+
+                value = rs.getString(6);
+                value = (value == null ? "" : value);
+                builder.setCompany(value);
+
+                value = rs.getString(7);
+                value = (value == null ? "" : value);
+//                builder.setSocial(value);
+
+                value = rs.getString(8);
+                value = (value == null ? "" : value);
+                builder.setExtra(value);
+
+                long longValue = rs.getLong(9);
+                builder.setUpdateDt(longValue);
+
+                return builder.build();
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+        return null;
+    }
+
     @Override
     public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp) {
 		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
@@ -311,6 +535,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 		
 
 		mIMap.put(groupId, groupInfo);
+		persistGroupInfo(groupInfo);
 		MultiMap<String, String> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 
@@ -495,10 +720,13 @@ public class MemoryMessagesStore implements IMessagesStore {
     public GroupInfo getGroupInfo(String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-
-			GroupInfo groupInfo = mIMap.get(groupId);
-
-		
+        GroupInfo groupInfo = mIMap.get(groupId);
+		if (groupInfo == null) {
+            groupInfo = getPersistGroupInfo(groupId);
+            if (groupInfo != null) {
+                mIMap.put(groupId, groupInfo);
+            }
+        }
 		return groupInfo;
     }
     
@@ -588,17 +816,68 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
-    public void addUserInfo(UserOuterClass.User user) {
+    public void addUserInfo(UserOuterClass.User user, String password) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
         IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
         mUserMap.put(user.getUid(), user);
+        persistUser(user, password);
     }
 
     @Override
     public UserOuterClass.User getUserInfo(String userId) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
         IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
-        return mUserMap.get(userId);
+        UserOuterClass.User user = mUserMap.get(userId);
+        if (user == null) {
+            user = getPersistUser(userId);
+            if (user != null) {
+                mUserMap.put(userId, user);
+            }
+        }
+        return user;
+    }
+
+    @Override
+    public ErrorCode login(String name, String password, List<String> userIdRet) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select `_uid`, `_passwd_md5` from t_user where `_name` = ?";
+
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+            statement.setString(index++, name);
+
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                String uid = rs.getString(0);
+                String pwd_md5 = rs.getString(1);
+                try {
+                    index++;
+                    MessageDigest md5= MessageDigest.getInstance("MD5");
+                    BASE64Encoder base64en = new BASE64Encoder();
+                    String passwdMd5 = base64en.encode(md5.digest(password.getBytes("utf-8")));
+                    if (passwdMd5.equals(pwd_md5)) {
+                        userIdRet.add(uid);
+                        return ErrorCode.ERROR_CODE_SUCCESS;
+                    } else {
+                        return ErrorCode.ERROR_CODE_PASSWORD_INCORRECT;
+                    }
+                } catch (Exception e) {
+                    return ErrorCode.ERROR_CODE_PASSWORD_INCORRECT;
+                }
+            } else {
+                return ErrorCode.ERROR_CODE_USER_NOT_EXIST;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return ErrorCode.ERROR_CODE_SERVER_ERROR;
+        } finally {
+            DBUtil.closeDB(connection, statement, rs);
+        }
     }
 
     @Override

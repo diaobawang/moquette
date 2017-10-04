@@ -123,8 +123,10 @@ public interface IMessagesStore {
 
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);
-    void addUserInfo(UserOuterClass.User user);
+    void addUserInfo(UserOuterClass.User user, String password);
     UserOuterClass.User getUserInfo(String userId);
+    ErrorCode login(String name, String password, List<String> userIdRet);
+
     /**
      * Used to initialize all persistent store structures
      */

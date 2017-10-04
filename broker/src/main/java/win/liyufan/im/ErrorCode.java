@@ -20,7 +20,11 @@ public enum ErrorCode {
     //Group error
     ERROR_CODE_GROUP_ALREADY_EXIST(10, "group aleady exist"),
     ERROR_CODE_GROUP_NOT_RIGHT(11, "no right to operate group"),
-    ERROR_CODE_GROUP_NOT_EXIST(12, "group not exist");
+    ERROR_CODE_GROUP_NOT_EXIST(12, "group not exist"),
+
+    //user error
+    ERROR_CODE_USER_NOT_EXIST(13, "user not exist"),
+    ERROR_CODE_PASSWORD_INCORRECT(14, "password incorrect"),;
 
     private int code;
     private String msg;

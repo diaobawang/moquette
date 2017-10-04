@@ -4,7 +4,8 @@ public class RestResult {
     public enum ErrorCode {
         OK(0, "success"),
         Invalid_Parameter(1, "Invalid parameter"),
-        User_Not_Exist(2, "user not exist");
+        User_Not_Exist(2, "user not exist"),
+        Password_Incorrect(3, "Password incorrect");
 
         int code;
         String msg;
