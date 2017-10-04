@@ -6,10 +6,7 @@ import com.xiaoleilu.loServer.annotation.HttpMethod;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
-import com.xiaoleilu.loServer.pojos.InputCreateUser;
-import com.xiaoleilu.loServer.pojos.OutputGetUser;
-import io.moquette.spi.IMessagesStore;
-import io.moquette.spi.impl.Utils;
+import com.xiaoleilu.loServer.pojos.OutputGetUserInfo;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import win.liyufan.im.proto.UserOuterClass;
@@ -30,7 +27,7 @@ public class GetUserInfoAction extends Action {
                 if (user == null) {
                     result = RestResult.resultOf(RestResult.ErrorCode.User_Not_Exist);
                 } else {
-                    result = RestResult.ok(OutputGetUser.fromUser(user));
+                    result = RestResult.ok(OutputGetUserInfo.fromUser(user));
                 }
 
             }

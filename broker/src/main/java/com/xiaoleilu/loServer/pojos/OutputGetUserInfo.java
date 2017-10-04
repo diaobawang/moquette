@@ -2,7 +2,7 @@ package com.xiaoleilu.loServer.pojos;
 
 import win.liyufan.im.proto.UserOuterClass;
 
-public class OutputGetUser {
+public class OutputGetUserInfo {
     private String userId;
     private String name;
     private String displayName;
@@ -14,8 +14,8 @@ public class OutputGetUser {
     private String extra;
     private long updateDt;
 
-    public static OutputGetUser fromUser(UserOuterClass.User user) {
-        OutputGetUser out = new OutputGetUser();
+    public static OutputGetUserInfo fromUser(UserOuterClass.User user) {
+        OutputGetUserInfo out = new OutputGetUserInfo();
         out.userId = user.getUid();
         out.name = user.getName();
         out.displayName = user.getDisplayName();

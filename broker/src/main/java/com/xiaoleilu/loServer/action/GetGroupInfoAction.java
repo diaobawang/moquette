@@ -6,10 +6,10 @@ import com.xiaoleilu.loServer.annotation.HttpMethod;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
-import com.xiaoleilu.loServer.pojos.OutputGetUser;
+import com.xiaoleilu.loServer.pojos.OutputGetGroupInfo;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import win.liyufan.im.proto.UserOuterClass;
+import win.liyufan.im.proto.GroupOuterClass;
 
 @Route("/api/group")
 @HttpMethod("GET")
@@ -23,13 +23,12 @@ public class GetGroupInfoAction extends Action {
             if (groupId == null || groupId.isEmpty()) {
                 result = RestResult.resultOf(RestResult.ErrorCode.Invalid_Parameter);
             } else {
-                UserOuterClass.User user = messagesStore.getUserInfo(groupId);
-                if (user == null) {
+                GroupOuterClass.GroupInfo groupInfo = messagesStore.getGroupInfo(groupId);
+                if (groupInfo == null) {
                     result = RestResult.resultOf(RestResult.ErrorCode.User_Not_Exist);
                 } else {
-                    result = RestResult.ok(OutputGetUser.fromUser(user));
+                    result = RestResult.ok(OutputGetGroupInfo.fromGroupInfo(groupInfo));
                 }
-
             }
             response.setStatus(HttpResponseStatus.OK);
             response.setContent(new Gson().toJson(result));
