@@ -20,10 +20,11 @@ public class GetGroupInfoAction extends Action {
         if (request.getNettyRequest() instanceof FullHttpRequest) {
             RestResult result = null;
             String groupId = request.getParam("groupId");
+            int line = request.getParam("line") == null ? 0 : Integer.parseInt(request.getParam("line"));
             if (groupId == null || groupId.isEmpty()) {
                 result = RestResult.resultOf(RestResult.ErrorCode.Invalid_Parameter);
             } else {
-                GroupOuterClass.GroupInfo groupInfo = messagesStore.getGroupInfo(groupId);
+                GroupOuterClass.GroupInfo groupInfo = messagesStore.getGroupInfo(groupId, line);
                 if (groupInfo == null) {
                     result = RestResult.resultOf(RestResult.ErrorCode.User_Not_Exist);
                 } else {
