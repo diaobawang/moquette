@@ -636,7 +636,9 @@ public class MemoryMessagesStore implements IMessagesStore {
 //            groupMembers.put(groupId, groupInfo.getOwner());
 //            userGroups.put(groupInfo.getOwner(), groupId);
 //        }
-		
+
+        persistGroupInfo(groupInfo);
+
     	return groupInfo;
     }
     
@@ -821,8 +823,14 @@ public class MemoryMessagesStore implements IMessagesStore {
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		ArrayList<GroupInfo> out = new ArrayList<>();
 		for (String groupId : groupIds) {
-
 			GroupInfo groupInfo = mIMap.get(groupId);
+			if (groupInfo == null) {
+			    groupInfo = getPersistGroupInfo(groupId);
+			    if (groupInfo != null) {
+			        mIMap.set(groupId, groupInfo);
+                }
+            }
+
 			if (groupInfo != null) {
 				out.add(groupInfo);
 			}
@@ -917,6 +925,12 @@ public class MemoryMessagesStore implements IMessagesStore {
         for (PullUserRequestOuterClass.UserRequest request : requestList
              ) {
             UserOuterClass.User user = mUserMap.get(request.getUid());
+            if (user == null) {
+                user = getPersistUser(request.getUid());
+                if(user != null) {
+                    mUserMap.set(request.getUid(), user);
+                }
+            }
             PullUserResultOuterClass.UserResult.Builder resultBuilder = PullUserResultOuterClass.UserResult.newBuilder();
             if (user == null) {
                 user = UserOuterClass.User.newBuilder().setUid(request.getUid()).build();
@@ -931,7 +945,7 @@ public class MemoryMessagesStore implements IMessagesStore {
                     resultBuilder.setCode(PullUserResultOuterClass.UserResultCode.NotModified);
                 }
             }
-            builder.getResultList().add(resultBuilder.build());
+            builder.addResult(resultBuilder.build());
 
         }
 
