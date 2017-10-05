@@ -48,16 +48,4 @@ public final class Utils {
 
     private Utils() {
     }
-
-    public static String getGroupKey(String groupId, int line) {
-        return line + "_" + groupId;
-    }
-
-    public static String getGroupId(String key) {
-        return key.substring(key.indexOf("_") + 1);
-    }
-
-    public static int getGroupLine(String key) {
-        return Integer.parseInt(key.substring(0, key.indexOf("_")));
-    }
 }

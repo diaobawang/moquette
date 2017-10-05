@@ -108,17 +108,17 @@ public interface IMessagesStore {
 	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
     GroupInfo createGroup(String operator, GroupInfo groupInfo, List<GroupOuterClass.GroupMember> memberList);
-    ErrorCode addGroupMembers(String operator, String groupId, int line, List<GroupOuterClass.GroupMember> memberList);
-    ErrorCode kickoffGroupMembers(String operator, String groupId, int line, List<String> memberList);
-    ErrorCode quitGroup(String operator, String groupId, int line);
-    ErrorCode dismissGroup(String operator, String groupId, int line);
+    ErrorCode addGroupMembers(String operator, String groupId, List<GroupOuterClass.GroupMember> memberList);
+    ErrorCode kickoffGroupMembers(String operator, String groupId, List<String> memberList);
+    ErrorCode quitGroup(String operator, String groupId);
+    ErrorCode dismissGroup(String operator, String groupId);
     ErrorCode modifyGroupInfo(String operator, GroupInfo groupInfo);
-    List<GroupInfo> getGroupInfos(List<GroupOuterClass.GroupTarget> groupTargets);
-    GroupInfo getGroupInfo(String groupId, int line);
-    List<GroupOuterClass.GroupMember> getGroupMembers(String groupId, int line);
+    List<GroupInfo> getGroupInfos(List<String> groupIds);
+    GroupInfo getGroupInfo(String groupId);
+    List<GroupOuterClass.GroupMember> getGroupMembers(String groupId);
     List<String> getMyGroups(String fromUser);
-    ErrorCode transferGroup(String operator, String groupId, int line, String newOwner);
-    boolean isMemberInGroup(String member, String groupId, int line);
+    ErrorCode transferGroup(String operator, String groupId, String newOwner);
+    boolean isMemberInGroup(String member, String groupId);
 
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);

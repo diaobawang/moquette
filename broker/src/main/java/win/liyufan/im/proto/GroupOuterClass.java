@@ -145,1329 +145,6 @@ public final class GroupOuterClass {
     // @@protoc_insertion_point(enum_scope:mars.stn.GroupType)
   }
 
-  public interface GroupTargetOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:mars.stn.GroupTarget)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>string target_id = 1;</code>
-     */
-    java.lang.String getTargetId();
-    /**
-     * <code>string target_id = 1;</code>
-     */
-    com.google.protobuf.ByteString
-        getTargetIdBytes();
-
-    /**
-     * <code>int32 line = 2;</code>
-     */
-    int getLine();
-  }
-  /**
-   * Protobuf type {@code mars.stn.GroupTarget}
-   */
-  public  static final class GroupTarget extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:mars.stn.GroupTarget)
-      GroupTargetOrBuilder {
-    // Use GroupTarget.newBuilder() to construct.
-    private GroupTarget(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private GroupTarget() {
-      targetId_ = "";
-      line_ = 0;
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-    }
-    private GroupTarget(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              targetId_ = s;
-              break;
-            }
-            case 16: {
-
-              line_ = input.readInt32();
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTarget_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTarget_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              win.liyufan.im.proto.GroupOuterClass.GroupTarget.class, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder.class);
-    }
-
-    public static final int TARGET_ID_FIELD_NUMBER = 1;
-    private volatile java.lang.Object targetId_;
-    /**
-     * <code>string target_id = 1;</code>
-     */
-    public java.lang.String getTargetId() {
-      java.lang.Object ref = targetId_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        targetId_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>string target_id = 1;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTargetIdBytes() {
-      java.lang.Object ref = targetId_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        targetId_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-
-    public static final int LINE_FIELD_NUMBER = 2;
-    private int line_;
-    /**
-     * <code>int32 line = 2;</code>
-     */
-    public int getLine() {
-      return line_;
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      if (!getTargetIdBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, targetId_);
-      }
-      if (line_ != 0) {
-        output.writeInt32(2, line_);
-      }
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      if (!getTargetIdBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, targetId_);
-      }
-      if (line_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, line_);
-      }
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof win.liyufan.im.proto.GroupOuterClass.GroupTarget)) {
-        return super.equals(obj);
-      }
-      win.liyufan.im.proto.GroupOuterClass.GroupTarget other = (win.liyufan.im.proto.GroupOuterClass.GroupTarget) obj;
-
-      boolean result = true;
-      result = result && getTargetId()
-          .equals(other.getTargetId());
-      result = result && (getLine()
-          == other.getLine());
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      hash = (37 * hash) + TARGET_ID_FIELD_NUMBER;
-      hash = (53 * hash) + getTargetId().hashCode();
-      hash = (37 * hash) + LINE_FIELD_NUMBER;
-      hash = (53 * hash) + getLine();
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(win.liyufan.im.proto.GroupOuterClass.GroupTarget prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code mars.stn.GroupTarget}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:mars.stn.GroupTarget)
-        win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTarget_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTarget_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                win.liyufan.im.proto.GroupOuterClass.GroupTarget.class, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder.class);
-      }
-
-      // Construct using win.liyufan.im.proto.GroupOuterClass.GroupTarget.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        targetId_ = "";
-
-        line_ = 0;
-
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTarget_descriptor;
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget getDefaultInstanceForType() {
-        return win.liyufan.im.proto.GroupOuterClass.GroupTarget.getDefaultInstance();
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget build() {
-        win.liyufan.im.proto.GroupOuterClass.GroupTarget result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget buildPartial() {
-        win.liyufan.im.proto.GroupOuterClass.GroupTarget result = new win.liyufan.im.proto.GroupOuterClass.GroupTarget(this);
-        result.targetId_ = targetId_;
-        result.line_ = line_;
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof win.liyufan.im.proto.GroupOuterClass.GroupTarget) {
-          return mergeFrom((win.liyufan.im.proto.GroupOuterClass.GroupTarget)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(win.liyufan.im.proto.GroupOuterClass.GroupTarget other) {
-        if (other == win.liyufan.im.proto.GroupOuterClass.GroupTarget.getDefaultInstance()) return this;
-        if (!other.getTargetId().isEmpty()) {
-          targetId_ = other.targetId_;
-          onChanged();
-        }
-        if (other.getLine() != 0) {
-          setLine(other.getLine());
-        }
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        win.liyufan.im.proto.GroupOuterClass.GroupTarget parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (win.liyufan.im.proto.GroupOuterClass.GroupTarget) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-
-      private java.lang.Object targetId_ = "";
-      /**
-       * <code>string target_id = 1;</code>
-       */
-      public java.lang.String getTargetId() {
-        java.lang.Object ref = targetId_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          targetId_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <code>string target_id = 1;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTargetIdBytes() {
-        java.lang.Object ref = targetId_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          targetId_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <code>string target_id = 1;</code>
-       */
-      public Builder setTargetId(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        targetId_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string target_id = 1;</code>
-       */
-      public Builder clearTargetId() {
-        
-        targetId_ = getDefaultInstance().getTargetId();
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>string target_id = 1;</code>
-       */
-      public Builder setTargetIdBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        targetId_ = value;
-        onChanged();
-        return this;
-      }
-
-      private int line_ ;
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public int getLine() {
-        return line_;
-      }
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public Builder setLine(int value) {
-        
-        line_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public Builder clearLine() {
-        
-        line_ = 0;
-        onChanged();
-        return this;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:mars.stn.GroupTarget)
-    }
-
-    // @@protoc_insertion_point(class_scope:mars.stn.GroupTarget)
-    private static final win.liyufan.im.proto.GroupOuterClass.GroupTarget DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new win.liyufan.im.proto.GroupOuterClass.GroupTarget();
-    }
-
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTarget getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<GroupTarget>
-        PARSER = new com.google.protobuf.AbstractParser<GroupTarget>() {
-      public GroupTarget parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GroupTarget(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<GroupTarget> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GroupTarget> getParserForType() {
-      return PARSER;
-    }
-
-    public win.liyufan.im.proto.GroupOuterClass.GroupTarget getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
-  public interface GroupTargetListBufOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:mars.stn.GroupTargetListBuf)
-      com.google.protobuf.MessageOrBuilder {
-
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget> 
-        getTargetList();
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    win.liyufan.im.proto.GroupOuterClass.GroupTarget getTarget(int index);
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    int getTargetCount();
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder> 
-        getTargetOrBuilderList();
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder getTargetOrBuilder(
-        int index);
-  }
-  /**
-   * Protobuf type {@code mars.stn.GroupTargetListBuf}
-   */
-  public  static final class GroupTargetListBuf extends
-      com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:mars.stn.GroupTargetListBuf)
-      GroupTargetListBufOrBuilder {
-    // Use GroupTargetListBuf.newBuilder() to construct.
-    private GroupTargetListBuf(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
-      super(builder);
-    }
-    private GroupTargetListBuf() {
-      target_ = java.util.Collections.emptyList();
-    }
-
-    @java.lang.Override
-    public final com.google.protobuf.UnknownFieldSet
-    getUnknownFields() {
-      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
-    }
-    private GroupTargetListBuf(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      this();
-      int mutable_bitField0_ = 0;
-      try {
-        boolean done = false;
-        while (!done) {
-          int tag = input.readTag();
-          switch (tag) {
-            case 0:
-              done = true;
-              break;
-            default: {
-              if (!input.skipField(tag)) {
-                done = true;
-              }
-              break;
-            }
-            case 10: {
-              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-                target_ = new java.util.ArrayList<win.liyufan.im.proto.GroupOuterClass.GroupTarget>();
-                mutable_bitField0_ |= 0x00000001;
-              }
-              target_.add(
-                  input.readMessage(win.liyufan.im.proto.GroupOuterClass.GroupTarget.parser(), extensionRegistry));
-              break;
-            }
-          }
-        }
-      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
-      } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e).setUnfinishedMessage(this);
-      } finally {
-        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
-          target_ = java.util.Collections.unmodifiableList(target_);
-        }
-        makeExtensionsImmutable();
-      }
-    }
-    public static final com.google.protobuf.Descriptors.Descriptor
-        getDescriptor() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTargetListBuf_descriptor;
-    }
-
-    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-        internalGetFieldAccessorTable() {
-      return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTargetListBuf_fieldAccessorTable
-          .ensureFieldAccessorsInitialized(
-              win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.class, win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.Builder.class);
-    }
-
-    public static final int TARGET_FIELD_NUMBER = 1;
-    private java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget> target_;
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget> getTargetList() {
-      return target_;
-    }
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder> 
-        getTargetOrBuilderList() {
-      return target_;
-    }
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    public int getTargetCount() {
-      return target_.size();
-    }
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    public win.liyufan.im.proto.GroupOuterClass.GroupTarget getTarget(int index) {
-      return target_.get(index);
-    }
-    /**
-     * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-     */
-    public win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder getTargetOrBuilder(
-        int index) {
-      return target_.get(index);
-    }
-
-    private byte memoizedIsInitialized = -1;
-    public final boolean isInitialized() {
-      byte isInitialized = memoizedIsInitialized;
-      if (isInitialized == 1) return true;
-      if (isInitialized == 0) return false;
-
-      memoizedIsInitialized = 1;
-      return true;
-    }
-
-    public void writeTo(com.google.protobuf.CodedOutputStream output)
-                        throws java.io.IOException {
-      for (int i = 0; i < target_.size(); i++) {
-        output.writeMessage(1, target_.get(i));
-      }
-    }
-
-    public int getSerializedSize() {
-      int size = memoizedSize;
-      if (size != -1) return size;
-
-      size = 0;
-      for (int i = 0; i < target_.size(); i++) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, target_.get(i));
-      }
-      memoizedSize = size;
-      return size;
-    }
-
-    private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    public boolean equals(final java.lang.Object obj) {
-      if (obj == this) {
-       return true;
-      }
-      if (!(obj instanceof win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf)) {
-        return super.equals(obj);
-      }
-      win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf other = (win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf) obj;
-
-      boolean result = true;
-      result = result && getTargetList()
-          .equals(other.getTargetList());
-      return result;
-    }
-
-    @java.lang.Override
-    public int hashCode() {
-      if (memoizedHashCode != 0) {
-        return memoizedHashCode;
-      }
-      int hash = 41;
-      hash = (19 * hash) + getDescriptor().hashCode();
-      if (getTargetCount() > 0) {
-        hash = (37 * hash) + TARGET_FIELD_NUMBER;
-        hash = (53 * hash) + getTargetList().hashCode();
-      }
-      hash = (29 * hash) + unknownFields.hashCode();
-      memoizedHashCode = hash;
-      return hash;
-    }
-
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        java.nio.ByteBuffer data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        java.nio.ByteBuffer data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        com.google.protobuf.ByteString data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        com.google.protobuf.ByteString data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(byte[] data)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        byte[] data,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      return PARSER.parseFrom(data, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseDelimitedFrom(java.io.InputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseDelimitedFrom(
-        java.io.InputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        com.google.protobuf.CodedInputStream input)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input);
-    }
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parseFrom(
-        com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessageV3
-          .parseWithIOException(PARSER, input, extensionRegistry);
-    }
-
-    public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder() {
-      return DEFAULT_INSTANCE.toBuilder();
-    }
-    public static Builder newBuilder(win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf prototype) {
-      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
-    }
-    public Builder toBuilder() {
-      return this == DEFAULT_INSTANCE
-          ? new Builder() : new Builder().mergeFrom(this);
-    }
-
-    @java.lang.Override
-    protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-      Builder builder = new Builder(parent);
-      return builder;
-    }
-    /**
-     * Protobuf type {@code mars.stn.GroupTargetListBuf}
-     */
-    public static final class Builder extends
-        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:mars.stn.GroupTargetListBuf)
-        win.liyufan.im.proto.GroupOuterClass.GroupTargetListBufOrBuilder {
-      public static final com.google.protobuf.Descriptors.Descriptor
-          getDescriptor() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTargetListBuf_descriptor;
-      }
-
-      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-          internalGetFieldAccessorTable() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTargetListBuf_fieldAccessorTable
-            .ensureFieldAccessorsInitialized(
-                win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.class, win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.Builder.class);
-      }
-
-      // Construct using win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.newBuilder()
-      private Builder() {
-        maybeForceBuilderInitialization();
-      }
-
-      private Builder(
-          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
-        super(parent);
-        maybeForceBuilderInitialization();
-      }
-      private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessageV3
-                .alwaysUseFieldBuilders) {
-          getTargetFieldBuilder();
-        }
-      }
-      public Builder clear() {
-        super.clear();
-        if (targetBuilder_ == null) {
-          target_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-        } else {
-          targetBuilder_.clear();
-        }
-        return this;
-      }
-
-      public com.google.protobuf.Descriptors.Descriptor
-          getDescriptorForType() {
-        return win.liyufan.im.proto.GroupOuterClass.internal_static_mars_stn_GroupTargetListBuf_descriptor;
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf getDefaultInstanceForType() {
-        return win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.getDefaultInstance();
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf build() {
-        win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf result = buildPartial();
-        if (!result.isInitialized()) {
-          throw newUninitializedMessageException(result);
-        }
-        return result;
-      }
-
-      public win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf buildPartial() {
-        win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf result = new win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf(this);
-        int from_bitField0_ = bitField0_;
-        if (targetBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
-            target_ = java.util.Collections.unmodifiableList(target_);
-            bitField0_ = (bitField0_ & ~0x00000001);
-          }
-          result.target_ = target_;
-        } else {
-          result.target_ = targetBuilder_.build();
-        }
-        onBuilt();
-        return result;
-      }
-
-      public Builder clone() {
-        return (Builder) super.clone();
-      }
-      public Builder setField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.setField(field, value);
-      }
-      public Builder clearField(
-          com.google.protobuf.Descriptors.FieldDescriptor field) {
-        return (Builder) super.clearField(field);
-      }
-      public Builder clearOneof(
-          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
-        return (Builder) super.clearOneof(oneof);
-      }
-      public Builder setRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, Object value) {
-        return (Builder) super.setRepeatedField(field, index, value);
-      }
-      public Builder addRepeatedField(
-          com.google.protobuf.Descriptors.FieldDescriptor field,
-          Object value) {
-        return (Builder) super.addRepeatedField(field, value);
-      }
-      public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf) {
-          return mergeFrom((win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf)other);
-        } else {
-          super.mergeFrom(other);
-          return this;
-        }
-      }
-
-      public Builder mergeFrom(win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf other) {
-        if (other == win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf.getDefaultInstance()) return this;
-        if (targetBuilder_ == null) {
-          if (!other.target_.isEmpty()) {
-            if (target_.isEmpty()) {
-              target_ = other.target_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-            } else {
-              ensureTargetIsMutable();
-              target_.addAll(other.target_);
-            }
-            onChanged();
-          }
-        } else {
-          if (!other.target_.isEmpty()) {
-            if (targetBuilder_.isEmpty()) {
-              targetBuilder_.dispose();
-              targetBuilder_ = null;
-              target_ = other.target_;
-              bitField0_ = (bitField0_ & ~0x00000001);
-              targetBuilder_ = 
-                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
-                   getTargetFieldBuilder() : null;
-            } else {
-              targetBuilder_.addAllMessages(other.target_);
-            }
-          }
-        }
-        onChanged();
-        return this;
-      }
-
-      public final boolean isInitialized() {
-        return true;
-      }
-
-      public Builder mergeFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws java.io.IOException {
-        win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf parsedMessage = null;
-        try {
-          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
-        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf) e.getUnfinishedMessage();
-          throw e.unwrapIOException();
-        } finally {
-          if (parsedMessage != null) {
-            mergeFrom(parsedMessage);
-          }
-        }
-        return this;
-      }
-      private int bitField0_;
-
-      private java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget> target_ =
-        java.util.Collections.emptyList();
-      private void ensureTargetIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          target_ = new java.util.ArrayList<win.liyufan.im.proto.GroupOuterClass.GroupTarget>(target_);
-          bitField0_ |= 0x00000001;
-         }
-      }
-
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          win.liyufan.im.proto.GroupOuterClass.GroupTarget, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder, win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder> targetBuilder_;
-
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget> getTargetList() {
-        if (targetBuilder_ == null) {
-          return java.util.Collections.unmodifiableList(target_);
-        } else {
-          return targetBuilder_.getMessageList();
-        }
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public int getTargetCount() {
-        if (targetBuilder_ == null) {
-          return target_.size();
-        } else {
-          return targetBuilder_.getCount();
-        }
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget getTarget(int index) {
-        if (targetBuilder_ == null) {
-          return target_.get(index);
-        } else {
-          return targetBuilder_.getMessage(index);
-        }
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder setTarget(
-          int index, win.liyufan.im.proto.GroupOuterClass.GroupTarget value) {
-        if (targetBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTargetIsMutable();
-          target_.set(index, value);
-          onChanged();
-        } else {
-          targetBuilder_.setMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder setTarget(
-          int index, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder builderForValue) {
-        if (targetBuilder_ == null) {
-          ensureTargetIsMutable();
-          target_.set(index, builderForValue.build());
-          onChanged();
-        } else {
-          targetBuilder_.setMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder addTarget(win.liyufan.im.proto.GroupOuterClass.GroupTarget value) {
-        if (targetBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTargetIsMutable();
-          target_.add(value);
-          onChanged();
-        } else {
-          targetBuilder_.addMessage(value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder addTarget(
-          int index, win.liyufan.im.proto.GroupOuterClass.GroupTarget value) {
-        if (targetBuilder_ == null) {
-          if (value == null) {
-            throw new NullPointerException();
-          }
-          ensureTargetIsMutable();
-          target_.add(index, value);
-          onChanged();
-        } else {
-          targetBuilder_.addMessage(index, value);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder addTarget(
-          win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder builderForValue) {
-        if (targetBuilder_ == null) {
-          ensureTargetIsMutable();
-          target_.add(builderForValue.build());
-          onChanged();
-        } else {
-          targetBuilder_.addMessage(builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder addTarget(
-          int index, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder builderForValue) {
-        if (targetBuilder_ == null) {
-          ensureTargetIsMutable();
-          target_.add(index, builderForValue.build());
-          onChanged();
-        } else {
-          targetBuilder_.addMessage(index, builderForValue.build());
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder addAllTarget(
-          java.lang.Iterable<? extends win.liyufan.im.proto.GroupOuterClass.GroupTarget> values) {
-        if (targetBuilder_ == null) {
-          ensureTargetIsMutable();
-          com.google.protobuf.AbstractMessageLite.Builder.addAll(
-              values, target_);
-          onChanged();
-        } else {
-          targetBuilder_.addAllMessages(values);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder clearTarget() {
-        if (targetBuilder_ == null) {
-          target_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
-          onChanged();
-        } else {
-          targetBuilder_.clear();
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public Builder removeTarget(int index) {
-        if (targetBuilder_ == null) {
-          ensureTargetIsMutable();
-          target_.remove(index);
-          onChanged();
-        } else {
-          targetBuilder_.remove(index);
-        }
-        return this;
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder getTargetBuilder(
-          int index) {
-        return getTargetFieldBuilder().getBuilder(index);
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder getTargetOrBuilder(
-          int index) {
-        if (targetBuilder_ == null) {
-          return target_.get(index);  } else {
-          return targetBuilder_.getMessageOrBuilder(index);
-        }
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder> 
-           getTargetOrBuilderList() {
-        if (targetBuilder_ != null) {
-          return targetBuilder_.getMessageOrBuilderList();
-        } else {
-          return java.util.Collections.unmodifiableList(target_);
-        }
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder addTargetBuilder() {
-        return getTargetFieldBuilder().addBuilder(
-            win.liyufan.im.proto.GroupOuterClass.GroupTarget.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder addTargetBuilder(
-          int index) {
-        return getTargetFieldBuilder().addBuilder(
-            index, win.liyufan.im.proto.GroupOuterClass.GroupTarget.getDefaultInstance());
-      }
-      /**
-       * <code>repeated .mars.stn.GroupTarget target = 1;</code>
-       */
-      public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder> 
-           getTargetBuilderList() {
-        return getTargetFieldBuilder().getBuilderList();
-      }
-      private com.google.protobuf.RepeatedFieldBuilderV3<
-          win.liyufan.im.proto.GroupOuterClass.GroupTarget, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder, win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder> 
-          getTargetFieldBuilder() {
-        if (targetBuilder_ == null) {
-          targetBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
-              win.liyufan.im.proto.GroupOuterClass.GroupTarget, win.liyufan.im.proto.GroupOuterClass.GroupTarget.Builder, win.liyufan.im.proto.GroupOuterClass.GroupTargetOrBuilder>(
-                  target_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
-                  getParentForChildren(),
-                  isClean());
-          target_ = null;
-        }
-        return targetBuilder_;
-      }
-      public final Builder setUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-      public final Builder mergeUnknownFields(
-          final com.google.protobuf.UnknownFieldSet unknownFields) {
-        return this;
-      }
-
-
-      // @@protoc_insertion_point(builder_scope:mars.stn.GroupTargetListBuf)
-    }
-
-    // @@protoc_insertion_point(class_scope:mars.stn.GroupTargetListBuf)
-    private static final win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf DEFAULT_INSTANCE;
-    static {
-      DEFAULT_INSTANCE = new win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf();
-    }
-
-    public static win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf getDefaultInstance() {
-      return DEFAULT_INSTANCE;
-    }
-
-    private static final com.google.protobuf.Parser<GroupTargetListBuf>
-        PARSER = new com.google.protobuf.AbstractParser<GroupTargetListBuf>() {
-      public GroupTargetListBuf parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-          return new GroupTargetListBuf(input, extensionRegistry);
-      }
-    };
-
-    public static com.google.protobuf.Parser<GroupTargetListBuf> parser() {
-      return PARSER;
-    }
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<GroupTargetListBuf> getParserForType() {
-      return PARSER;
-    }
-
-    public win.liyufan.im.proto.GroupOuterClass.GroupTargetListBuf getDefaultInstanceForType() {
-      return DEFAULT_INSTANCE;
-    }
-
-  }
-
   public interface GroupInfoOrBuilder extends
       // @@protoc_insertion_point(interface_extends:mars.stn.GroupInfo)
       com.google.protobuf.MessageOrBuilder {
@@ -1483,61 +160,56 @@ public final class GroupOuterClass {
         getTargetIdBytes();
 
     /**
-     * <code>int32 line = 2;</code>
-     */
-    int getLine();
-
-    /**
-     * <code>string name = 3;</code>
+     * <code>string name = 2;</code>
      */
     java.lang.String getName();
     /**
-     * <code>string name = 3;</code>
+     * <code>string name = 2;</code>
      */
     com.google.protobuf.ByteString
         getNameBytes();
 
     /**
-     * <code>string portrait = 4;</code>
+     * <code>string portrait = 3;</code>
      */
     java.lang.String getPortrait();
     /**
-     * <code>string portrait = 4;</code>
+     * <code>string portrait = 3;</code>
      */
     com.google.protobuf.ByteString
         getPortraitBytes();
 
     /**
-     * <code>string owner = 5;</code>
+     * <code>string owner = 4;</code>
      */
     java.lang.String getOwner();
     /**
-     * <code>string owner = 5;</code>
+     * <code>string owner = 4;</code>
      */
     com.google.protobuf.ByteString
         getOwnerBytes();
 
     /**
-     * <code>.mars.stn.GroupType type = 6;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     int getTypeValue();
     /**
-     * <code>.mars.stn.GroupType type = 6;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     win.liyufan.im.proto.GroupOuterClass.GroupType getType();
 
     /**
-     * <code>string extra = 7;</code>
+     * <code>string extra = 6;</code>
      */
     java.lang.String getExtra();
     /**
-     * <code>string extra = 7;</code>
+     * <code>string extra = 6;</code>
      */
     com.google.protobuf.ByteString
         getExtraBytes();
 
     /**
-     * <code>int64 update_dt = 8;</code>
+     * <code>int64 update_dt = 7;</code>
      */
     long getUpdateDt();
   }
@@ -1554,7 +226,6 @@ public final class GroupOuterClass {
     }
     private GroupInfo() {
       targetId_ = "";
-      line_ = 0;
       name_ = "";
       portrait_ = "";
       owner_ = "";
@@ -1594,42 +265,37 @@ public final class GroupOuterClass {
               targetId_ = s;
               break;
             }
-            case 16: {
-
-              line_ = input.readInt32();
-              break;
-            }
-            case 26: {
+            case 18: {
               java.lang.String s = input.readStringRequireUtf8();
 
               name_ = s;
               break;
             }
-            case 34: {
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               portrait_ = s;
               break;
             }
-            case 42: {
+            case 34: {
               java.lang.String s = input.readStringRequireUtf8();
 
               owner_ = s;
               break;
             }
-            case 48: {
+            case 40: {
               int rawValue = input.readEnum();
 
               type_ = rawValue;
               break;
             }
-            case 58: {
+            case 50: {
               java.lang.String s = input.readStringRequireUtf8();
 
               extra_ = s;
               break;
             }
-            case 64: {
+            case 56: {
 
               updateDt_ = input.readInt64();
               break;
@@ -1691,19 +357,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int LINE_FIELD_NUMBER = 2;
-    private int line_;
-    /**
-     * <code>int32 line = 2;</code>
-     */
-    public int getLine() {
-      return line_;
-    }
-
-    public static final int NAME_FIELD_NUMBER = 3;
+    public static final int NAME_FIELD_NUMBER = 2;
     private volatile java.lang.Object name_;
     /**
-     * <code>string name = 3;</code>
+     * <code>string name = 2;</code>
      */
     public java.lang.String getName() {
       java.lang.Object ref = name_;
@@ -1718,7 +375,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string name = 3;</code>
+     * <code>string name = 2;</code>
      */
     public com.google.protobuf.ByteString
         getNameBytes() {
@@ -1734,10 +391,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int PORTRAIT_FIELD_NUMBER = 4;
+    public static final int PORTRAIT_FIELD_NUMBER = 3;
     private volatile java.lang.Object portrait_;
     /**
-     * <code>string portrait = 4;</code>
+     * <code>string portrait = 3;</code>
      */
     public java.lang.String getPortrait() {
       java.lang.Object ref = portrait_;
@@ -1752,7 +409,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string portrait = 4;</code>
+     * <code>string portrait = 3;</code>
      */
     public com.google.protobuf.ByteString
         getPortraitBytes() {
@@ -1768,10 +425,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int OWNER_FIELD_NUMBER = 5;
+    public static final int OWNER_FIELD_NUMBER = 4;
     private volatile java.lang.Object owner_;
     /**
-     * <code>string owner = 5;</code>
+     * <code>string owner = 4;</code>
      */
     public java.lang.String getOwner() {
       java.lang.Object ref = owner_;
@@ -1786,7 +443,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string owner = 5;</code>
+     * <code>string owner = 4;</code>
      */
     public com.google.protobuf.ByteString
         getOwnerBytes() {
@@ -1802,26 +459,26 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int TYPE_FIELD_NUMBER = 6;
+    public static final int TYPE_FIELD_NUMBER = 5;
     private int type_;
     /**
-     * <code>.mars.stn.GroupType type = 6;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     public int getTypeValue() {
       return type_;
     }
     /**
-     * <code>.mars.stn.GroupType type = 6;</code>
+     * <code>.mars.stn.GroupType type = 5;</code>
      */
     public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
       win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
       return result == null ? win.liyufan.im.proto.GroupOuterClass.GroupType.UNRECOGNIZED : result;
     }
 
-    public static final int EXTRA_FIELD_NUMBER = 7;
+    public static final int EXTRA_FIELD_NUMBER = 6;
     private volatile java.lang.Object extra_;
     /**
-     * <code>string extra = 7;</code>
+     * <code>string extra = 6;</code>
      */
     public java.lang.String getExtra() {
       java.lang.Object ref = extra_;
@@ -1836,7 +493,7 @@ public final class GroupOuterClass {
       }
     }
     /**
-     * <code>string extra = 7;</code>
+     * <code>string extra = 6;</code>
      */
     public com.google.protobuf.ByteString
         getExtraBytes() {
@@ -1852,10 +509,10 @@ public final class GroupOuterClass {
       }
     }
 
-    public static final int UPDATE_DT_FIELD_NUMBER = 8;
+    public static final int UPDATE_DT_FIELD_NUMBER = 7;
     private long updateDt_;
     /**
-     * <code>int64 update_dt = 8;</code>
+     * <code>int64 update_dt = 7;</code>
      */
     public long getUpdateDt() {
       return updateDt_;
@@ -1876,26 +533,23 @@ public final class GroupOuterClass {
       if (!getTargetIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, targetId_);
       }
-      if (line_ != 0) {
-        output.writeInt32(2, line_);
-      }
       if (!getNameBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, name_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, name_);
       }
       if (!getPortraitBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, portrait_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, portrait_);
       }
       if (!getOwnerBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, owner_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, owner_);
       }
       if (type_ != win.liyufan.im.proto.GroupOuterClass.GroupType.GroupType_Normal.getNumber()) {
-        output.writeEnum(6, type_);
+        output.writeEnum(5, type_);
       }
       if (!getExtraBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, extra_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, extra_);
       }
       if (updateDt_ != 0L) {
-        output.writeInt64(8, updateDt_);
+        output.writeInt64(7, updateDt_);
       }
     }
 
@@ -1907,29 +561,25 @@ public final class GroupOuterClass {
       if (!getTargetIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, targetId_);
       }
-      if (line_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, line_);
-      }
       if (!getNameBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, name_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, name_);
       }
       if (!getPortraitBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, portrait_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, portrait_);
       }
       if (!getOwnerBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, owner_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, owner_);
       }
       if (type_ != win.liyufan.im.proto.GroupOuterClass.GroupType.GroupType_Normal.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
-          .computeEnumSize(6, type_);
+          .computeEnumSize(5, type_);
       }
       if (!getExtraBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, extra_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, extra_);
       }
       if (updateDt_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(8, updateDt_);
+          .computeInt64Size(7, updateDt_);
       }
       memoizedSize = size;
       return size;
@@ -1949,8 +599,6 @@ public final class GroupOuterClass {
       boolean result = true;
       result = result && getTargetId()
           .equals(other.getTargetId());
-      result = result && (getLine()
-          == other.getLine());
       result = result && getName()
           .equals(other.getName());
       result = result && getPortrait()
@@ -1974,8 +622,6 @@ public final class GroupOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + TARGET_ID_FIELD_NUMBER;
       hash = (53 * hash) + getTargetId().hashCode();
-      hash = (37 * hash) + LINE_FIELD_NUMBER;
-      hash = (53 * hash) + getLine();
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
       hash = (37 * hash) + PORTRAIT_FIELD_NUMBER;
@@ -2120,8 +766,6 @@ public final class GroupOuterClass {
         super.clear();
         targetId_ = "";
 
-        line_ = 0;
-
         name_ = "";
 
         portrait_ = "";
@@ -2157,7 +801,6 @@ public final class GroupOuterClass {
       public win.liyufan.im.proto.GroupOuterClass.GroupInfo buildPartial() {
         win.liyufan.im.proto.GroupOuterClass.GroupInfo result = new win.liyufan.im.proto.GroupOuterClass.GroupInfo(this);
         result.targetId_ = targetId_;
-        result.line_ = line_;
         result.name_ = name_;
         result.portrait_ = portrait_;
         result.owner_ = owner_;
@@ -2208,9 +851,6 @@ public final class GroupOuterClass {
         if (!other.getTargetId().isEmpty()) {
           targetId_ = other.targetId_;
           onChanged();
-        }
-        if (other.getLine() != 0) {
-          setLine(other.getLine());
         }
         if (!other.getName().isEmpty()) {
           name_ = other.name_;
@@ -2329,35 +969,9 @@ public final class GroupOuterClass {
         return this;
       }
 
-      private int line_ ;
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public int getLine() {
-        return line_;
-      }
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public Builder setLine(int value) {
-        
-        line_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public Builder clearLine() {
-        
-        line_ = 0;
-        onChanged();
-        return this;
-      }
-
       private java.lang.Object name_ = "";
       /**
-       * <code>string name = 3;</code>
+       * <code>string name = 2;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -2372,7 +986,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string name = 3;</code>
+       * <code>string name = 2;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -2388,7 +1002,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string name = 3;</code>
+       * <code>string name = 2;</code>
        */
       public Builder setName(
           java.lang.String value) {
@@ -2401,7 +1015,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string name = 3;</code>
+       * <code>string name = 2;</code>
        */
       public Builder clearName() {
         
@@ -2410,7 +1024,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string name = 3;</code>
+       * <code>string name = 2;</code>
        */
       public Builder setNameBytes(
           com.google.protobuf.ByteString value) {
@@ -2426,7 +1040,7 @@ public final class GroupOuterClass {
 
       private java.lang.Object portrait_ = "";
       /**
-       * <code>string portrait = 4;</code>
+       * <code>string portrait = 3;</code>
        */
       public java.lang.String getPortrait() {
         java.lang.Object ref = portrait_;
@@ -2441,7 +1055,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string portrait = 4;</code>
+       * <code>string portrait = 3;</code>
        */
       public com.google.protobuf.ByteString
           getPortraitBytes() {
@@ -2457,7 +1071,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string portrait = 4;</code>
+       * <code>string portrait = 3;</code>
        */
       public Builder setPortrait(
           java.lang.String value) {
@@ -2470,7 +1084,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string portrait = 4;</code>
+       * <code>string portrait = 3;</code>
        */
       public Builder clearPortrait() {
         
@@ -2479,7 +1093,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string portrait = 4;</code>
+       * <code>string portrait = 3;</code>
        */
       public Builder setPortraitBytes(
           com.google.protobuf.ByteString value) {
@@ -2495,7 +1109,7 @@ public final class GroupOuterClass {
 
       private java.lang.Object owner_ = "";
       /**
-       * <code>string owner = 5;</code>
+       * <code>string owner = 4;</code>
        */
       public java.lang.String getOwner() {
         java.lang.Object ref = owner_;
@@ -2510,7 +1124,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string owner = 5;</code>
+       * <code>string owner = 4;</code>
        */
       public com.google.protobuf.ByteString
           getOwnerBytes() {
@@ -2526,7 +1140,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string owner = 5;</code>
+       * <code>string owner = 4;</code>
        */
       public Builder setOwner(
           java.lang.String value) {
@@ -2539,7 +1153,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string owner = 5;</code>
+       * <code>string owner = 4;</code>
        */
       public Builder clearOwner() {
         
@@ -2548,7 +1162,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string owner = 5;</code>
+       * <code>string owner = 4;</code>
        */
       public Builder setOwnerBytes(
           com.google.protobuf.ByteString value) {
@@ -2564,13 +1178,13 @@ public final class GroupOuterClass {
 
       private int type_ = 0;
       /**
-       * <code>.mars.stn.GroupType type = 6;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public int getTypeValue() {
         return type_;
       }
       /**
-       * <code>.mars.stn.GroupType type = 6;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder setTypeValue(int value) {
         type_ = value;
@@ -2578,14 +1192,14 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.GroupType type = 6;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public win.liyufan.im.proto.GroupOuterClass.GroupType getType() {
         win.liyufan.im.proto.GroupOuterClass.GroupType result = win.liyufan.im.proto.GroupOuterClass.GroupType.valueOf(type_);
         return result == null ? win.liyufan.im.proto.GroupOuterClass.GroupType.UNRECOGNIZED : result;
       }
       /**
-       * <code>.mars.stn.GroupType type = 6;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder setType(win.liyufan.im.proto.GroupOuterClass.GroupType value) {
         if (value == null) {
@@ -2597,7 +1211,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.GroupType type = 6;</code>
+       * <code>.mars.stn.GroupType type = 5;</code>
        */
       public Builder clearType() {
         
@@ -2608,7 +1222,7 @@ public final class GroupOuterClass {
 
       private java.lang.Object extra_ = "";
       /**
-       * <code>string extra = 7;</code>
+       * <code>string extra = 6;</code>
        */
       public java.lang.String getExtra() {
         java.lang.Object ref = extra_;
@@ -2623,7 +1237,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string extra = 7;</code>
+       * <code>string extra = 6;</code>
        */
       public com.google.protobuf.ByteString
           getExtraBytes() {
@@ -2639,7 +1253,7 @@ public final class GroupOuterClass {
         }
       }
       /**
-       * <code>string extra = 7;</code>
+       * <code>string extra = 6;</code>
        */
       public Builder setExtra(
           java.lang.String value) {
@@ -2652,7 +1266,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string extra = 7;</code>
+       * <code>string extra = 6;</code>
        */
       public Builder clearExtra() {
         
@@ -2661,7 +1275,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>string extra = 7;</code>
+       * <code>string extra = 6;</code>
        */
       public Builder setExtraBytes(
           com.google.protobuf.ByteString value) {
@@ -2677,13 +1291,13 @@ public final class GroupOuterClass {
 
       private long updateDt_ ;
       /**
-       * <code>int64 update_dt = 8;</code>
+       * <code>int64 update_dt = 7;</code>
        */
       public long getUpdateDt() {
         return updateDt_;
       }
       /**
-       * <code>int64 update_dt = 8;</code>
+       * <code>int64 update_dt = 7;</code>
        */
       public Builder setUpdateDt(long value) {
         
@@ -2692,7 +1306,7 @@ public final class GroupOuterClass {
         return this;
       }
       /**
-       * <code>int64 update_dt = 8;</code>
+       * <code>int64 update_dt = 7;</code>
        */
       public Builder clearUpdateDt() {
         
@@ -4491,16 +3105,6 @@ public final class GroupOuterClass {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_mars_stn_GroupTarget_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_mars_stn_GroupTarget_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_mars_stn_GroupTargetListBuf_descriptor;
-  private static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_mars_stn_GroupTargetListBuf_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_mars_stn_GroupInfo_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -4524,21 +3128,18 @@ public final class GroupOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013group.proto\022\010mars.stn\".\n\013GroupTarget\022\021" +
-      "\n\ttarget_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\";\n\022Group" +
-      "TargetListBuf\022%\n\006target\030\001 \003(\0132\025.mars.stn" +
-      ".GroupTarget\"\240\001\n\tGroupInfo\022\021\n\ttarget_id\030" +
-      "\001 \001(\t\022\014\n\004line\030\002 \001(\005\022\014\n\004name\030\003 \001(\t\022\020\n\010por" +
-      "trait\030\004 \001(\t\022\r\n\005owner\030\005 \001(\t\022!\n\004type\030\006 \001(\016" +
-      "2\023.mars.stn.GroupType\022\r\n\005extra\030\007 \001(\t\022\021\n\t" +
-      "update_dt\030\010 \001(\003\"P\n\013GroupMember\022\021\n\tmember" +
-      "_id\030\001 \001(\t\022\r\n\005alias\030\002 \001(\t\022\014\n\004type\030\003 \001(\005\022\021" +
-      "\n\tupdate_dt\030\004 \001(\003\"X\n\005Group\022\'\n\ngroup_info",
-      "\030\001 \001(\0132\023.mars.stn.GroupInfo\022&\n\007members\030\002" +
-      " \003(\0132\025.mars.stn.GroupMember*O\n\tGroupType" +
-      "\022\024\n\020GroupType_Normal\020\000\022\022\n\016GroupType_Free" +
-      "\020\001\022\030\n\024GroupType_Restricted\020\002B\'\n\024win.liyu" +
-      "fan.im.protoB\017GroupOuterClassb\006proto3"
+      "\n\013group.proto\022\010mars.stn\"\222\001\n\tGroupInfo\022\021\n" +
+      "\ttarget_id\030\001 \001(\t\022\014\n\004name\030\002 \001(\t\022\020\n\010portra" +
+      "it\030\003 \001(\t\022\r\n\005owner\030\004 \001(\t\022!\n\004type\030\005 \001(\0162\023." +
+      "mars.stn.GroupType\022\r\n\005extra\030\006 \001(\t\022\021\n\tupd" +
+      "ate_dt\030\007 \001(\003\"P\n\013GroupMember\022\021\n\tmember_id" +
+      "\030\001 \001(\t\022\r\n\005alias\030\002 \001(\t\022\014\n\004type\030\003 \001(\005\022\021\n\tu" +
+      "pdate_dt\030\004 \001(\003\"X\n\005Group\022\'\n\ngroup_info\030\001 " +
+      "\001(\0132\023.mars.stn.GroupInfo\022&\n\007members\030\002 \003(" +
+      "\0132\025.mars.stn.GroupMember*O\n\tGroupType\022\024\n" +
+      "\020GroupType_Normal\020\000\022\022\n\016GroupType_Free\020\001\022",
+      "\030\n\024GroupType_Restricted\020\002B\'\n\024win.liyufan" +
+      ".im.protoB\017GroupOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4552,32 +3153,20 @@ public final class GroupOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_mars_stn_GroupTarget_descriptor =
-      getDescriptor().getMessageTypes().get(0);
-    internal_static_mars_stn_GroupTarget_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_mars_stn_GroupTarget_descriptor,
-        new java.lang.String[] { "TargetId", "Line", });
-    internal_static_mars_stn_GroupTargetListBuf_descriptor =
-      getDescriptor().getMessageTypes().get(1);
-    internal_static_mars_stn_GroupTargetListBuf_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_mars_stn_GroupTargetListBuf_descriptor,
-        new java.lang.String[] { "Target", });
     internal_static_mars_stn_GroupInfo_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(0);
     internal_static_mars_stn_GroupInfo_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_GroupInfo_descriptor,
-        new java.lang.String[] { "TargetId", "Line", "Name", "Portrait", "Owner", "Type", "Extra", "UpdateDt", });
+        new java.lang.String[] { "TargetId", "Name", "Portrait", "Owner", "Type", "Extra", "UpdateDt", });
     internal_static_mars_stn_GroupMember_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(1);
     internal_static_mars_stn_GroupMember_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_GroupMember_descriptor,
         new java.lang.String[] { "MemberId", "Alias", "Type", "UpdateDt", });
     internal_static_mars_stn_Group_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_mars_stn_Group_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_Group_descriptor,

@@ -29,9 +29,17 @@ public final class DismissGroupRequestOuterClass {
         getGroupIdBytes();
 
     /**
-     * <code>int32 line = 2;</code>
+     * <code>repeated int32 to_line = 2;</code>
      */
-    int getLine();
+    java.util.List<java.lang.Integer> getToLineList();
+    /**
+     * <code>repeated int32 to_line = 2;</code>
+     */
+    int getToLineCount();
+    /**
+     * <code>repeated int32 to_line = 2;</code>
+     */
+    int getToLine(int index);
 
     /**
      * <code>.mars.stn.MessageContent notify_content = 3;</code>
@@ -59,7 +67,7 @@ public final class DismissGroupRequestOuterClass {
     }
     private DismissGroupRequest() {
       groupId_ = "";
-      line_ = 0;
+      toLine_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -94,8 +102,24 @@ public final class DismissGroupRequestOuterClass {
               break;
             }
             case 16: {
-
-              line_ = input.readInt32();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                toLine_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              toLine_.add(input.readInt32());
+              break;
+            }
+            case 18: {
+              int length = input.readRawVarint32();
+              int limit = input.pushLimit(length);
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002) && input.getBytesUntilLimit() > 0) {
+                toLine_ = new java.util.ArrayList<java.lang.Integer>();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              while (input.getBytesUntilLimit() > 0) {
+                toLine_.add(input.readInt32());
+              }
+              input.popLimit(limit);
               break;
             }
             case 26: {
@@ -119,6 +143,9 @@ public final class DismissGroupRequestOuterClass {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          toLine_ = java.util.Collections.unmodifiableList(toLine_);
+        }
         makeExtensionsImmutable();
       }
     }
@@ -134,6 +161,7 @@ public final class DismissGroupRequestOuterClass {
               win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest.class, win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest.Builder.class);
     }
 
+    private int bitField0_;
     public static final int GROUP_ID_FIELD_NUMBER = 1;
     private volatile java.lang.Object groupId_;
     /**
@@ -168,14 +196,28 @@ public final class DismissGroupRequestOuterClass {
       }
     }
 
-    public static final int LINE_FIELD_NUMBER = 2;
-    private int line_;
+    public static final int TO_LINE_FIELD_NUMBER = 2;
+    private java.util.List<java.lang.Integer> toLine_;
     /**
-     * <code>int32 line = 2;</code>
+     * <code>repeated int32 to_line = 2;</code>
      */
-    public int getLine() {
-      return line_;
+    public java.util.List<java.lang.Integer>
+        getToLineList() {
+      return toLine_;
     }
+    /**
+     * <code>repeated int32 to_line = 2;</code>
+     */
+    public int getToLineCount() {
+      return toLine_.size();
+    }
+    /**
+     * <code>repeated int32 to_line = 2;</code>
+     */
+    public int getToLine(int index) {
+      return toLine_.get(index);
+    }
+    private int toLineMemoizedSerializedSize = -1;
 
     public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
@@ -210,11 +252,16 @@ public final class DismissGroupRequestOuterClass {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
+      getSerializedSize();
       if (!getGroupIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
       }
-      if (line_ != 0) {
-        output.writeInt32(2, line_);
+      if (getToLineList().size() > 0) {
+        output.writeUInt32NoTag(18);
+        output.writeUInt32NoTag(toLineMemoizedSerializedSize);
+      }
+      for (int i = 0; i < toLine_.size(); i++) {
+        output.writeInt32NoTag(toLine_.get(i));
       }
       if (notifyContent_ != null) {
         output.writeMessage(3, getNotifyContent());
@@ -229,9 +276,19 @@ public final class DismissGroupRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
       }
-      if (line_ != 0) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, line_);
+      {
+        int dataSize = 0;
+        for (int i = 0; i < toLine_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeInt32SizeNoTag(toLine_.get(i));
+        }
+        size += dataSize;
+        if (!getToLineList().isEmpty()) {
+          size += 1;
+          size += com.google.protobuf.CodedOutputStream
+              .computeInt32SizeNoTag(dataSize);
+        }
+        toLineMemoizedSerializedSize = dataSize;
       }
       if (notifyContent_ != null) {
         size += com.google.protobuf.CodedOutputStream
@@ -255,8 +312,8 @@ public final class DismissGroupRequestOuterClass {
       boolean result = true;
       result = result && getGroupId()
           .equals(other.getGroupId());
-      result = result && (getLine()
-          == other.getLine());
+      result = result && getToLineList()
+          .equals(other.getToLineList());
       result = result && (hasNotifyContent() == other.hasNotifyContent());
       if (hasNotifyContent()) {
         result = result && getNotifyContent()
@@ -274,8 +331,10 @@ public final class DismissGroupRequestOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + getGroupId().hashCode();
-      hash = (37 * hash) + LINE_FIELD_NUMBER;
-      hash = (53 * hash) + getLine();
+      if (getToLineCount() > 0) {
+        hash = (37 * hash) + TO_LINE_FIELD_NUMBER;
+        hash = (53 * hash) + getToLineList().hashCode();
+      }
       if (hasNotifyContent()) {
         hash = (37 * hash) + NOTIFY_CONTENT_FIELD_NUMBER;
         hash = (53 * hash) + getNotifyContent().hashCode();
@@ -411,8 +470,8 @@ public final class DismissGroupRequestOuterClass {
         super.clear();
         groupId_ = "";
 
-        line_ = 0;
-
+        toLine_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         if (notifyContentBuilder_ == null) {
           notifyContent_ = null;
         } else {
@@ -441,13 +500,20 @@ public final class DismissGroupRequestOuterClass {
 
       public win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest buildPartial() {
         win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest result = new win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         result.groupId_ = groupId_;
-        result.line_ = line_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          toLine_ = java.util.Collections.unmodifiableList(toLine_);
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.toLine_ = toLine_;
         if (notifyContentBuilder_ == null) {
           result.notifyContent_ = notifyContent_;
         } else {
           result.notifyContent_ = notifyContentBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -493,8 +559,15 @@ public final class DismissGroupRequestOuterClass {
           groupId_ = other.groupId_;
           onChanged();
         }
-        if (other.getLine() != 0) {
-          setLine(other.getLine());
+        if (!other.toLine_.isEmpty()) {
+          if (toLine_.isEmpty()) {
+            toLine_ = other.toLine_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureToLineIsMutable();
+            toLine_.addAll(other.toLine_);
+          }
+          onChanged();
         }
         if (other.hasNotifyContent()) {
           mergeNotifyContent(other.getNotifyContent());
@@ -524,6 +597,7 @@ public final class DismissGroupRequestOuterClass {
         }
         return this;
       }
+      private int bitField0_;
 
       private java.lang.Object groupId_ = "";
       /**
@@ -594,28 +668,68 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
 
-      private int line_ ;
-      /**
-       * <code>int32 line = 2;</code>
-       */
-      public int getLine() {
-        return line_;
+      private java.util.List<java.lang.Integer> toLine_ = java.util.Collections.emptyList();
+      private void ensureToLineIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          toLine_ = new java.util.ArrayList<java.lang.Integer>(toLine_);
+          bitField0_ |= 0x00000002;
+         }
       }
       /**
-       * <code>int32 line = 2;</code>
+       * <code>repeated int32 to_line = 2;</code>
        */
-      public Builder setLine(int value) {
-        
-        line_ = value;
+      public java.util.List<java.lang.Integer>
+          getToLineList() {
+        return java.util.Collections.unmodifiableList(toLine_);
+      }
+      /**
+       * <code>repeated int32 to_line = 2;</code>
+       */
+      public int getToLineCount() {
+        return toLine_.size();
+      }
+      /**
+       * <code>repeated int32 to_line = 2;</code>
+       */
+      public int getToLine(int index) {
+        return toLine_.get(index);
+      }
+      /**
+       * <code>repeated int32 to_line = 2;</code>
+       */
+      public Builder setToLine(
+          int index, int value) {
+        ensureToLineIsMutable();
+        toLine_.set(index, value);
         onChanged();
         return this;
       }
       /**
-       * <code>int32 line = 2;</code>
+       * <code>repeated int32 to_line = 2;</code>
        */
-      public Builder clearLine() {
-        
-        line_ = 0;
+      public Builder addToLine(int value) {
+        ensureToLineIsMutable();
+        toLine_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 to_line = 2;</code>
+       */
+      public Builder addAllToLine(
+          java.lang.Iterable<? extends java.lang.Integer> values) {
+        ensureToLineIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, toLine_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated int32 to_line = 2;</code>
+       */
+      public Builder clearToLine() {
+        toLine_ = java.util.Collections.emptyList();
+        bitField0_ = (bitField0_ & ~0x00000002);
         onChanged();
         return this;
       }
@@ -800,11 +914,11 @@ public final class DismissGroupRequestOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\033dismiss_group_request.proto\022\010mars.stn\032" +
-      "\025message_content.proto\"g\n\023DismissGroupRe" +
-      "quest\022\020\n\010group_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\0220\n" +
-      "\016notify_content\030\003 \001(\0132\030.mars.stn.Message" +
-      "ContentB5\n\024win.liyufan.im.protoB\035Dismiss" +
-      "GroupRequestOuterClassb\006proto3"
+      "\025message_content.proto\"j\n\023DismissGroupRe" +
+      "quest\022\020\n\010group_id\030\001 \001(\t\022\017\n\007to_line\030\002 \003(\005" +
+      "\0220\n\016notify_content\030\003 \001(\0132\030.mars.stn.Mess" +
+      "ageContentB5\n\024win.liyufan.im.protoB\035Dism" +
+      "issGroupRequestOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -824,7 +938,7 @@ public final class DismissGroupRequestOuterClass {
     internal_static_mars_stn_DismissGroupRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_DismissGroupRequest_descriptor,
-        new java.lang.String[] { "GroupId", "Line", "NotifyContent", });
+        new java.lang.String[] { "GroupId", "ToLine", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }
 

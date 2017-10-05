@@ -4,7 +4,6 @@ import win.liyufan.im.proto.GroupOuterClass;
 
 public class OutputGetGroupInfo {
     String groupId;
-    int line;
     String name;
     String portrait;
     String owner;
@@ -15,7 +14,6 @@ public class OutputGetGroupInfo {
     public static OutputGetGroupInfo fromGroupInfo(GroupOuterClass.GroupInfo groupInfo) {
         OutputGetGroupInfo out = new OutputGetGroupInfo();
         out.groupId = groupInfo.getTargetId();
-        out.line = groupInfo.getLine();
         out.name = groupInfo.getName();
         out.portrait = groupInfo.getPortrait();
         out.owner = groupInfo.getOwner();
@@ -31,14 +29,6 @@ public class OutputGetGroupInfo {
 
     public void setGroupId(String groupId) {
         this.groupId = groupId;
-    }
-
-    public int getLine() {
-        return line;
-    }
-
-    public void setLine(int line) {
-        this.line = line;
     }
 
     public String getName() {

@@ -31,7 +31,6 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hazelcast.core.*;
-import io.moquette.spi.impl.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -173,7 +172,6 @@ public class MemoryMessagesStore implements IMessagesStore {
         try {
             connection = DBUtil.getConnection();
             String sql = "insert into t_group (`_gid`" +
-                ", `_line`" +
                 ", `_name`" +
                 ", `_portrait`" +
                 ", `_owner`" +
@@ -185,7 +183,6 @@ public class MemoryMessagesStore implements IMessagesStore {
 
             int index = 1;
             statement.setString(index++, groupInfo.getTargetId());
-            statement.setInt(index++, groupInfo.getLine());
             statement.setString(index++, groupInfo.getName());
             statement.setString(index++, groupInfo.getPortrait());
             statement.setString(index++, groupInfo.getOwner());
@@ -202,7 +199,7 @@ public class MemoryMessagesStore implements IMessagesStore {
         }
     }
 
-    private GroupInfo getPersistGroupInfo(String groupId, int line) {
+    private GroupInfo getPersistGroupInfo(String groupId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -213,13 +210,12 @@ public class MemoryMessagesStore implements IMessagesStore {
                 ", `_owner`" +
                 ", `_type`" +
                 ", `_extra`" +
-                ", `_dt` from t_group  where `_gid` = ? and `_line` = ?";
+                ", `_dt` from t_group  where `_gid` = ?";
 
             statement = connection.prepareStatement(sql);
 
             int index = 1;
             statement.setString(index++, groupId);
-            statement.setInt(index++, line);
 
             rs = statement.executeQuery();
             if (rs.next()) {
@@ -229,7 +225,6 @@ public class MemoryMessagesStore implements IMessagesStore {
                 index = 1;
 
                 builder.setTargetId(groupId);
-                builder.setLine(line);
 
                 strValue = rs.getString(index++);
                 strValue = (strValue == null ? "" : strValue);
@@ -528,7 +523,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
 			MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
 
-			Collection<GroupOuterClass.GroupMember> members = groupMembers.get(Utils.getGroupKey(message.getConversation().getTarget(), message.getConversation().getLine()));
+			Collection<GroupOuterClass.GroupMember> members = groupMembers.get(message.getConversation().getTarget());
 
             for (GroupOuterClass.GroupMember member : members) {
                 userMessageIds.put(member.getMemberId(), messageId);
@@ -617,7 +612,6 @@ public class MemoryMessagesStore implements IMessagesStore {
 			
 			groupInfo = groupInfo.toBuilder()
 					.setTargetId(groupId)
-					.setLine(groupInfo.getLine())
 					.setName(groupInfo.getName())
 					.setPortrait(groupInfo.getPortrait())
 					.setType(groupInfo.getType())
@@ -628,15 +622,14 @@ public class MemoryMessagesStore implements IMessagesStore {
 			groupId = groupInfo.getTargetId();
 		}
 
-		String groupKey = Utils.getGroupKey(groupId, groupInfo.getLine());
-		mIMap.put(groupKey, groupInfo);
+		mIMap.put(groupId, groupInfo);
 		persistGroupInfo(groupInfo);
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 
 		for (GroupOuterClass.GroupMember member : memberList) {
-			groupMembers.put(groupKey, member);
-			userGroups.put(member.getMemberId(), groupKey);
+			groupMembers.put(groupId, member);
+			userGroups.put(member.getMemberId(), groupId);
 		}
 
 //		if (!memberList.contains(groupInfo.getOwner())) {
@@ -649,12 +642,11 @@ public class MemoryMessagesStore implements IMessagesStore {
     
     
     @Override
-    public ErrorCode addGroupMembers(String operator, String groupId, int line, List<GroupOuterClass.GroupMember> memberList) {
+    public ErrorCode addGroupMembers(String operator, String groupId, List<GroupOuterClass.GroupMember> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
-        String groupKey = Utils.getGroupKey(groupId, line);
-		GroupInfo groupInfo = mIMap.get(groupKey);
+		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
 			return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
@@ -665,19 +657,19 @@ public class MemoryMessagesStore implements IMessagesStore {
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		for (GroupOuterClass.GroupMember member : memberList) {
-			groupMembers.put(groupKey, member);
-			userGroups.put(member.getMemberId(), groupKey);
+			groupMembers.put(groupId, member);
+			userGroups.put(member.getMemberId(), groupId);
 		}
 		
     	return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public ErrorCode kickoffGroupMembers(String operator, String groupId, int line, List<String> memberList) {
+    public ErrorCode kickoffGroupMembers(String operator, String groupId, List<String> memberList) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupId, line);
-		GroupInfo groupInfo = mIMap.get(groupKey);
+
+		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
@@ -689,39 +681,40 @@ public class MemoryMessagesStore implements IMessagesStore {
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 		for (String member : memberList) {
-			userGroups.remove(member, groupKey);
+			userGroups.remove(member, groupId);
 		}
 
 		List<GroupOuterClass.GroupMember> memberTobeRemove = new ArrayList<>();
-        for (GroupOuterClass.GroupMember member: groupMembers.get(groupKey)
+        for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
              ) {
             if (memberList.contains(member.getMemberId())) {
                 memberTobeRemove.add(member);
             }
         }
-        groupMembers.remove(groupKey, memberTobeRemove);
+        groupMembers.remove(groupId, memberTobeRemove);
 
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public ErrorCode quitGroup(String operator, String groupId, int line) {
+    public ErrorCode quitGroup(String operator, String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupId, line);
-		GroupInfo groupInfo = mIMap.get(groupKey);
+
+
+		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
             MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
             MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-            for (GroupOuterClass.GroupMember member: groupMembers.get(groupKey)
+            for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
                  ) {
                 if (member.getMemberId().equals(operator)) {
-                    groupMembers.remove(groupKey, member);
+                    groupMembers.remove(groupId, member);
                     break;
                 }
             }
-            userGroups.remove(operator, groupKey);
+            userGroups.remove(operator, groupId);
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 		}
 		if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
@@ -729,33 +722,34 @@ public class MemoryMessagesStore implements IMessagesStore {
 		}
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-        for (GroupOuterClass.GroupMember member: groupMembers.get(groupKey)
+        for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
             ) {
             if (member.getMemberId().equals(operator)) {
-                groupMembers.remove(groupKey, member);
+                groupMembers.remove(groupId, member);
                 break;
             }
         }
-		userGroups.remove(operator, groupKey);
+		userGroups.remove(operator, groupId);
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public ErrorCode dismissGroup(String operator, String groupId, int line) {
+    public ErrorCode dismissGroup(String operator, String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupId, line);
-		GroupInfo groupInfo = mIMap.get(groupKey);
+
+
+		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
 		    //maybe dirty data, remove it
             MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
             MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
             for (GroupOuterClass.GroupMember member :
                 groupMembers.get(operator)) {
-                userGroups.remove(member.getMemberId(), groupKey);
+                userGroups.remove(member.getMemberId(), groupId);
             }
-            groupMembers.remove(groupKey);
+            groupMembers.remove(groupId);
 
 
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
@@ -770,12 +764,12 @@ public class MemoryMessagesStore implements IMessagesStore {
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
         for (GroupOuterClass.GroupMember member :
-            groupMembers.get(groupKey)) {
-            userGroups.remove(member.getMemberId(), groupKey);
+            groupMembers.get(groupId)) {
+            userGroups.remove(member.getMemberId(), groupId);
         }
 
-		groupMembers.remove(groupKey);
-        mIMap.remove(groupKey);
+		groupMembers.remove(groupId);
+        mIMap.remove(groupId);
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
@@ -788,9 +782,8 @@ public class MemoryMessagesStore implements IMessagesStore {
 		
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupInfo.getTargetId(), groupInfo.getLine());
 
-		GroupInfo oldInfo = mIMap.get(groupKey);
+		GroupInfo oldInfo = mIMap.get(groupInfo.getTargetId());
 
 		if (oldInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
@@ -818,18 +811,18 @@ public class MemoryMessagesStore implements IMessagesStore {
 			newInfoBuilder = newInfoBuilder.setExtra(groupInfo.getExtra());
 		}
 		
-		mIMap.put(groupKey, newInfoBuilder.build());
+		mIMap.put(groupInfo.getTargetId(), newInfoBuilder.build());
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
     
     @Override
-    public List<GroupInfo> getGroupInfos(List<GroupOuterClass.GroupTarget> groupTargets) {
+    public List<GroupInfo> getGroupInfos(List<String> groupIds) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 		ArrayList<GroupInfo> out = new ArrayList<>();
-		for (GroupOuterClass.GroupTarget groupTarget : groupTargets) {
-            String groupKey = Utils.getGroupKey(groupTarget.getTargetId(), groupTarget.getLine());
-			GroupInfo groupInfo = mIMap.get(groupKey);
+		for (String groupId : groupIds) {
+
+			GroupInfo groupInfo = mIMap.get(groupId);
 			if (groupInfo != null) {
 				out.add(groupInfo);
 			}
@@ -839,32 +832,32 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
     
     @Override
-    public GroupInfo getGroupInfo(String groupId, int line) {
+    public GroupInfo getGroupInfo(String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-		String groupKey = Utils.getGroupKey(groupId, line);
-        GroupInfo groupInfo = mIMap.get(groupKey);
+
+        GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
-            groupInfo = getPersistGroupInfo(groupId, line);
+            groupInfo = getPersistGroupInfo(groupId);
             if (groupInfo != null) {
-                mIMap.put(groupKey, groupInfo);
+                mIMap.put(groupId, groupInfo);
             }
         }
 		return groupInfo;
     }
     
     @Override
-    public List<GroupOuterClass.GroupMember> getGroupMembers(String groupId, int line) {
+    public List<GroupOuterClass.GroupMember> getGroupMembers(String groupId) {
     	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
 		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupId, line);
-		GroupInfo groupInfo = mIMap.get(groupKey);
+
+		GroupInfo groupInfo = mIMap.get(groupId);
 		if (groupInfo == null) {
 			return null;//group not exist
 		}
 
 		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
-		return new ArrayList<>(groupMembers.get(groupKey));
+		return new ArrayList<>(groupMembers.get(groupId));
     }
 
     @Override
@@ -875,11 +868,12 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
-    public ErrorCode transferGroup(String operator, String groupId, int line, String newOwner) {
+    public ErrorCode transferGroup(String operator, String groupId, String newOwner) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
         IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-        String groupKey = Utils.getGroupKey(groupId, line);
-        GroupInfo groupInfo = mIMap.get(groupKey);
+
+
+        GroupInfo groupInfo = mIMap.get(groupId);
 
         if (groupInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
@@ -894,17 +888,17 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         groupInfo = groupInfo.toBuilder().setOwner(newOwner).build();
 
-        mIMap.set(groupKey, groupInfo);
+        mIMap.set(groupId, groupInfo);
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
 
     @Override
-    public boolean isMemberInGroup(String memberId, String groupId, int line) {
+    public boolean isMemberInGroup(String memberId, String groupId) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
         MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
-        String groupKey = Utils.getGroupKey(groupId, line);
-        Collection<GroupOuterClass.GroupMember> members = groupMembers.get(groupKey);
+
+        Collection<GroupOuterClass.GroupMember> members = groupMembers.get(groupId);
 
         for (GroupOuterClass.GroupMember member: members
              ) {

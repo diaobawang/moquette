@@ -47,12 +47,12 @@ import io.netty.handler.codec.mqtt.MqttPublishMessage;
 import win.liyufan.im.ErrorCode;
 import win.liyufan.im.IMTopic;
 import win.liyufan.im.extended.mqttmessage.ModifiedMqttPubAckMessage;
+import win.liyufan.im.proto.*;
 import win.liyufan.im.proto.AddGroupMemberRequestOuterClass.AddGroupMemberRequest;
 import win.liyufan.im.proto.ConversationOuterClass.ConversationType;
 import win.liyufan.im.proto.CreateGroupRequestOuterClass.CreateGroupRequest;
 import win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest;
 import win.liyufan.im.proto.GetUploadTokenResultOuterClass.GetUploadTokenResult;
-import win.liyufan.im.proto.GroupOuterClass;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.GroupOuterClass.GroupType;
 import win.liyufan.im.proto.IDBufOuterClass.IDBuf;
@@ -64,11 +64,8 @@ import win.liyufan.im.proto.PullGroupInfoResultOuterClass.PullGroupInfoResult;
 import win.liyufan.im.proto.PullGroupMemberResultOuterClass.PullGroupMemberResult;
 import win.liyufan.im.proto.PullMessageRequestOuterClass.PullMessageRequest;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
-import win.liyufan.im.proto.PullUserRequestOuterClass;
-import win.liyufan.im.proto.PullUserResultOuterClass;
 import win.liyufan.im.proto.QuitGroupRequestOuterClass.QuitGroupRequest;
 import win.liyufan.im.proto.RemoveGroupMemberRequestOuterClass.RemoveGroupMemberRequest;
-import win.liyufan.im.proto.TransferGroupRequestOuterClass;
 
 class Qos1PublishHandler extends QosPublishHandler {
 
@@ -119,7 +116,7 @@ class Qos1PublishHandler extends QosPublishHandler {
                 if (message != null) {
                     long timestamp = System.currentTimeMillis();
                     if (message.getConversation().getType() == ConversationType.ConversationType_Group &&
-                        !m_messagesStore.isMemberInGroup(fromUser, message.getConversation().getTarget(), message.getConversation().getLine())) {
+                        !m_messagesStore.isMemberInGroup(fromUser, message.getConversation().getTarget())) {
                         errorCode = ErrorCode.ERROR_CODE_NOT_IN_GROUP;
                     } else {
                         long messageId = saveAndPublish(fromUser, clientID, message, timestamp);
@@ -149,11 +146,7 @@ class Qos1PublishHandler extends QosPublishHandler {
                 CreateGroupRequest request = CreateGroupRequest.parseFrom(payloadContent);
                 GroupInfo groupInfo = m_messagesStore.createGroup(fromUser, request.getGroup().getGroupInfo(), request.getGroup().getMembersList());
                 if (groupInfo != null && request.hasNotifyContent()) {
-                    Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                    builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(groupInfo.getTargetId()));
-                    long timestamp = System.currentTimeMillis();
-                    builder.setFromUser(fromUser);
-                    long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                    sendGroupNotification(fromUser, groupInfo.getTargetId(), request.getToLineList(), request.getNotifyContent());
                 }
 
                 ackPayload.writeBytes(groupInfo.getTargetId().getBytes());
@@ -163,13 +156,9 @@ class Qos1PublishHandler extends QosPublishHandler {
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
                 AddGroupMemberRequest request = AddGroupMemberRequest.parseFrom(payloadContent);
-                errorCode = m_messagesStore.addGroupMembers(fromUser, request.getGroupId(), request.getLine(), request.getAddedMemberList());
+                errorCode = m_messagesStore.addGroupMembers(fromUser, request.getGroupId(), request.getAddedMemberList());
                 if (errorCode == ErrorCode.ERROR_CODE_SUCCESS && request.hasNotifyContent()) {
-                    Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                    builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-                    long timestamp = System.currentTimeMillis();
-                    builder.setFromUser(fromUser);
-                    long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                    sendGroupNotification(fromUser, request.getGroupId(), request.getToLineList(), request.getNotifyContent());
                 }
             } else if (IMTopic.KickoffGroupMemberTopic.equals(topic)) {
                 isConsumed = true;
@@ -179,7 +168,7 @@ class Qos1PublishHandler extends QosPublishHandler {
                 RemoveGroupMemberRequest request = RemoveGroupMemberRequest.parseFrom(payloadContent);
 
 
-                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId(), request.getLine());
+                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
                 if (groupInfo == null) {
                     errorCode = ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
 
@@ -188,13 +177,9 @@ class Qos1PublishHandler extends QosPublishHandler {
 
                     //send notify message first, then kickoff the member
                     if (request.hasNotifyContent()) {
-                        Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                        builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-                        long timestamp = System.currentTimeMillis();
-                        builder.setFromUser(fromUser);
-                        long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                        sendGroupNotification(fromUser, groupInfo.getTargetId(), request.getToLineList(), request.getNotifyContent());
                     }
-                    errorCode = m_messagesStore.kickoffGroupMembers(fromUser, request.getGroupId(), request.getLine(), request.getRemovedMemberList());
+                    errorCode = m_messagesStore.kickoffGroupMembers(fromUser, request.getGroupId(), request.getRemovedMemberList());
                 } else {
                     errorCode = ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
                 }
@@ -206,19 +191,15 @@ class Qos1PublishHandler extends QosPublishHandler {
                 QuitGroupRequest request = QuitGroupRequest.parseFrom(payloadContent);
 
 
-                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId(), request.getLine());
+                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
                 if (groupInfo == null) {
-                    errorCode = m_messagesStore.quitGroup(fromUser, request.getGroupId(), request.getLine());
+                    errorCode = m_messagesStore.quitGroup(fromUser, request.getGroupId());
                 } else {
                     //send notify message first, then quit group
                     if (request.hasNotifyContent()) {
-                        Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                        builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-                        long timestamp = System.currentTimeMillis();
-                        builder.setFromUser(fromUser);
-                        long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                        sendGroupNotification(fromUser, groupInfo.getTargetId(), request.getToLineList(), request.getNotifyContent());
                     }
-                    errorCode = m_messagesStore.quitGroup(fromUser, request.getGroupId(), request.getLine());
+                    errorCode = m_messagesStore.quitGroup(fromUser, request.getGroupId());
                 }
             } else if (IMTopic.DismissGroupTopic.equals(topic)) {
                 isConsumed = true;
@@ -227,22 +208,18 @@ class Qos1PublishHandler extends QosPublishHandler {
                 byte[] payloadContent = readBytesAndRewind(payload);
                 DismissGroupRequest request = DismissGroupRequest.parseFrom(payloadContent);
 
-                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId(), request.getLine());
+                GroupInfo groupInfo = m_messagesStore.getGroupInfo(request.getGroupId());
                 if (groupInfo == null) {
-                    errorCode = m_messagesStore.dismissGroup(fromUser, request.getGroupId(), request.getLine());
+                    errorCode = m_messagesStore.dismissGroup(fromUser, request.getGroupId());
 
                 } else if ((groupInfo.getType() == GroupType.GroupType_Normal || groupInfo.getType() == GroupType.GroupType_Restricted)
                     && groupInfo.getOwner() != null && groupInfo.getOwner().equals(fromUser)) {
 
                     //send notify message first, then dismiss group
                     if (request.hasNotifyContent()) {
-                        Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                        builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-                        long timestamp = System.currentTimeMillis();
-                        builder.setFromUser(fromUser);
-                        long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                        sendGroupNotification(fromUser, groupInfo.getTargetId(), request.getToLineList(), request.getNotifyContent());
                     }
-                    errorCode = m_messagesStore.dismissGroup(fromUser, request.getGroupId(), request.getLine());
+                    errorCode = m_messagesStore.dismissGroup(fromUser, request.getGroupId());
                 } else {
                     errorCode = ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
                 }
@@ -254,11 +231,7 @@ class Qos1PublishHandler extends QosPublishHandler {
                 ModifyGroupInfoRequest request = ModifyGroupInfoRequest.parseFrom(payloadContent);
                 errorCode = m_messagesStore.modifyGroupInfo(fromUser, request.getGroupInfo());
                 if (errorCode == ErrorCode.ERROR_CODE_SUCCESS && request.hasNotifyContent()) {
-                    Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                    builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupInfo().getTargetId()));
-                    long timestamp = System.currentTimeMillis();
-                    builder.setFromUser(fromUser);
-                    long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                    sendGroupNotification(fromUser, request.getGroupInfo().getTargetId(), request.getToLineList(), request.getNotifyContent());
                 }
 
             } else if (IMTopic.GetGroupInfoTopic.equals(topic)) {
@@ -266,8 +239,8 @@ class Qos1PublishHandler extends QosPublishHandler {
 
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
-                GroupOuterClass.GroupTargetListBuf request = GroupOuterClass.GroupTargetListBuf.parseFrom(payloadContent);
-                List<GroupInfo> infos = m_messagesStore.getGroupInfos(request.getTargetList());
+                IDListBuf request = IDListBuf.parseFrom(payloadContent);
+                List<GroupInfo> infos = m_messagesStore.getGroupInfos(request.getIdList());
 
                 PullGroupInfoResult result = PullGroupInfoResult.newBuilder().addAllInfo(infos).build();
 
@@ -277,9 +250,9 @@ class Qos1PublishHandler extends QosPublishHandler {
 
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
-                GroupOuterClass.GroupTarget request = GroupOuterClass.GroupTarget.parseFrom(payloadContent);
+                IDBuf request = IDBuf.parseFrom(payloadContent);
 
-                List<GroupOuterClass.GroupMember> members = m_messagesStore.getGroupMembers(request.getTargetId(), request.getLine());
+                List<GroupOuterClass.GroupMember> members = m_messagesStore.getGroupMembers(request.getId());
 
                 PullGroupMemberResult result = PullGroupMemberResult.newBuilder().addAllMember(members).build();
 
@@ -311,13 +284,9 @@ class Qos1PublishHandler extends QosPublishHandler {
                 ByteBuf payload = msg.payload();
                 byte[] payloadContent = readBytesAndRewind(payload);
                 TransferGroupRequestOuterClass.TransferGroupRequest request = TransferGroupRequestOuterClass.TransferGroupRequest.parseFrom(payloadContent);
-                errorCode = m_messagesStore.transferGroup(fromUser, request.getGroupId(), request.getLine(), request.getNewOwner());
+                errorCode = m_messagesStore.transferGroup(fromUser, request.getGroupId(), request.getNewOwner());
                 if (errorCode == ErrorCode.ERROR_CODE_SUCCESS && request.hasNotifyContent()) {
-                    Message.Builder builder = Message.newBuilder().setContent(request.getNotifyContent());
-                    builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(request.getGroupId()));
-                    long timestamp = System.currentTimeMillis();
-                    builder.setFromUser(fromUser);
-                    long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+                    sendGroupNotification(fromUser, request.getGroupId(), request.getToLineList(), request.getNotifyContent());
                 }
             } else if(IMTopic.GetUserInfoTopic.equals(topic)) {
                 isConsumed = true;
@@ -349,6 +318,25 @@ class Qos1PublishHandler extends QosPublishHandler {
         }
 
         return isConsumed;
+    }
+
+    private void sendGroupNotification(String fromUser, String targetId, List<Integer> lines, MessageContentOuterClass.MessageContent content) {
+        if (lines != null && !lines.isEmpty()) {
+            for (int line : lines
+                ) {
+                Message.Builder builder = Message.newBuilder().setContent(content);
+                builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(targetId).setLine(line));
+                long timestamp = System.currentTimeMillis();
+                builder.setFromUser(fromUser);
+                long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+            }
+        } else {
+            Message.Builder builder = Message.newBuilder().setContent(content);
+            builder.setConversation(builder.getConversationBuilder().setType(ConversationType.ConversationType_Group).setTarget(targetId).setLine(0));
+            long timestamp = System.currentTimeMillis();
+            builder.setFromUser(fromUser);
+            long messageId = saveAndPublish(fromUser, null, builder.build(), timestamp);
+        }
     }
     
     void receivedPublishQos1(Channel channel, MqttPublishMessage msg) {
