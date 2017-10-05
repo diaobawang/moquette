@@ -7,6 +7,7 @@ import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
 import com.xiaoleilu.loServer.pojos.InputUserLogin;
+import com.xiaoleilu.loServer.pojos.OutputLoginData;
 import io.moquette.spi.impl.Utils;
 import io.moquette.spi.impl.security.TokenAuthenticator;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -36,7 +37,7 @@ public class UserLoginAction extends Action {
                     TokenAuthenticator authenticator = new TokenAuthenticator();
 
                     String strToken = authenticator.generateToken(userIdRet.get(0));
-                    result = RestResult.ok(strToken);
+                    result = RestResult.ok(new OutputLoginData(userIdRet.get(0), strToken));
                 } else {
                     if (errorCode == ErrorCode.ERROR_CODE_USER_NOT_EXIST) {
                         result = RestResult.resultOf(RestResult.ErrorCode.User_Not_Exist);

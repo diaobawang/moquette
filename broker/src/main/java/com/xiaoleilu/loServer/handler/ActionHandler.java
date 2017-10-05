@@ -35,7 +35,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 
 		final Request request = Request.build(ctx, fullHttpRequest);
 		final Response response = Response.build(ctx, request);
-		
+		response.setContentType("application/json");
 		try {
 			//do filter
 			boolean isPass = this.doFilter(request, response);

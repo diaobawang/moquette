@@ -17,8 +17,8 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 	
     public static void main(String[] args) throws IOException {
     	TokenAuthenticator authenticator = new TokenAuthenticator();
-    	String strToken = authenticator.generateToken("hello");
-    	if (authenticator.checkValid(null, null, strToken.getBytes())) {
+    	String strToken = authenticator.generateToken("user1");
+    	if (authenticator.checkValid(null, "user1", strToken.getBytes())) {
 			System.out.println("pass" + strToken);
 		} else {
 			System.out.println("fail" + strToken);
@@ -55,7 +55,7 @@ public class TokenAuthenticator implements IAuthenticator, ITokenGenerator {
 	public String generateToken(String username) {
 		String signKey = KEY + "|" + (System.currentTimeMillis()) + "|" + username;
 		try {
-			return DesUtil.encrypt(signKey);
+			return DES.encryptDES(signKey);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
