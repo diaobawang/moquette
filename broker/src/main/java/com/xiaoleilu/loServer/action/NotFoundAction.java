@@ -18,6 +18,7 @@ import java.io.StringWriter;
  *
  */
 public class NotFoundAction extends Action{
+
 	private static final Log log = StaticLog.get();
 	
 	public final static String ERROR_PARAM_NAME = "_e";

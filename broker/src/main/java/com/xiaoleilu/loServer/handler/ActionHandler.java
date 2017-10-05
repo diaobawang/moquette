@@ -100,6 +100,9 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 	 */
 	private void doAction(Request request, Response response){
 		Action action = ServerSetting.getAction(request.getPath(), request.getMethod().toUpperCase());
+		if (request.getPath().startsWith("/api") && action == null) {
+		    action = ServerSetting.getErrorAction(ServerSetting.MAPPING_ERROR);
+        }
 		if (null == action) {
 			//查找匹配所有路径的Action
 			action = ServerSetting.getAction(ServerSetting.MAPPING_ALL, request.getMethod());

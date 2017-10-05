@@ -48,25 +48,21 @@ public class ServerSetting {
     private static Map<String, Action> postActionMap;
     private static Map<String, Action> putActionMap;
     private static Map<String, Action> deleteActionMap;
+    private static Map<String, Action> errorActionMap;
 	
 	static{
 		filterMap = new ConcurrentHashMap<String, Filter>();
 
         getActionMap = new ConcurrentHashMap<String, Action>();
-        getActionMap.put(StrUtil.SLASH, new DefaultIndexAction());
-        getActionMap.put(MAPPING_ERROR, new UnknownErrorAction());
-
         postActionMap = new ConcurrentHashMap<String, Action>();
-        postActionMap.put(StrUtil.SLASH, new DefaultIndexAction());
-        postActionMap.put(MAPPING_ERROR, new UnknownErrorAction());
 
         putActionMap = new ConcurrentHashMap<String, Action>();
-        putActionMap.put(StrUtil.SLASH, new DefaultIndexAction());
-        putActionMap.put(MAPPING_ERROR, new UnknownErrorAction());
 
         deleteActionMap = new ConcurrentHashMap<String, Action>();
-        deleteActionMap.put(StrUtil.SLASH, new DefaultIndexAction());
-        deleteActionMap.put(MAPPING_ERROR, new UnknownErrorAction());
+
+        errorActionMap = new ConcurrentHashMap<String, Action>();
+        errorActionMap.put(StrUtil.SLASH, new DefaultIndexAction());
+        errorActionMap.put(MAPPING_ERROR, new UnknownErrorAction());
 	}
 	
 	/**
@@ -222,7 +218,12 @@ public class ServerSetting {
         }
 		return getActionMap;
 	}
-	/**
+
+    public static Action getErrorAction(String path) {
+        return errorActionMap.get(path);
+    }
+
+    /**
 	 * 获得路径对应的Action
 	 * @param path 路径，为空时将获得 根目录对应的Action
 	 * @return Action
