@@ -7,7 +7,7 @@
         <join><multicast enabled="true"/></join>
     </network>
 
-    <map name="messages_map">
+       <map name="messages_map">
     </map>
 
     <map name="groups_map">
@@ -27,4 +27,11 @@
 
     <multimap name="chatroom_message_ids">
     </multimap>
+
+    <multimap name="user_friends">
+    </multimap>
+
+    <multimap name="user_friends_request">
+    </multimap>
+
 </hazelcast>

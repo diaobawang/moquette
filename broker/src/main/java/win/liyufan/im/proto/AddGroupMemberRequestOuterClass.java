@@ -29,34 +29,44 @@ public final class AddGroupMemberRequestOuterClass {
         getGroupIdBytes();
 
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>int32 line = 2;</code>
      */
-    java.util.List<java.lang.String>
+    int getLine();
+
+    /**
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+     */
+    java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember> 
         getAddedMemberList();
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+     */
+    win.liyufan.im.proto.GroupOuterClass.GroupMember getAddedMember(int index);
+    /**
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
     int getAddedMemberCount();
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
-    java.lang.String getAddedMember(int index);
+    java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder> 
+        getAddedMemberOrBuilderList();
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
-    com.google.protobuf.ByteString
-        getAddedMemberBytes(int index);
+    win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder getAddedMemberOrBuilder(
+        int index);
 
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
@@ -73,7 +83,8 @@ public final class AddGroupMemberRequestOuterClass {
     }
     private AddGroupMemberRequest() {
       groupId_ = "";
-      addedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      line_ = 0;
+      addedMember_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -107,16 +118,21 @@ public final class AddGroupMemberRequestOuterClass {
               groupId_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-                addedMember_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
-              }
-              addedMember_.add(s);
+            case 16: {
+
+              line_ = input.readInt32();
               break;
             }
             case 26: {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                addedMember_ = new java.util.ArrayList<win.liyufan.im.proto.GroupOuterClass.GroupMember>();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              addedMember_.add(
+                  input.readMessage(win.liyufan.im.proto.GroupOuterClass.GroupMember.parser(), extensionRegistry));
+              break;
+            }
+            case 34: {
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder subBuilder = null;
               if (notifyContent_ != null) {
                 subBuilder = notifyContent_.toBuilder();
@@ -137,8 +153,8 @@ public final class AddGroupMemberRequestOuterClass {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
-          addedMember_ = addedMember_.getUnmodifiableView();
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          addedMember_ = java.util.Collections.unmodifiableList(addedMember_);
         }
         makeExtensionsImmutable();
       }
@@ -190,51 +206,66 @@ public final class AddGroupMemberRequestOuterClass {
       }
     }
 
-    public static final int ADDED_MEMBER_FIELD_NUMBER = 2;
-    private com.google.protobuf.LazyStringList addedMember_;
+    public static final int LINE_FIELD_NUMBER = 2;
+    private int line_;
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>int32 line = 2;</code>
      */
-    public com.google.protobuf.ProtocolStringList
-        getAddedMemberList() {
+    public int getLine() {
+      return line_;
+    }
+
+    public static final int ADDED_MEMBER_FIELD_NUMBER = 3;
+    private java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember> addedMember_;
+    /**
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+     */
+    public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember> getAddedMemberList() {
       return addedMember_;
     }
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+     */
+    public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder> 
+        getAddedMemberOrBuilderList() {
+      return addedMember_;
+    }
+    /**
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
     public int getAddedMemberCount() {
       return addedMember_.size();
     }
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
-    public java.lang.String getAddedMember(int index) {
+    public win.liyufan.im.proto.GroupOuterClass.GroupMember getAddedMember(int index) {
       return addedMember_.get(index);
     }
     /**
-     * <code>repeated string added_member = 2;</code>
+     * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
      */
-    public com.google.protobuf.ByteString
-        getAddedMemberBytes(int index) {
-      return addedMember_.getByteString(index);
+    public win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder getAddedMemberOrBuilder(
+        int index) {
+      return addedMember_.get(index);
     }
 
-    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
+    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 4;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -255,11 +286,14 @@ public final class AddGroupMemberRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
       }
+      if (line_ != 0) {
+        output.writeInt32(2, line_);
+      }
       for (int i = 0; i < addedMember_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, addedMember_.getRaw(i));
+        output.writeMessage(3, addedMember_.get(i));
       }
       if (notifyContent_ != null) {
-        output.writeMessage(3, getNotifyContent());
+        output.writeMessage(4, getNotifyContent());
       }
     }
 
@@ -271,17 +305,17 @@ public final class AddGroupMemberRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
       }
-      {
-        int dataSize = 0;
-        for (int i = 0; i < addedMember_.size(); i++) {
-          dataSize += computeStringSizeNoTag(addedMember_.getRaw(i));
-        }
-        size += dataSize;
-        size += 1 * getAddedMemberList().size();
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, line_);
+      }
+      for (int i = 0; i < addedMember_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, addedMember_.get(i));
       }
       if (notifyContent_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getNotifyContent());
+          .computeMessageSize(4, getNotifyContent());
       }
       memoizedSize = size;
       return size;
@@ -301,6 +335,8 @@ public final class AddGroupMemberRequestOuterClass {
       boolean result = true;
       result = result && getGroupId()
           .equals(other.getGroupId());
+      result = result && (getLine()
+          == other.getLine());
       result = result && getAddedMemberList()
           .equals(other.getAddedMemberList());
       result = result && (hasNotifyContent() == other.hasNotifyContent());
@@ -320,6 +356,8 @@ public final class AddGroupMemberRequestOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + getGroupId().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       if (getAddedMemberCount() > 0) {
         hash = (37 * hash) + ADDED_MEMBER_FIELD_NUMBER;
         hash = (53 * hash) + getAddedMemberList().hashCode();
@@ -453,14 +491,21 @@ public final class AddGroupMemberRequestOuterClass {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getAddedMemberFieldBuilder();
         }
       }
       public Builder clear() {
         super.clear();
         groupId_ = "";
 
-        addedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        line_ = 0;
+
+        if (addedMemberBuilder_ == null) {
+          addedMember_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        } else {
+          addedMemberBuilder_.clear();
+        }
         if (notifyContentBuilder_ == null) {
           notifyContent_ = null;
         } else {
@@ -492,11 +537,16 @@ public final class AddGroupMemberRequestOuterClass {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.groupId_ = groupId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          addedMember_ = addedMember_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+        result.line_ = line_;
+        if (addedMemberBuilder_ == null) {
+          if (((bitField0_ & 0x00000004) == 0x00000004)) {
+            addedMember_ = java.util.Collections.unmodifiableList(addedMember_);
+            bitField0_ = (bitField0_ & ~0x00000004);
+          }
+          result.addedMember_ = addedMember_;
+        } else {
+          result.addedMember_ = addedMemberBuilder_.build();
         }
-        result.addedMember_ = addedMember_;
         if (notifyContentBuilder_ == null) {
           result.notifyContent_ = notifyContent_;
         } else {
@@ -548,15 +598,34 @@ public final class AddGroupMemberRequestOuterClass {
           groupId_ = other.groupId_;
           onChanged();
         }
-        if (!other.addedMember_.isEmpty()) {
-          if (addedMember_.isEmpty()) {
-            addedMember_ = other.addedMember_;
-            bitField0_ = (bitField0_ & ~0x00000002);
-          } else {
-            ensureAddedMemberIsMutable();
-            addedMember_.addAll(other.addedMember_);
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
+        }
+        if (addedMemberBuilder_ == null) {
+          if (!other.addedMember_.isEmpty()) {
+            if (addedMember_.isEmpty()) {
+              addedMember_ = other.addedMember_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+            } else {
+              ensureAddedMemberIsMutable();
+              addedMember_.addAll(other.addedMember_);
+            }
+            onChanged();
           }
-          onChanged();
+        } else {
+          if (!other.addedMember_.isEmpty()) {
+            if (addedMemberBuilder_.isEmpty()) {
+              addedMemberBuilder_.dispose();
+              addedMemberBuilder_ = null;
+              addedMember_ = other.addedMember_;
+              bitField0_ = (bitField0_ & ~0x00000004);
+              addedMemberBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getAddedMemberFieldBuilder() : null;
+            } else {
+              addedMemberBuilder_.addAllMessages(other.addedMember_);
+            }
+          }
         }
         if (other.hasNotifyContent()) {
           mergeNotifyContent(other.getNotifyContent());
@@ -657,111 +726,283 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
 
-      private com.google.protobuf.LazyStringList addedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private int line_ ;
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember> addedMember_ =
+        java.util.Collections.emptyList();
       private void ensureAddedMemberIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
-          addedMember_ = new com.google.protobuf.LazyStringArrayList(addedMember_);
-          bitField0_ |= 0x00000002;
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          addedMember_ = new java.util.ArrayList<win.liyufan.im.proto.GroupOuterClass.GroupMember>(addedMember_);
+          bitField0_ |= 0x00000004;
          }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          win.liyufan.im.proto.GroupOuterClass.GroupMember, win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder, win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder> addedMemberBuilder_;
+
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
-      public com.google.protobuf.ProtocolStringList
-          getAddedMemberList() {
-        return addedMember_.getUnmodifiableView();
+      public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember> getAddedMemberList() {
+        if (addedMemberBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(addedMember_);
+        } else {
+          return addedMemberBuilder_.getMessageList();
+        }
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
       public int getAddedMemberCount() {
-        return addedMember_.size();
+        if (addedMemberBuilder_ == null) {
+          return addedMember_.size();
+        } else {
+          return addedMemberBuilder_.getCount();
+        }
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
-      public java.lang.String getAddedMember(int index) {
-        return addedMember_.get(index);
+      public win.liyufan.im.proto.GroupOuterClass.GroupMember getAddedMember(int index) {
+        if (addedMemberBuilder_ == null) {
+          return addedMember_.get(index);
+        } else {
+          return addedMemberBuilder_.getMessage(index);
+        }
       }
       /**
-       * <code>repeated string added_member = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getAddedMemberBytes(int index) {
-        return addedMember_.getByteString(index);
-      }
-      /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
       public Builder setAddedMember(
-          int index, java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureAddedMemberIsMutable();
-        addedMember_.set(index, value);
-        onChanged();
+          int index, win.liyufan.im.proto.GroupOuterClass.GroupMember value) {
+        if (addedMemberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAddedMemberIsMutable();
+          addedMember_.set(index, value);
+          onChanged();
+        } else {
+          addedMemberBuilder_.setMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public Builder setAddedMember(
+          int index, win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder builderForValue) {
+        if (addedMemberBuilder_ == null) {
+          ensureAddedMemberIsMutable();
+          addedMember_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          addedMemberBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public Builder addAddedMember(win.liyufan.im.proto.GroupOuterClass.GroupMember value) {
+        if (addedMemberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAddedMemberIsMutable();
+          addedMember_.add(value);
+          onChanged();
+        } else {
+          addedMemberBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
       public Builder addAddedMember(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  ensureAddedMemberIsMutable();
-        addedMember_.add(value);
-        onChanged();
+          int index, win.liyufan.im.proto.GroupOuterClass.GroupMember value) {
+        if (addedMemberBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAddedMemberIsMutable();
+          addedMember_.add(index, value);
+          onChanged();
+        } else {
+          addedMemberBuilder_.addMessage(index, value);
+        }
         return this;
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public Builder addAddedMember(
+          win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder builderForValue) {
+        if (addedMemberBuilder_ == null) {
+          ensureAddedMemberIsMutable();
+          addedMember_.add(builderForValue.build());
+          onChanged();
+        } else {
+          addedMemberBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public Builder addAddedMember(
+          int index, win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder builderForValue) {
+        if (addedMemberBuilder_ == null) {
+          ensureAddedMemberIsMutable();
+          addedMember_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          addedMemberBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
       public Builder addAllAddedMember(
-          java.lang.Iterable<java.lang.String> values) {
-        ensureAddedMemberIsMutable();
-        com.google.protobuf.AbstractMessageLite.Builder.addAll(
-            values, addedMember_);
-        onChanged();
+          java.lang.Iterable<? extends win.liyufan.im.proto.GroupOuterClass.GroupMember> values) {
+        if (addedMemberBuilder_ == null) {
+          ensureAddedMemberIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, addedMember_);
+          onChanged();
+        } else {
+          addedMemberBuilder_.addAllMessages(values);
+        }
         return this;
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
       public Builder clearAddedMember() {
-        addedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
-        onChanged();
+        if (addedMemberBuilder_ == null) {
+          addedMember_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000004);
+          onChanged();
+        } else {
+          addedMemberBuilder_.clear();
+        }
         return this;
       }
       /**
-       * <code>repeated string added_member = 2;</code>
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
        */
-      public Builder addAddedMemberBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        ensureAddedMemberIsMutable();
-        addedMember_.add(value);
-        onChanged();
+      public Builder removeAddedMember(int index) {
+        if (addedMemberBuilder_ == null) {
+          ensureAddedMemberIsMutable();
+          addedMember_.remove(index);
+          onChanged();
+        } else {
+          addedMemberBuilder_.remove(index);
+        }
         return this;
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder getAddedMemberBuilder(
+          int index) {
+        return getAddedMemberFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder getAddedMemberOrBuilder(
+          int index) {
+        if (addedMemberBuilder_ == null) {
+          return addedMember_.get(index);  } else {
+          return addedMemberBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public java.util.List<? extends win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder> 
+           getAddedMemberOrBuilderList() {
+        if (addedMemberBuilder_ != null) {
+          return addedMemberBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(addedMember_);
+        }
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder addAddedMemberBuilder() {
+        return getAddedMemberFieldBuilder().addBuilder(
+            win.liyufan.im.proto.GroupOuterClass.GroupMember.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder addAddedMemberBuilder(
+          int index) {
+        return getAddedMemberFieldBuilder().addBuilder(
+            index, win.liyufan.im.proto.GroupOuterClass.GroupMember.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .mars.stn.GroupMember added_member = 3;</code>
+       */
+      public java.util.List<win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder> 
+           getAddedMemberBuilderList() {
+        return getAddedMemberFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          win.liyufan.im.proto.GroupOuterClass.GroupMember, win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder, win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder> 
+          getAddedMemberFieldBuilder() {
+        if (addedMemberBuilder_ == null) {
+          addedMemberBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
+              win.liyufan.im.proto.GroupOuterClass.GroupMember, win.liyufan.im.proto.GroupOuterClass.GroupMember.Builder, win.liyufan.im.proto.GroupOuterClass.GroupMemberOrBuilder>(
+                  addedMember_,
+                  ((bitField0_ & 0x00000004) == 0x00000004),
+                  getParentForChildren(),
+                  isClean());
+          addedMember_ = null;
+        }
+        return addedMemberBuilder_;
       }
 
       private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -771,7 +1012,7 @@ public final class AddGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -787,7 +1028,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -801,7 +1042,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -819,7 +1060,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -833,7 +1074,7 @@ public final class AddGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -841,7 +1082,7 @@ public final class AddGroupMemberRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -852,7 +1093,7 @@ public final class AddGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -931,12 +1172,13 @@ public final class AddGroupMemberRequestOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\036add_group_member_request.proto\022\010mars.s" +
-      "tn\032\025message_content.proto\"q\n\025AddGroupMem" +
-      "berRequest\022\020\n\010group_id\030\001 \001(\t\022\024\n\014added_me" +
-      "mber\030\002 \003(\t\0220\n\016notify_content\030\003 \001(\0132\030.mar" +
-      "s.stn.MessageContentB7\n\024win.liyufan.im.p" +
-      "rotoB\037AddGroupMemberRequestOuterClassb\006p" +
-      "roto3"
+      "tn\032\025message_content.proto\032\013group.proto\"\226" +
+      "\001\n\025AddGroupMemberRequest\022\020\n\010group_id\030\001 \001" +
+      "(\t\022\014\n\004line\030\002 \001(\005\022+\n\014added_member\030\003 \003(\0132\025" +
+      ".mars.stn.GroupMember\0220\n\016notify_content\030" +
+      "\004 \001(\0132\030.mars.stn.MessageContentB7\n\024win.l" +
+      "iyufan.im.protoB\037AddGroupMemberRequestOu" +
+      "terClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -950,14 +1192,16 @@ public final class AddGroupMemberRequestOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           win.liyufan.im.proto.MessageContentOuterClass.getDescriptor(),
+          win.liyufan.im.proto.GroupOuterClass.getDescriptor(),
         }, assigner);
     internal_static_mars_stn_AddGroupMemberRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_mars_stn_AddGroupMemberRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_AddGroupMemberRequest_descriptor,
-        new java.lang.String[] { "GroupId", "AddedMember", "NotifyContent", });
+        new java.lang.String[] { "GroupId", "Line", "AddedMember", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
+    win.liyufan.im.proto.GroupOuterClass.getDescriptor();
   }
 
   // @@protoc_insertion_point(outer_class_scope)

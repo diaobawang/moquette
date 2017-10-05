@@ -29,34 +29,39 @@ public final class RemoveGroupMemberRequestOuterClass {
         getGroupIdBytes();
 
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>int32 line = 2;</code>
+     */
+    int getLine();
+
+    /**
+     * <code>repeated string removed_member = 3;</code>
      */
     java.util.List<java.lang.String>
         getRemovedMemberList();
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     int getRemovedMemberCount();
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     java.lang.String getRemovedMember(int index);
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     com.google.protobuf.ByteString
         getRemovedMemberBytes(int index);
 
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
@@ -73,6 +78,7 @@ public final class RemoveGroupMemberRequestOuterClass {
     }
     private RemoveGroupMemberRequest() {
       groupId_ = "";
+      line_ = 0;
       removedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
@@ -107,16 +113,21 @@ public final class RemoveGroupMemberRequestOuterClass {
               groupId_ = s;
               break;
             }
-            case 18: {
+            case 16: {
+
+              line_ = input.readInt32();
+              break;
+            }
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
-              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
                 removedMember_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000002;
+                mutable_bitField0_ |= 0x00000004;
               }
               removedMember_.add(s);
               break;
             }
-            case 26: {
+            case 34: {
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder subBuilder = null;
               if (notifyContent_ != null) {
                 subBuilder = notifyContent_.toBuilder();
@@ -137,7 +148,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
-        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           removedMember_ = removedMember_.getUnmodifiableView();
         }
         makeExtensionsImmutable();
@@ -190,51 +201,60 @@ public final class RemoveGroupMemberRequestOuterClass {
       }
     }
 
-    public static final int REMOVED_MEMBER_FIELD_NUMBER = 2;
+    public static final int LINE_FIELD_NUMBER = 2;
+    private int line_;
+    /**
+     * <code>int32 line = 2;</code>
+     */
+    public int getLine() {
+      return line_;
+    }
+
+    public static final int REMOVED_MEMBER_FIELD_NUMBER = 3;
     private com.google.protobuf.LazyStringList removedMember_;
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getRemovedMemberList() {
       return removedMember_;
     }
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     public int getRemovedMemberCount() {
       return removedMember_.size();
     }
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     public java.lang.String getRemovedMember(int index) {
       return removedMember_.get(index);
     }
     /**
-     * <code>repeated string removed_member = 2;</code>
+     * <code>repeated string removed_member = 3;</code>
      */
     public com.google.protobuf.ByteString
         getRemovedMemberBytes(int index) {
       return removedMember_.getByteString(index);
     }
 
-    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
+    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 4;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -255,11 +275,14 @@ public final class RemoveGroupMemberRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
       }
+      if (line_ != 0) {
+        output.writeInt32(2, line_);
+      }
       for (int i = 0; i < removedMember_.size(); i++) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, removedMember_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, removedMember_.getRaw(i));
       }
       if (notifyContent_ != null) {
-        output.writeMessage(3, getNotifyContent());
+        output.writeMessage(4, getNotifyContent());
       }
     }
 
@@ -271,6 +294,10 @@ public final class RemoveGroupMemberRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
       }
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, line_);
+      }
       {
         int dataSize = 0;
         for (int i = 0; i < removedMember_.size(); i++) {
@@ -281,7 +308,7 @@ public final class RemoveGroupMemberRequestOuterClass {
       }
       if (notifyContent_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getNotifyContent());
+          .computeMessageSize(4, getNotifyContent());
       }
       memoizedSize = size;
       return size;
@@ -301,6 +328,8 @@ public final class RemoveGroupMemberRequestOuterClass {
       boolean result = true;
       result = result && getGroupId()
           .equals(other.getGroupId());
+      result = result && (getLine()
+          == other.getLine());
       result = result && getRemovedMemberList()
           .equals(other.getRemovedMemberList());
       result = result && (hasNotifyContent() == other.hasNotifyContent());
@@ -320,6 +349,8 @@ public final class RemoveGroupMemberRequestOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + getGroupId().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       if (getRemovedMemberCount() > 0) {
         hash = (37 * hash) + REMOVED_MEMBER_FIELD_NUMBER;
         hash = (53 * hash) + getRemovedMemberList().hashCode();
@@ -459,8 +490,10 @@ public final class RemoveGroupMemberRequestOuterClass {
         super.clear();
         groupId_ = "";
 
+        line_ = 0;
+
         removedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         if (notifyContentBuilder_ == null) {
           notifyContent_ = null;
         } else {
@@ -492,9 +525,10 @@ public final class RemoveGroupMemberRequestOuterClass {
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         result.groupId_ = groupId_;
-        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        result.line_ = line_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
           removedMember_ = removedMember_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000002);
+          bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.removedMember_ = removedMember_;
         if (notifyContentBuilder_ == null) {
@@ -548,10 +582,13 @@ public final class RemoveGroupMemberRequestOuterClass {
           groupId_ = other.groupId_;
           onChanged();
         }
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
+        }
         if (!other.removedMember_.isEmpty()) {
           if (removedMember_.isEmpty()) {
             removedMember_ = other.removedMember_;
-            bitField0_ = (bitField0_ & ~0x00000002);
+            bitField0_ = (bitField0_ & ~0x00000004);
           } else {
             ensureRemovedMemberIsMutable();
             removedMember_.addAll(other.removedMember_);
@@ -657,41 +694,67 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
 
+      private int line_ ;
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
+
       private com.google.protobuf.LazyStringList removedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensureRemovedMemberIsMutable() {
-        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
           removedMember_ = new com.google.protobuf.LazyStringArrayList(removedMember_);
-          bitField0_ |= 0x00000002;
+          bitField0_ |= 0x00000004;
          }
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getRemovedMemberList() {
         return removedMember_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public int getRemovedMemberCount() {
         return removedMember_.size();
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public java.lang.String getRemovedMember(int index) {
         return removedMember_.get(index);
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public com.google.protobuf.ByteString
           getRemovedMemberBytes(int index) {
         return removedMember_.getByteString(index);
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public Builder setRemovedMember(
           int index, java.lang.String value) {
@@ -704,7 +767,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public Builder addRemovedMember(
           java.lang.String value) {
@@ -717,7 +780,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public Builder addAllRemovedMember(
           java.lang.Iterable<java.lang.String> values) {
@@ -728,16 +791,16 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public Builder clearRemovedMember() {
         removedMember_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000002);
+        bitField0_ = (bitField0_ & ~0x00000004);
         onChanged();
         return this;
       }
       /**
-       * <code>repeated string removed_member = 2;</code>
+       * <code>repeated string removed_member = 3;</code>
        */
       public Builder addRemovedMemberBytes(
           com.google.protobuf.ByteString value) {
@@ -755,13 +818,13 @@ public final class RemoveGroupMemberRequestOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -771,7 +834,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -787,7 +850,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -801,7 +864,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -819,7 +882,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -833,7 +896,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -841,7 +904,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -852,7 +915,7 @@ public final class RemoveGroupMemberRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -931,12 +994,12 @@ public final class RemoveGroupMemberRequestOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n!remove_group_member_request.proto\022\010mar" +
-      "s.stn\032\025message_content.proto\"v\n\030RemoveGr" +
-      "oupMemberRequest\022\020\n\010group_id\030\001 \001(\t\022\026\n\016re" +
-      "moved_member\030\002 \003(\t\0220\n\016notify_content\030\003 \001" +
-      "(\0132\030.mars.stn.MessageContentB:\n\024win.liyu" +
-      "fan.im.protoB\"RemoveGroupMemberRequestOu" +
-      "terClassb\006proto3"
+      "s.stn\032\025message_content.proto\"\204\001\n\030RemoveG" +
+      "roupMemberRequest\022\020\n\010group_id\030\001 \001(\t\022\014\n\004l" +
+      "ine\030\002 \001(\005\022\026\n\016removed_member\030\003 \003(\t\0220\n\016not" +
+      "ify_content\030\004 \001(\0132\030.mars.stn.MessageCont" +
+      "entB:\n\024win.liyufan.im.protoB\"RemoveGroup" +
+      "MemberRequestOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -956,7 +1019,7 @@ public final class RemoveGroupMemberRequestOuterClass {
     internal_static_mars_stn_RemoveGroupMemberRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_RemoveGroupMemberRequest_descriptor,
-        new java.lang.String[] { "GroupId", "RemovedMember", "NotifyContent", });
+        new java.lang.String[] { "GroupId", "Line", "RemovedMember", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }
 

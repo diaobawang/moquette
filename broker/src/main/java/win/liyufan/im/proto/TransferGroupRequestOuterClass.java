@@ -29,25 +29,30 @@ public final class TransferGroupRequestOuterClass {
         getGroupIdBytes();
 
     /**
-     * <code>string new_owner = 2;</code>
+     * <code>int32 line = 2;</code>
+     */
+    int getLine();
+
+    /**
+     * <code>string new_owner = 3;</code>
      */
     java.lang.String getNewOwner();
     /**
-     * <code>string new_owner = 2;</code>
+     * <code>string new_owner = 3;</code>
      */
     com.google.protobuf.ByteString
         getNewOwnerBytes();
 
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
@@ -64,6 +69,7 @@ public final class TransferGroupRequestOuterClass {
     }
     private TransferGroupRequest() {
       groupId_ = "";
+      line_ = 0;
       newOwner_ = "";
     }
 
@@ -98,13 +104,18 @@ public final class TransferGroupRequestOuterClass {
               groupId_ = s;
               break;
             }
-            case 18: {
+            case 16: {
+
+              line_ = input.readInt32();
+              break;
+            }
+            case 26: {
               java.lang.String s = input.readStringRequireUtf8();
 
               newOwner_ = s;
               break;
             }
-            case 26: {
+            case 34: {
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder subBuilder = null;
               if (notifyContent_ != null) {
                 subBuilder = notifyContent_.toBuilder();
@@ -174,10 +185,19 @@ public final class TransferGroupRequestOuterClass {
       }
     }
 
-    public static final int NEW_OWNER_FIELD_NUMBER = 2;
+    public static final int LINE_FIELD_NUMBER = 2;
+    private int line_;
+    /**
+     * <code>int32 line = 2;</code>
+     */
+    public int getLine() {
+      return line_;
+    }
+
+    public static final int NEW_OWNER_FIELD_NUMBER = 3;
     private volatile java.lang.Object newOwner_;
     /**
-     * <code>string new_owner = 2;</code>
+     * <code>string new_owner = 3;</code>
      */
     public java.lang.String getNewOwner() {
       java.lang.Object ref = newOwner_;
@@ -192,7 +212,7 @@ public final class TransferGroupRequestOuterClass {
       }
     }
     /**
-     * <code>string new_owner = 2;</code>
+     * <code>string new_owner = 3;</code>
      */
     public com.google.protobuf.ByteString
         getNewOwnerBytes() {
@@ -208,22 +228,22 @@ public final class TransferGroupRequestOuterClass {
       }
     }
 
-    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
+    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 4;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 3;</code>
+     * <code>.mars.stn.MessageContent notify_content = 4;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -244,11 +264,14 @@ public final class TransferGroupRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
       }
+      if (line_ != 0) {
+        output.writeInt32(2, line_);
+      }
       if (!getNewOwnerBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, newOwner_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, newOwner_);
       }
       if (notifyContent_ != null) {
-        output.writeMessage(3, getNotifyContent());
+        output.writeMessage(4, getNotifyContent());
       }
     }
 
@@ -260,12 +283,16 @@ public final class TransferGroupRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
       }
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, line_);
+      }
       if (!getNewOwnerBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, newOwner_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, newOwner_);
       }
       if (notifyContent_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(3, getNotifyContent());
+          .computeMessageSize(4, getNotifyContent());
       }
       memoizedSize = size;
       return size;
@@ -285,6 +312,8 @@ public final class TransferGroupRequestOuterClass {
       boolean result = true;
       result = result && getGroupId()
           .equals(other.getGroupId());
+      result = result && (getLine()
+          == other.getLine());
       result = result && getNewOwner()
           .equals(other.getNewOwner());
       result = result && (hasNotifyContent() == other.hasNotifyContent());
@@ -304,6 +333,8 @@ public final class TransferGroupRequestOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + getGroupId().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       hash = (37 * hash) + NEW_OWNER_FIELD_NUMBER;
       hash = (53 * hash) + getNewOwner().hashCode();
       if (hasNotifyContent()) {
@@ -441,6 +472,8 @@ public final class TransferGroupRequestOuterClass {
         super.clear();
         groupId_ = "";
 
+        line_ = 0;
+
         newOwner_ = "";
 
         if (notifyContentBuilder_ == null) {
@@ -472,6 +505,7 @@ public final class TransferGroupRequestOuterClass {
       public win.liyufan.im.proto.TransferGroupRequestOuterClass.TransferGroupRequest buildPartial() {
         win.liyufan.im.proto.TransferGroupRequestOuterClass.TransferGroupRequest result = new win.liyufan.im.proto.TransferGroupRequestOuterClass.TransferGroupRequest(this);
         result.groupId_ = groupId_;
+        result.line_ = line_;
         result.newOwner_ = newOwner_;
         if (notifyContentBuilder_ == null) {
           result.notifyContent_ = notifyContent_;
@@ -522,6 +556,9 @@ public final class TransferGroupRequestOuterClass {
         if (!other.getGroupId().isEmpty()) {
           groupId_ = other.groupId_;
           onChanged();
+        }
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
         }
         if (!other.getNewOwner().isEmpty()) {
           newOwner_ = other.newOwner_;
@@ -625,9 +662,35 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
 
+      private int line_ ;
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
+
       private java.lang.Object newOwner_ = "";
       /**
-       * <code>string new_owner = 2;</code>
+       * <code>string new_owner = 3;</code>
        */
       public java.lang.String getNewOwner() {
         java.lang.Object ref = newOwner_;
@@ -642,7 +705,7 @@ public final class TransferGroupRequestOuterClass {
         }
       }
       /**
-       * <code>string new_owner = 2;</code>
+       * <code>string new_owner = 3;</code>
        */
       public com.google.protobuf.ByteString
           getNewOwnerBytes() {
@@ -658,7 +721,7 @@ public final class TransferGroupRequestOuterClass {
         }
       }
       /**
-       * <code>string new_owner = 2;</code>
+       * <code>string new_owner = 3;</code>
        */
       public Builder setNewOwner(
           java.lang.String value) {
@@ -671,7 +734,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>string new_owner = 2;</code>
+       * <code>string new_owner = 3;</code>
        */
       public Builder clearNewOwner() {
         
@@ -680,7 +743,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>string new_owner = 2;</code>
+       * <code>string new_owner = 3;</code>
        */
       public Builder setNewOwnerBytes(
           com.google.protobuf.ByteString value) {
@@ -698,13 +761,13 @@ public final class TransferGroupRequestOuterClass {
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -714,7 +777,7 @@ public final class TransferGroupRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -730,7 +793,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -744,7 +807,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -762,7 +825,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -776,7 +839,7 @@ public final class TransferGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -784,7 +847,7 @@ public final class TransferGroupRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -795,7 +858,7 @@ public final class TransferGroupRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 3;</code>
+       * <code>.mars.stn.MessageContent notify_content = 4;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -874,11 +937,12 @@ public final class TransferGroupRequestOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\034transfer_group_request.proto\022\010mars.stn" +
-      "\032\025message_content.proto\"m\n\024TransferGroup" +
-      "Request\022\020\n\010group_id\030\001 \001(\t\022\021\n\tnew_owner\030\002" +
-      " \001(\t\0220\n\016notify_content\030\003 \001(\0132\030.mars.stn." +
-      "MessageContentB6\n\024win.liyufan.im.protoB\036" +
-      "TransferGroupRequestOuterClassb\006proto3"
+      "\032\025message_content.proto\"{\n\024TransferGroup" +
+      "Request\022\020\n\010group_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\022" +
+      "\021\n\tnew_owner\030\003 \001(\t\0220\n\016notify_content\030\004 \001" +
+      "(\0132\030.mars.stn.MessageContentB6\n\024win.liyu" +
+      "fan.im.protoB\036TransferGroupRequestOuterC" +
+      "lassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -898,7 +962,7 @@ public final class TransferGroupRequestOuterClass {
     internal_static_mars_stn_TransferGroupRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_TransferGroupRequest_descriptor,
-        new java.lang.String[] { "GroupId", "NewOwner", "NotifyContent", });
+        new java.lang.String[] { "GroupId", "Line", "NewOwner", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }
 

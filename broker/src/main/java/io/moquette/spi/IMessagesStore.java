@@ -22,7 +22,7 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.mqtt.MqttQoS;
 import win.liyufan.im.ErrorCode;
 import win.liyufan.im.MessageBundle;
-import win.liyufan.im.proto.FriendRequestOuterClass;
+import win.liyufan.im.proto.*;
 import win.liyufan.im.proto.GroupOuterClass.Group;
 import win.liyufan.im.proto.GroupOuterClass.GroupInfo;
 import win.liyufan.im.proto.MessageOuterClass.Message;
@@ -33,14 +33,12 @@ import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IAtomicLong;
 import com.hazelcast.core.IMap;
-import win.liyufan.im.proto.PullUserRequestOuterClass;
-import win.liyufan.im.proto.PullUserResultOuterClass;
-import win.liyufan.im.proto.UserOuterClass;
 
 /**
  * Defines the SPI to be implemented by a StorageService that handle persistence of messages
@@ -109,18 +107,18 @@ public interface IMessagesStore {
     public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp);
 	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers);
     long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder);
-    GroupInfo createGroup(String operator, GroupInfo groupInfo, List<String> memberList);
-    ErrorCode addGroupMembers(String operator, String groupId, List<String> memberList);
-    ErrorCode kickoffGroupMembers(String operator, String groupId, List<String> memberList);
-    ErrorCode quitGroup(String operator, String groupId);
-    ErrorCode dismissGroup(String operator, String groupId);
+    GroupInfo createGroup(String operator, GroupInfo groupInfo, List<GroupOuterClass.GroupMember> memberList);
+    ErrorCode addGroupMembers(String operator, String groupId, int line, List<GroupOuterClass.GroupMember> memberList);
+    ErrorCode kickoffGroupMembers(String operator, String groupId, int line, List<String> memberList);
+    ErrorCode quitGroup(String operator, String groupId, int line);
+    ErrorCode dismissGroup(String operator, String groupId, int line);
     ErrorCode modifyGroupInfo(String operator, GroupInfo groupInfo);
-    List<GroupInfo> getGroupInfos(List<String> groupIds);
-    GroupInfo getGroupInfo(String groupId);
-    List<String> getGroupMembers(String groupId);
+    List<GroupInfo> getGroupInfos(List<GroupOuterClass.GroupTarget> groupTargets);
+    GroupInfo getGroupInfo(String groupId, int line);
+    List<GroupOuterClass.GroupMember> getGroupMembers(String groupId, int line);
     List<String> getMyGroups(String fromUser);
-    ErrorCode transferGroup(String operator, String groupId, String newOwner);
-    boolean isMemberInGroup(String member, String groupId);
+    ErrorCode transferGroup(String operator, String groupId, int line, String newOwner);
+    boolean isMemberInGroup(String member, String groupId, int line);
 
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);

@@ -29,15 +29,20 @@ public final class DismissGroupRequestOuterClass {
         getGroupIdBytes();
 
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>int32 line = 2;</code>
+     */
+    int getLine();
+
+    /**
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     boolean hasNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent();
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder();
   }
@@ -54,6 +59,7 @@ public final class DismissGroupRequestOuterClass {
     }
     private DismissGroupRequest() {
       groupId_ = "";
+      line_ = 0;
     }
 
     @java.lang.Override
@@ -87,7 +93,12 @@ public final class DismissGroupRequestOuterClass {
               groupId_ = s;
               break;
             }
-            case 18: {
+            case 16: {
+
+              line_ = input.readInt32();
+              break;
+            }
+            case 26: {
               win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder subBuilder = null;
               if (notifyContent_ != null) {
                 subBuilder = notifyContent_.toBuilder();
@@ -157,22 +168,31 @@ public final class DismissGroupRequestOuterClass {
       }
     }
 
-    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 2;
+    public static final int LINE_FIELD_NUMBER = 2;
+    private int line_;
+    /**
+     * <code>int32 line = 2;</code>
+     */
+    public int getLine() {
+      return line_;
+    }
+
+    public static final int NOTIFY_CONTENT_FIELD_NUMBER = 3;
     private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_;
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public boolean hasNotifyContent() {
       return notifyContent_ != null;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
       return notifyContent_ == null ? win.liyufan.im.proto.MessageContentOuterClass.MessageContent.getDefaultInstance() : notifyContent_;
     }
     /**
-     * <code>.mars.stn.MessageContent notify_content = 2;</code>
+     * <code>.mars.stn.MessageContent notify_content = 3;</code>
      */
     public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
       return getNotifyContent();
@@ -193,8 +213,11 @@ public final class DismissGroupRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, groupId_);
       }
+      if (line_ != 0) {
+        output.writeInt32(2, line_);
+      }
       if (notifyContent_ != null) {
-        output.writeMessage(2, getNotifyContent());
+        output.writeMessage(3, getNotifyContent());
       }
     }
 
@@ -206,9 +229,13 @@ public final class DismissGroupRequestOuterClass {
       if (!getGroupIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, groupId_);
       }
+      if (line_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, line_);
+      }
       if (notifyContent_ != null) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getNotifyContent());
+          .computeMessageSize(3, getNotifyContent());
       }
       memoizedSize = size;
       return size;
@@ -228,6 +255,8 @@ public final class DismissGroupRequestOuterClass {
       boolean result = true;
       result = result && getGroupId()
           .equals(other.getGroupId());
+      result = result && (getLine()
+          == other.getLine());
       result = result && (hasNotifyContent() == other.hasNotifyContent());
       if (hasNotifyContent()) {
         result = result && getNotifyContent()
@@ -245,6 +274,8 @@ public final class DismissGroupRequestOuterClass {
       hash = (19 * hash) + getDescriptor().hashCode();
       hash = (37 * hash) + GROUP_ID_FIELD_NUMBER;
       hash = (53 * hash) + getGroupId().hashCode();
+      hash = (37 * hash) + LINE_FIELD_NUMBER;
+      hash = (53 * hash) + getLine();
       if (hasNotifyContent()) {
         hash = (37 * hash) + NOTIFY_CONTENT_FIELD_NUMBER;
         hash = (53 * hash) + getNotifyContent().hashCode();
@@ -380,6 +411,8 @@ public final class DismissGroupRequestOuterClass {
         super.clear();
         groupId_ = "";
 
+        line_ = 0;
+
         if (notifyContentBuilder_ == null) {
           notifyContent_ = null;
         } else {
@@ -409,6 +442,7 @@ public final class DismissGroupRequestOuterClass {
       public win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest buildPartial() {
         win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest result = new win.liyufan.im.proto.DismissGroupRequestOuterClass.DismissGroupRequest(this);
         result.groupId_ = groupId_;
+        result.line_ = line_;
         if (notifyContentBuilder_ == null) {
           result.notifyContent_ = notifyContent_;
         } else {
@@ -458,6 +492,9 @@ public final class DismissGroupRequestOuterClass {
         if (!other.getGroupId().isEmpty()) {
           groupId_ = other.groupId_;
           onChanged();
+        }
+        if (other.getLine() != 0) {
+          setLine(other.getLine());
         }
         if (other.hasNotifyContent()) {
           mergeNotifyContent(other.getNotifyContent());
@@ -557,17 +594,43 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
 
+      private int line_ ;
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public int getLine() {
+        return line_;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder setLine(int value) {
+        
+        line_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>int32 line = 2;</code>
+       */
+      public Builder clearLine() {
+        
+        line_ = 0;
+        onChanged();
+        return this;
+      }
+
       private win.liyufan.im.proto.MessageContentOuterClass.MessageContent notifyContent_ = null;
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> notifyContentBuilder_;
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public boolean hasNotifyContent() {
         return notifyContentBuilder_ != null || notifyContent_ != null;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent getNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -577,7 +640,7 @@ public final class DismissGroupRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder setNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -593,7 +656,7 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder setNotifyContent(
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder builderForValue) {
@@ -607,7 +670,7 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder mergeNotifyContent(win.liyufan.im.proto.MessageContentOuterClass.MessageContent value) {
         if (notifyContentBuilder_ == null) {
@@ -625,7 +688,7 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public Builder clearNotifyContent() {
         if (notifyContentBuilder_ == null) {
@@ -639,7 +702,7 @@ public final class DismissGroupRequestOuterClass {
         return this;
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder getNotifyContentBuilder() {
         
@@ -647,7 +710,7 @@ public final class DismissGroupRequestOuterClass {
         return getNotifyContentFieldBuilder().getBuilder();
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       public win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder getNotifyContentOrBuilder() {
         if (notifyContentBuilder_ != null) {
@@ -658,7 +721,7 @@ public final class DismissGroupRequestOuterClass {
         }
       }
       /**
-       * <code>.mars.stn.MessageContent notify_content = 2;</code>
+       * <code>.mars.stn.MessageContent notify_content = 3;</code>
        */
       private com.google.protobuf.SingleFieldBuilderV3<
           win.liyufan.im.proto.MessageContentOuterClass.MessageContent, win.liyufan.im.proto.MessageContentOuterClass.MessageContent.Builder, win.liyufan.im.proto.MessageContentOuterClass.MessageContentOrBuilder> 
@@ -737,11 +800,11 @@ public final class DismissGroupRequestOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\033dismiss_group_request.proto\022\010mars.stn\032" +
-      "\025message_content.proto\"Y\n\023DismissGroupRe" +
-      "quest\022\020\n\010group_id\030\001 \001(\t\0220\n\016notify_conten" +
-      "t\030\002 \001(\0132\030.mars.stn.MessageContentB5\n\024win" +
-      ".liyufan.im.protoB\035DismissGroupRequestOu" +
-      "terClassb\006proto3"
+      "\025message_content.proto\"g\n\023DismissGroupRe" +
+      "quest\022\020\n\010group_id\030\001 \001(\t\022\014\n\004line\030\002 \001(\005\0220\n" +
+      "\016notify_content\030\003 \001(\0132\030.mars.stn.Message" +
+      "ContentB5\n\024win.liyufan.im.protoB\035Dismiss" +
+      "GroupRequestOuterClassb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -761,7 +824,7 @@ public final class DismissGroupRequestOuterClass {
     internal_static_mars_stn_DismissGroupRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_mars_stn_DismissGroupRequest_descriptor,
-        new java.lang.String[] { "GroupId", "NotifyContent", });
+        new java.lang.String[] { "GroupId", "Line", "NotifyContent", });
     win.liyufan.im.proto.MessageContentOuterClass.getDescriptor();
   }
 
