@@ -52,6 +52,8 @@ import win.liyufan.im.proto.MessageOuterClass.Message;
 import win.liyufan.im.proto.NotifyMessageOuterClass.PullType;
 import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 
+import static win.liyufan.im.MyInfoType.*;
+
 public class MemoryMessagesStore implements IMessagesStore {
 	private static final String MESSAGES_MAP = "messages_map";
 	private static final String GROUPS_MAP = "groups_map";
@@ -301,6 +303,48 @@ public class MemoryMessagesStore implements IMessagesStore {
 
             statement.setString(index++, user.getExtra());
             statement.setLong(index++, System.currentTimeMillis());
+
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+    }
+
+    private void updateUser(UserOuterClass.User user) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "update t_user set `_display_name` = ?" +
+                ", `_portrait` = ?" +
+                ", `_mobile` = ?" +
+                ", `_email` = ?" +
+                ", `_address` = ?" +
+                ", `_company` = ?" +
+                ", `_social` = ?" +
+//                ", `_passwd_md5`" +
+                ", `_extra` = ?" +
+                ", `_dt` = ? where _uid = ?";
+
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+
+
+            statement.setString(index++, user.getDisplayName());
+            statement.setString(index++, user.getPortrait());
+            statement.setString(index++, user.getMobile());
+            statement.setString(index++, user.getEmail());
+            statement.setString(index++, user.getAddress());
+            statement.setString(index++, user.getCompany());
+            statement.setString(index++, "");
+
+            statement.setString(index++, user.getExtra());
+            statement.setLong(index++, System.currentTimeMillis());
+            statement.setString(index++, user.getUid());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -952,6 +996,73 @@ public class MemoryMessagesStore implements IMessagesStore {
         return  ErrorCode.ERROR_CODE_SUCCESS;
     }
 
+    @Override
+    public ErrorCode modifyUserInfo(String userId, ModifyMyInfoOuterClass.ModifyMyInfoRequest request) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+
+
+            UserOuterClass.User user = mUserMap.get(userId);
+            if (user == null) {
+                user = getPersistUser(userId);
+                if(user != null) {
+                    mUserMap.set(userId, user);
+                } else {
+                    return ErrorCode.ERROR_CODE_USER_NOT_EXIST;
+                }
+            }
+
+        UserOuterClass.User.Builder builder = user.toBuilder();
+            boolean modified = false;
+        for (ModifyMyInfoOuterClass.InfoEntry entry: request.getEntryList()
+             ) {
+            switch (entry.getType()) {
+                case Modify_DisplayName:
+                    builder.setDisplayName(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Portrait:
+                    builder.setPortrait(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Mobile:
+                    builder.setMobile(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Email:
+                    builder.setEmail(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Address:
+                    builder.setAddress(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Company:
+                    builder.setCompany(entry.getValue());
+                    modified = true;
+                    break;
+                case Modify_Social:
+
+                    break;
+                case Modify_Extra:
+                    builder.setExtra(entry.getValue());
+                    modified = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        if(modified) {
+            user = builder.build();
+            mUserMap.set(userId, user);
+            updateUser(user);
+            return ErrorCode.ERROR_CODE_SUCCESS;
+        } else {
+            return ErrorCode.ERROR_CODE_NOT_MODIFIED;
+        }
+
+    }
     @Override
     public void addUserInfo(UserOuterClass.User user, String password) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();

@@ -20,4 +20,6 @@ public interface IMTopic {
 	public static final String GetQiniuUploadTokenTopic = "GQNUT";
 
     public static final String GetUserInfoTopic = "UPUI";
+
+    public static final String ModifyMyInfoTopic = "MMI";
 }

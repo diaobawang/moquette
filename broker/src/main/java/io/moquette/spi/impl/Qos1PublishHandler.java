@@ -299,6 +299,13 @@ class Qos1PublishHandler extends QosPublishHandler {
                 if (errorCode == ErrorCode.ERROR_CODE_SUCCESS) {
                     ackPayload.writeBytes(resultBuilder.build().toByteArray());
                 }
+            } else if(IMTopic.ModifyMyInfoTopic.equals(topic)) {
+                isConsumed = true;
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                ModifyMyInfoOuterClass.ModifyMyInfoRequest request = ModifyMyInfoOuterClass.ModifyMyInfoRequest.parseFrom(payloadContent);
+
+                errorCode = m_messagesStore.modifyUserInfo(fromUser, request);
             } else {
                 isConsumed = true;
                 errorCode = ErrorCode.ERROR_CODE_UNKNOWN_METHOD;

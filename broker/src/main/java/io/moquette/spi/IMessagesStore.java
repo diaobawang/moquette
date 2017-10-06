@@ -122,6 +122,7 @@ public interface IMessagesStore {
 
 
     ErrorCode getUserInfo(List<PullUserRequestOuterClass.UserRequest> requestList, PullUserResultOuterClass.PullUserResult.Builder builder);
+    ErrorCode modifyUserInfo(String userId, ModifyMyInfoOuterClass.ModifyMyInfoRequest request);
     void addUserInfo(UserOuterClass.User user, String password);
     UserOuterClass.User getUserInfo(String userId);
     ErrorCode login(String name, String password, List<String> userIdRet);
