@@ -16,6 +16,7 @@
 
 package io.moquette.spi.impl;
 
+import static io.moquette.server.config.QiniuConfig.QINIU_BUCKET_DOMAIN;
 import static io.moquette.spi.impl.ProtocolProcessor.asStoredMessage;
 import static io.moquette.spi.impl.Utils.readBytesAndRewind;
 import static io.netty.handler.codec.mqtt.MqttMessageIdVariableHeader.from;
@@ -267,10 +268,16 @@ class Qos1PublishHandler extends QosPublishHandler {
                 Auth auth = Auth.create(QiniuConfig.QINIU_ACCESS_KEY, QiniuConfig.QINIU_SECRET_KEY);
                 String token = auth.uploadToken(QiniuConfig.QINIU_BUCKET_NAME);
 
-                GetUploadTokenResult result = GetUploadTokenResult.newBuilder().setDomain(QiniuConfig.QINIU_BUCKET_DOMAIN)
-                    .setServer(QiniuConfig.QINIU_SERVER_URL)
-                    .setToken(token).build();
-                ackPayload.writeBytes(result.toByteArray());
+                GetUploadTokenResult.Builder resultBuilder = GetUploadTokenResult.newBuilder();
+                if (QiniuConfig.USER_QINIU) {
+                    resultBuilder.setDomain(QINIU_BUCKET_DOMAIN)
+                        .setServer(QiniuConfig.QINIU_SERVER_URL);
+                } else {
+                    resultBuilder.setDomain("http://" + QiniuConfig.SERVER_IP + ":" + QiniuConfig.HTTP_SERVER_PORT)
+                        .setServer(QiniuConfig.SERVER_IP);
+                }
+                resultBuilder.setToken(token);
+                ackPayload.writeBytes(resultBuilder.build().toByteArray());
             } else if (IMTopic.GetMyGroupsTopic.equals(topic)) {
                 isConsumed = true;
 

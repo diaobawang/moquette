@@ -6,4 +6,11 @@ public class QiniuConfig {
 	public static String QINIU_BUCKET_DOMAIN ="http://7xqgbn.com1.z0.glb.clouddn.com";
 	public static String QINIU_ACCESS_KEY = "tU3vdBK5BL5j4N7jI5N5uZgq_HQDo170w5C9Amnn";
 	public static String QINIU_SECRET_KEY = "YfQIJdgp5YGhwEw14vGpaD2HJZsuJldWtqens7i5";
+
+    public static String SERVER_IP = "localhost";
+    public static String HTTP_SERVER_PORT = "8090";
+    public static String FILE_STROAGE_ROOT = "fs";
+    public static boolean USER_QINIU = false;
+
+
 }

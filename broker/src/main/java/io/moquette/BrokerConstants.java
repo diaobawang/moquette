@@ -74,6 +74,12 @@ public final class BrokerConstants {
 	public static final String QINIU_BUCKET_DOMAIN = "qiniu.bucket_domain";
 	public static final String QINIU_ACCESS_KEY = "qiniu.access_key";
 	public static final String QINIU_SECRET_KEY = "qiniu.secret_key";
+
+    public static final String SERVER_IP = "server.ip";
+    public static final String HTTP_SERVER_PORT = "http_server.port";
+    public static final String FILE_STORAGE_ROOT = "file_storage.root";
+    public static final String USER_QINIU = "file_server.use_qiniu";
+    //InetAddress.getLocalHost().getHostAddress()
 	
     private BrokerConstants() {
     }

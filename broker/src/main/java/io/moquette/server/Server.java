@@ -23,7 +23,9 @@ import com.hazelcast.core.Hazelcast;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.HazelcastInstanceNotActiveException;
 import com.hazelcast.core.ITopic;
+import com.xiaoleilu.loServer.LoFileServer;
 import com.xiaoleilu.loServer.LoServer;
+import com.xiaoleilu.loServer.ServerSetting;
 import io.moquette.BrokerConstants;
 import io.moquette.connections.IConnectionsManager;
 import io.moquette.interception.HazelcastInterceptHandler;
@@ -45,6 +47,8 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -77,10 +81,16 @@ public class Server {
     public static void main(String[] args) throws IOException {
         final Server server = new Server();
         DBUtil.initDB();
-        server.startServer();
+        final IConfig config = defaultConfig();
+
+
+        server.startServer(config);
+
         System.out.println("Server started, version 0.10");
 
-        final LoServer httpServer = new LoServer(18090, server.m_processor.getMessagesStore());
+        int httpPort = Integer.parseInt(config.getProperty(BrokerConstants.HTTP_SERVER_PORT));
+        final LoServer httpServer = new LoServer(httpPort, server.m_processor.getMessagesStore());
+
 
         try {
             httpServer.start();
@@ -88,9 +98,18 @@ public class Server {
             e.printStackTrace();
         }
 
+//单独的文件服务器，需要分开部署，然后用nginx做反向代理。简单上传下载文件用http的服务器。
+//        final LoFileServer httpFileServer = new LoFileServer(18091, server.m_processor.getMessagesStore());
+//        try {
+//            httpFileServer.start();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+
         //Bind  a shutdown hook
         Runtime.getRuntime().addShutdownHook(new Thread(server::stopServer));
         Runtime.getRuntime().addShutdownHook(new Thread(httpServer::shutdown));
+        //Runtime.getRuntime().addShutdownHook(new Thread(httpFileServer::shutdown));
     }
 
     /**
@@ -100,11 +119,15 @@ public class Server {
      *             in case of any IO error.
      */
     public void startServer() throws IOException {
+        final IConfig config = defaultConfig();
+        startServer(config);
+    }
+
+    public static IConfig defaultConfig() {
         File defaultConfigurationFile = defaultConfigFile();
         LOG.info("Starting Moquette server. Configuration file path={}", defaultConfigurationFile.getAbsolutePath());
         IResourceLoader filesystemLoader = new FileResourceLoader(defaultConfigurationFile);
-        final IConfig config = new ResourceLoaderConfig(filesystemLoader);
-        startServer(config);
+        return new ResourceLoaderConfig(filesystemLoader);
     }
 
     private static File defaultConfigFile() {
@@ -218,6 +241,26 @@ public class Server {
     	QiniuConfig.QINIU_SERVER_URL = config.getProperty(BrokerConstants.QINIU_SERVER_URL, QiniuConfig.QINIU_SERVER_URL);
     	QiniuConfig.QINIU_BUCKET_NAME = config.getProperty(BrokerConstants.QINIU_BUCKET_NAME, QiniuConfig.QINIU_BUCKET_NAME);
     	QiniuConfig.QINIU_BUCKET_DOMAIN = config.getProperty(BrokerConstants.QINIU_BUCKET_DOMAIN, QiniuConfig.QINIU_BUCKET_DOMAIN);
+
+    	QiniuConfig.SERVER_IP = config.getProperty(BrokerConstants.SERVER_IP);
+    	if (QiniuConfig.SERVER_IP == null || QiniuConfig.SERVER_IP.isEmpty()) {
+            try {
+                QiniuConfig.SERVER_IP = InetAddress.getLocalHost().getHostAddress();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            }
+        }
+
+        QiniuConfig.HTTP_SERVER_PORT = config.getProperty(BrokerConstants.HTTP_SERVER_PORT);
+
+        QiniuConfig.FILE_STROAGE_ROOT = config.getProperty(BrokerConstants.FILE_STORAGE_ROOT, QiniuConfig.FILE_STROAGE_ROOT);
+        File file = new File(QiniuConfig.FILE_STROAGE_ROOT);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        ServerSetting.setRoot(file);
+
+        QiniuConfig.USER_QINIU = Integer.parseInt(config.getProperty(BrokerConstants.USER_QINIU)) > 0;
     }
     private void configureCluster(IConfig config) throws FileNotFoundException {
         LOG.info("Configuring embedded Hazelcast instance");

@@ -1,13 +1,13 @@
 package com.xiaoleilu.loServer;
 
-import com.hazelcast.core.HazelcastInstance;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.StaticLog;
 import com.xiaoleilu.hutool.util.DateUtil;
 import com.xiaoleilu.loServer.action.Action;
+import com.xiaoleilu.loServer.action.ClassUtil;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.handler.ActionHandler;
-
+import com.xiaoleilu.loServer.handler.HttpFileServerHandler;
 import io.moquette.spi.IMessagesStore;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
@@ -22,7 +22,6 @@ import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
-import com.xiaoleilu.loServer.action.ClassUtil;
 
 import java.io.IOException;
 
@@ -34,13 +33,13 @@ import java.io.IOException;
  * @author Looly
  *
  */
-public class LoServer {
+public class LoFileServer {
 	private static final Log log = StaticLog.get();
 	private int port;
     private IMessagesStore messagesStore;
     private Channel channel;
 
-    public LoServer(int port, IMessagesStore messagesStore) {
+    public LoFileServer(int port, IMessagesStore messagesStore) {
         this.port = port;
         this.messagesStore = messagesStore;
     }
@@ -55,8 +54,6 @@ public class LoServer {
 		// Configure the server.
 		final EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		final EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-        registerAllAction();
 
 		try {
 			final ServerBootstrap b = new ServerBootstrap();
@@ -75,9 +72,9 @@ public class LoServer {
                         socketChannel.pipeline().addLast(new HttpResponseEncoder());
                         socketChannel.pipeline().addLast(new ChunkedWriteHandler());
                         socketChannel.pipeline().addLast(new HttpObjectAggregator(100 * 1024 * 1024));
-                        socketChannel.pipeline().addLast(new ActionHandler(messagesStore));
-					}
-				});
+                        socketChannel.pipeline().addLast(new HttpFileServerHandler());
+                    }
+                });
 			
 			channel = b.bind(port).sync().channel();
 			log.info("***** Welcome To LoServer on port [{}], startting spend {}ms *****", port, DateUtil.spendMs(start));
@@ -93,21 +90,6 @@ public class LoServer {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-        }
-    }
-
-    private void registerAllAction() {
-        try {
-            for (Class cls:ClassUtil.getAllAssignedClass(Action.class)
-                 ) {
-                if(cls.getAnnotation(Route.class) != null) {
-                    ServerSetting.setAction((Class<? extends Action>)cls);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }
