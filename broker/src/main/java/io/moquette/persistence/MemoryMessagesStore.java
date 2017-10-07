@@ -190,7 +190,7 @@ public class MemoryMessagesStore implements IMessagesStore {
             statement.setString(index++, groupInfo.getOwner());
             statement.setInt(index++, groupInfo.getType().getNumber());
             statement.setString(index++, groupInfo.getExtra());
-            statement.setLong(index++, System.currentTimeMillis());
+            statement.setLong(index++, groupInfo.getUpdateDt() == 0 ? System.currentTimeMillis() : groupInfo.getUpdateDt());
 
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -248,6 +248,7 @@ public class MemoryMessagesStore implements IMessagesStore {
                 builder.setTypeValue(intValue);
 
                 long longValue = rs.getLong(index++);
+                builder.setUpdateDt(longValue);
 
                 return builder.build();
             }

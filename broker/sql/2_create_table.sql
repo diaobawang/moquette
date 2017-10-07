@@ -99,7 +99,7 @@ CREATE TABLE `t_friend_request` (
   `_dt` bigint(20) NOT NULL,
   `_from_read_status` tinyint DEFAULT 0,
   `_to_read_status` tinyint DEFAULT 0,
-  UNIQUE INDEX `message_user_target_index` (`_uid` ASC, `_friend_uid` ASC)
+  UNIQUE INDEX `fr_user_target_index` (`_uid` ASC, `_friend_uid` ASC)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
@@ -110,8 +110,9 @@ DROP TABLE IF EXISTS `t_friend`;
 CREATE TABLE `t_friend` (
   `_uid` varchar(64) NOT NULL,
   `_friend_uid` varchar(64) NOT NULL,
+  `_state` tinyint DEFAULT 0, //0, normal; 1, deleted;
   `_dt` bigint(20) NOT NULL,
-  UNIQUE INDEX `message_user_target_index` (`_uid` ASC, `_friend_uid` ASC)
+  INDEX `friend_user_target_index` (`_uid` ASC, `_friend_uid` ASC)
 )
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
