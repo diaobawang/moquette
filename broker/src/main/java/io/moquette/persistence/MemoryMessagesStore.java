@@ -343,7 +343,7 @@ public class MemoryMessagesStore implements IMessagesStore {
             statement.setString(index++, "");
 
             statement.setString(index++, user.getExtra());
-            statement.setLong(index++, System.currentTimeMillis());
+            statement.setLong(index++, user.getUpdateDt() == 0 ? System.currentTimeMillis() : user.getUpdateDt());
             statement.setString(index++, user.getUid());
 
             statement.executeUpdate();
@@ -1054,6 +1054,7 @@ public class MemoryMessagesStore implements IMessagesStore {
         }
 
         if(modified) {
+            builder.setUpdateDt(System.currentTimeMillis());
             user = builder.build();
             mUserMap.set(userId, user);
             updateUser(user);
