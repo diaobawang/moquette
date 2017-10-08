@@ -405,6 +405,12 @@ public class ProtocolProcessor {
             return null;
         }
 
+
+        //always clear previous session
+        m_sessionsStore.cleanSession(clientId);
+
+
+
         ClientSession clientSession = m_sessionsStore.sessionForClient(clientId);
         boolean isSessionAlreadyStored = clientSession != null;
         if (!isSessionAlreadyStored) {
@@ -666,6 +672,9 @@ public class ProtocolProcessor {
         }
 
         LOG.info("The DISCONNECT message has been processed. CId={}", clientID);
+
+        //remove the session
+        m_sessionsStore.cleanSession(clientID);
     }
 
     private boolean removeSubscriptions(ConnectionDescriptor descriptor, String clientID) {
