@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Set;
 
 import com.hazelcast.core.*;
+import com.hazelcast.query.PagingPredicate;
+import com.hazelcast.query.Predicate;
+import com.hazelcast.query.SqlPredicate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,118 +58,258 @@ import win.liyufan.im.proto.PullMessageResultOuterClass.PullMessageResult;
 import static win.liyufan.im.MyInfoType.*;
 
 public class MemoryMessagesStore implements IMessagesStore {
-	private static final String MESSAGES_MAP = "messages_map";
-	private static final String GROUPS_MAP = "groups_map";
-	private static final String MESSAGE_ID_COUNTER = "message_id_counter";
-	private static final String GROUP_ID_COUNTER = "group_id_counter";
-	private static final String GROUP_MEMBERS = "group_members";
+    private static final String MESSAGES_MAP = "messages_map";
+    private static final String GROUPS_MAP = "groups_map";
+    private static final String MESSAGE_ID_COUNTER = "message_id_counter";
+    private static final String GROUP_ID_COUNTER = "group_id_counter";
+    private static final String GROUP_MEMBERS = "group_members";
     private static final String USER_GROUPS = "user_groups";
-	private static final String USER_MESSAGE_IDS = "user_message_ids";
-	private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
+    private static final String USER_MESSAGE_IDS = "user_message_ids";
+    private static final String CHATROOM_MESSAGE_IDS = "chatroom_message_ids";
 
-	private static final String USER_FRIENDS = "user_friends";
+    private static final String USER_FRIENDS = "user_friends";
     private static final String USER_FRIENDS_REQUEST = "user_friends_request";
 
     private static final String USERS = "users";
     private static final Logger LOG = LoggerFactory.getLogger(MemoryMessagesStore.class);
 
     private Map<Topic, StoredMessage> m_retainedStore = new HashMap<>();
-    
+
     private Server m_Server;
 
     MemoryMessagesStore(Server server) {
-    		m_Server = server;
+        m_Server = server;
     }
 
     @Override
     public void initStore() {
+        //TODO reload data from mysql
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+        if (mUserMap.size() == 0) {
+            reloadMessageIdCounterFromDB(hzInstance);
+            reloadUserFromDB(hzInstance);
+            reloadMessageFromDB(hzInstance);
+            reloadGroupFromDB(hzInstance);
+            reloadGroupIdCounterFromDB(hzInstance);
+            reloadGroupMemberFromDB(hzInstance);
+            reloadUserGroupsFromDB(hzInstance);
+            reloadUserMessageIdsFromDB(hzInstance);
+            reloadFriendsFromDB(hzInstance);
+            reloadFriendRequestsFromDB(hzInstance);
+        }
+    }
+
+    private void reloadMessageIdCounterFromDB(HazelcastInstance hzInstance) {
+        IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
+        if (counter.get() == 0) {
+            long maxId = getMaxMessageId();
+            if (maxId == 0)
+                maxId = 1;
+            counter.compareAndSet(0, maxId);
+        }
+    }
+
+    private void reloadUserFromDB(HazelcastInstance hzInstance) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+        try {
+            connection = DBUtil.getConnection();
+            String sql = "select `_uid`, `_name`" +
+                ", `_display_name`" +
+                ", `_portrait`" +
+                ", `_mobile`" +
+                ", `_email`" +
+                ", `_address`" +
+                ", `_company`" +
+                ", `_social`" +
+                ", `_extra`" +
+                ", `_dt` from t_user";
+            statement = connection.prepareStatement(sql);
+
+            int index = 1;
+
+
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                UserOuterClass.User.Builder builder = UserOuterClass.User.newBuilder();
+                index = 1;
+
+                String value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setUid(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setName(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setDisplayName(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setPortrait(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setMobile(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setEmail(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setAddress(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setCompany(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+//                builder.setSocial(value);
+
+                value = rs.getString(index++);
+                value = (value == null ? "" : value);
+                builder.setExtra(value);
+
+                long longValue = rs.getLong(index++);
+                builder.setUpdateDt(longValue);
+
+                UserOuterClass.User user = builder.build();
+                mUserMap.put(user.getUid(), user);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement, rs);
+        }
+    }
+
+    private void reloadMessageFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadGroupFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadGroupIdCounterFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadGroupMemberFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadUserGroupsFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadUserMessageIdsFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadFriendsFromDB(HazelcastInstance hzInstance) {
+
+    }
+
+    private void reloadFriendRequestsFromDB(HazelcastInstance hzInstance) {
+
     }
 
     private long getMaxMessageId() {
-    		String sql = "select max(`_mid`) from t_messages;";
-    	    Connection connection = null;
-		PreparedStatement statement = null;
-		ResultSet rs = null; 
-		long max = 0;	
-    		try {
-			connection = DBUtil.getConnection();
-    			statement = connection.prepareStatement(sql);
-			rs = statement.executeQuery();
-	    		if (rs.next()) {
-	    			max = rs.getLong(1);	
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeDB(connection, statement, rs);
-		}
-    		if (max == 0) {
-			max = 1;
-		}
-    		return max;
+        String sql = "select max(`_mid`) from t_messages;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        long max = 0;
+        try {
+            connection = DBUtil.getConnection();
+            statement = connection.prepareStatement(sql);
+            rs = statement.executeQuery();
+            if (rs.next()) {
+                max = rs.getLong(1);
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement, rs);
+        }
+        if (max == 0) {
+            max = 1;
+        }
+        return max;
     }
+
     private void persistMessage(Message message) {
-    		Connection connection = null;
-		PreparedStatement statement = null;
-		try {
-			connection = DBUtil.getConnection();
-			String sql;
-			if (StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
-				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
-			} else {
-				sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?)";
-			}
-			
-			statement = connection.prepareStatement(sql);
-			int index = 1;
-			statement.setLong(index++, message.getMessageId());
-			statement.setString(index++, message.getFromUser());
-			statement.setInt(index++, message.getConversation().getType().getNumber());
-			statement.setString(index++, message.getConversation().getTarget());
-			statement.setInt(index++, message.getConversation().getLine());
-			Blob blob = connection.createBlob();
-			blob.setBytes(1, message.getContent().toByteArray());
-			statement.setBlob(index++, blob);
-			if (!StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
-				statement.setString(index++, message.getContent().getSearchableContent());
-			}
-			statement.setLong(index++, message.getServerTimestamp());
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeDB(connection, statement);
-		}
-	}
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            String sql;
+            if (StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
+                sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_dt`) values(?, ?, ?, ?, ?, ?, ?)";
+            } else {
+                sql = "insert into t_messages (`_mid`, `_from`, `_type`, `_target`, `_line`, `_data`, `_searchable_key`, `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?)";
+            }
+
+            statement = connection.prepareStatement(sql);
+            int index = 1;
+            statement.setLong(index++, message.getMessageId());
+            statement.setString(index++, message.getFromUser());
+            statement.setInt(index++, message.getConversation().getType().getNumber());
+            statement.setString(index++, message.getConversation().getTarget());
+            statement.setInt(index++, message.getConversation().getLine());
+            Blob blob = connection.createBlob();
+            blob.setBytes(1, message.getContent().toByteArray());
+            statement.setBlob(index++, blob);
+            if (!StringUtil.isNullOrEmpty(message.getContent().getSearchableContent())) {
+                statement.setString(index++, message.getContent().getSearchableContent());
+            }
+            statement.setLong(index++, message.getServerTimestamp());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+    }
+
     private void persistUserMessage(long messageId, String toTarget, ConversationType type, Set<String> userIds, String fromUser) {
-    		Connection connection = null;
-    		PreparedStatement statement = null;
-		try {
-			connection = DBUtil.getConnection();
-			for (String userId : userIds) {
-				String sql = "insert into t_user_messages (`_mid`, `_target`, `_type`, `_uid`) values(?, ?, ?, ?)";
-			
-				statement = connection.prepareStatement(sql);
-				int index = 1;
-				statement.setLong(index++, messageId);
-				if ((type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) && toTarget.equals(userId)) {
-					statement.setString(index++, fromUser);
-				} else {
-					statement.setString(index++, toTarget);
-				}
-				statement.setInt(index++, type.getNumber());
-				statement.setString(index++, userId);
-				statement.executeUpdate();
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			DBUtil.closeDB(connection, statement);
-		}
-	}
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = DBUtil.getConnection();
+            for (String userId : userIds) {
+                String sql = "insert into t_user_messages (`_mid`, `_target`, `_type`, `_uid`) values(?, ?, ?, ?)";
+
+                statement = connection.prepareStatement(sql);
+                int index = 1;
+                statement.setLong(index++, messageId);
+                if ((type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) && toTarget.equals(userId)) {
+                    statement.setString(index++, fromUser);
+                } else {
+                    statement.setString(index++, toTarget);
+                }
+                statement.setInt(index++, type.getNumber());
+                statement.setString(index++, userId);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } finally {
+            DBUtil.closeDB(connection, statement);
+        }
+    }
 
     private void persistGroupInfo(GroupInfo groupInfo) {
         Connection connection = null;
@@ -261,23 +404,23 @@ public class MemoryMessagesStore implements IMessagesStore {
         return null;
     }
 
-	private void persistUser(UserOuterClass.User user, String password) {
+    private void persistUser(UserOuterClass.User user, String password) {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = DBUtil.getConnection();
             String sql = "insert into t_user (`_uid`" +
-                    ", `_name`" +
-                    ", `_display_name`" +
-                    ", `_portrait`" +
-                    ", `_mobile`" +
-                    ", `_email`" +
-                    ", `_address`" +
-                    ", `_company`" +
-                    ", `_social`" +
-                    ", `_passwd_md5`" +
-                    ", `_extra`" +
-                    ", `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                ", `_name`" +
+                ", `_display_name`" +
+                ", `_portrait`" +
+                ", `_mobile`" +
+                ", `_email`" +
+                ", `_address`" +
+                ", `_company`" +
+                ", `_social`" +
+                ", `_passwd_md5`" +
+                ", `_extra`" +
+                ", `_dt`) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             statement = connection.prepareStatement(sql);
 
@@ -293,10 +436,10 @@ public class MemoryMessagesStore implements IMessagesStore {
             statement.setString(index++, "");
 
             try {
-                MessageDigest md5= MessageDigest.getInstance("MD5");
+                MessageDigest md5 = MessageDigest.getInstance("MD5");
                 BASE64Encoder base64en = new BASE64Encoder();
-                String passwdMd5=base64en.encode(md5.digest(password.getBytes("utf-8")));
-                statement.setString(index, passwdMd5  );
+                String passwdMd5 = base64en.encode(md5.digest(password.getBytes("utf-8")));
+                statement.setString(index, passwdMd5);
             } catch (Exception e) {
                 statement.setString(index, "");
             }
@@ -452,7 +595,7 @@ public class MemoryMessagesStore implements IMessagesStore {
                 String value = rs.getString(1);
                 out.add(value);
             }
-            return  out;
+            return out;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -513,7 +656,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 
                 out.add(builder.build());
             }
-            return  out;
+            return out;
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -525,50 +668,47 @@ public class MemoryMessagesStore implements IMessagesStore {
 
     @Override
     public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp) {
-		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
-		IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
-		if(counter.get() == 0) {
-			long maxId = getMaxMessageId();
-			counter.compareAndSet(0, maxId);
-		}
-		long messageId = counter.addAndGet(1);
-		message = Message.newBuilder()
-				.setContent(message.getContent())
-				.setConversation(message.getConversation())
-				.setFromUser(fromUser)
-				.setMessageId(messageId)
-				.setServerTimestamp(timestamp)
-				.build();
-		
-		MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
-		mIMap.put(messageId, messageBundle);
-		
-		persistMessage(message);
-		
-		return message;
-	}
-    
-   @Override
-	public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers) {
-		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		ConversationType type = message.getConversation().getType();
-		long messageId = message.getMessageId();
-		
-		PullType pullType = null;
-		if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
-			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
-			userMessageIds.put(fromUser, messageId);
-			userMessageIds.put(message.getConversation().getTarget(), messageId);
-			notifyReceivers.add(fromUser);
-			notifyReceivers.add(message.getConversation().getTarget());
-			persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
-			pullType = PullType.Pull_Normal;
-		} else if (type == ConversationType.ConversationType_Group) {
-			MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
-			MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
+        IAtomicLong counter = hzInstance.getAtomicLong(MESSAGE_ID_COUNTER);
 
-			Collection<GroupOuterClass.GroupMember> members = groupMembers.get(message.getConversation().getTarget());
+        long messageId = counter.addAndGet(1);
+        message = Message.newBuilder()
+            .setContent(message.getContent())
+            .setConversation(message.getConversation())
+            .setFromUser(fromUser)
+            .setMessageId(messageId)
+            .setServerTimestamp(timestamp)
+            .build();
+
+        MessageBundle messageBundle = new MessageBundle(messageId, fromUser, fromClientId, message);
+        mIMap.put(messageId, messageBundle);
+
+        persistMessage(message);
+
+        return message;
+    }
+
+    @Override
+    public PullType getNotifyReceivers(String fromUser, Message message, Set<String> notifyReceivers) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        ConversationType type = message.getConversation().getType();
+        long messageId = message.getMessageId();
+
+        PullType pullType = null;
+        if (type == ConversationType.ConversationType_Private || type == ConversationType.ConversationType_System) {
+            MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+            userMessageIds.put(fromUser, messageId);
+            userMessageIds.put(message.getConversation().getTarget(), messageId);
+            notifyReceivers.add(fromUser);
+            notifyReceivers.add(message.getConversation().getTarget());
+            persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
+            pullType = PullType.Pull_Normal;
+        } else if (type == ConversationType.ConversationType_Group) {
+            MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+            MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+
+            Collection<GroupOuterClass.GroupMember> members = groupMembers.get(message.getConversation().getTarget());
 
             for (GroupOuterClass.GroupMember member : members) {
                 userMessageIds.put(member.getMemberId(), messageId);
@@ -577,105 +717,105 @@ public class MemoryMessagesStore implements IMessagesStore {
 
             notifyReceivers.add(fromUser);
 
-			persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
-			//如果是群助手的消息，返回pull type group，否则返回normal
-			pullType = PullType.Pull_Normal;
-		} else if (type == ConversationType.ConversationType_ChatRoom) {
-			MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
-			chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
-			pullType = PullType.Pull_ChatRoom;
-		}
-	
-		return pullType;
-	}
-    
+            persistUserMessage(messageId, message.getConversation().getTarget(), message.getConversation().getType(), notifyReceivers, fromUser);
+            //如果是群助手的消息，返回pull type group，否则返回normal
+            pullType = PullType.Pull_Normal;
+        } else if (type == ConversationType.ConversationType_ChatRoom) {
+            MultiMap<String, Long> chatroomMessageIds = hzInstance.getMultiMap(CHATROOM_MESSAGE_IDS);
+            chatroomMessageIds.put(message.getConversation().getTarget(), messageId);
+            pullType = PullType.Pull_ChatRoom;
+        }
+
+        return pullType;
+    }
+
     @Override
     public long fetchMessage(String user, String exceptClientId, long fromMessageId, PullMessageResult.Builder builder) {
-    		HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<Long, MessageBundle> mIMap = hzInstance.getMap(MESSAGES_MAP);
 
-		MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
-		Collection<Long> ids = userMessageIds.get(user);
-		
-		if (ids == null || ids.isEmpty()) {
-			builder.setCurrent(fromMessageId);
-			builder.setHead(fromMessageId);
-			return fromMessageId;
-		}
-		
-		ArrayList<Long> idList = new ArrayList<>(ids);
-		idList.sort(new Comparator<Long>() {
+        MultiMap<String, Long> userMessageIds = hzInstance.getMultiMap(USER_MESSAGE_IDS);
+        Collection<Long> ids = userMessageIds.get(user);
 
-			@Override
-			public int compare(Long o1, Long o2) {
-				// TODO Auto-generated method stub
-				if (o1 == o2) {
-					return 0;
-				} else if (o1 < o2) {
-					return -1;
-				}
-				return 1;
-			}
-		});
-		
-		int count = 0;
-		long current = fromMessageId;
-		for (int i = 0; i < idList.size(); i++) {
-			long element = idList.get(i);
-			if (element > fromMessageId) {
-				MessageBundle bundle = mIMap.get(element);
-				if (bundle != null) {
-					current = bundle.getMessageId();
-					if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId()) || !user.equals(bundle.getFromUser())) {
-						count++;
-						builder.addMessage(bundle.getMessage());
-						if (count >= 100) {
-							break;
-						}
-					}
+        if (ids == null || ids.isEmpty()) {
+            builder.setCurrent(fromMessageId);
+            builder.setHead(fromMessageId);
+            return fromMessageId;
+        }
 
-				}
-			}
-		}
-		
-		builder.setCurrent(current);
-		builder.setHead(idList.get(idList.size() - 1));
-		
-		return idList.get(idList.size() - 1);
+        ArrayList<Long> idList = new ArrayList<>(ids);
+        idList.sort(new Comparator<Long>() {
+
+            @Override
+            public int compare(Long o1, Long o2) {
+                // TODO Auto-generated method stub
+                if (o1 == o2) {
+                    return 0;
+                } else if (o1 < o2) {
+                    return -1;
+                }
+                return 1;
+            }
+        });
+
+        int count = 0;
+        long current = fromMessageId;
+        for (int i = 0; i < idList.size(); i++) {
+            long element = idList.get(i);
+            if (element > fromMessageId) {
+                MessageBundle bundle = mIMap.get(element);
+                if (bundle != null) {
+                    current = bundle.getMessageId();
+                    if (exceptClientId == null || !exceptClientId.equals(bundle.getFromClientId()) || !user.equals(bundle.getFromUser())) {
+                        count++;
+                        builder.addMessage(bundle.getMessage());
+                        if (count >= 100) {
+                            break;
+                        }
+                    }
+
+                }
+            }
+        }
+
+        builder.setCurrent(current);
+        builder.setHead(idList.get(idList.size() - 1));
+
+        return idList.get(idList.size() - 1);
     }
-    
+
     @Override
     public GroupInfo createGroup(String fromUser, GroupInfo groupInfo, List<GroupOuterClass.GroupMember> memberList) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
 
-		IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
-		String groupId = null;
-		if (StringUtil.isNullOrEmpty(groupInfo.getTargetId())) {
-			groupId = "System_Created_Group_Num" + Long.toString(counter.addAndGet(1));
-			
-			groupInfo = groupInfo.toBuilder()
-					.setTargetId(groupId)
-					.setName(groupInfo.getName())
-					.setPortrait(groupInfo.getPortrait())
-					.setType(groupInfo.getType())
-					.setExtra(groupInfo.getExtra())
-					.setOwner(StringUtil.isNullOrEmpty(groupInfo.getOwner()) ? fromUser : groupInfo.getOwner())
-					.build();
-		} else {
-			groupId = groupInfo.getTargetId();
-		}
+        IAtomicLong counter = hzInstance.getAtomicLong(GROUP_ID_COUNTER);
+        String groupId = null;
+        if (StringUtil.isNullOrEmpty(groupInfo.getTargetId())) {
+            groupId = "System_Created_Group_Num" + Long.toString(counter.addAndGet(1));
 
-		mIMap.put(groupId, groupInfo);
-		persistGroupInfo(groupInfo);
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+            groupInfo = groupInfo.toBuilder()
+                .setTargetId(groupId)
+                .setName(groupInfo.getName())
+                .setPortrait(groupInfo.getPortrait())
+                .setType(groupInfo.getType())
+                .setExtra(groupInfo.getExtra())
+                .setOwner(StringUtil.isNullOrEmpty(groupInfo.getOwner()) ? fromUser : groupInfo.getOwner())
+                .build();
+        } else {
+            groupId = groupInfo.getTargetId();
+        }
+
+        mIMap.put(groupId, groupInfo);
+        persistGroupInfo(groupInfo);
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
 
-		for (GroupOuterClass.GroupMember member : memberList) {
-			groupMembers.put(groupId, member);
-			userGroups.put(member.getMemberId(), groupId);
-		}
+        for (GroupOuterClass.GroupMember member : memberList) {
+            groupMembers.put(groupId, member);
+            userGroups.put(member.getMemberId(), groupId);
+        }
 
 //		if (!memberList.contains(groupInfo.getOwner())) {
 //            groupMembers.put(groupId, groupInfo.getOwner());
@@ -684,56 +824,56 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         persistGroupInfo(groupInfo);
 
-    	return groupInfo;
+        return groupInfo;
     }
-    
-    
+
+
     @Override
     public ErrorCode addGroupMembers(String operator, String groupId, List<GroupOuterClass.GroupMember> memberList) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
-		GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
-			return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		if (groupInfo.getType() == GroupType.GroupType_Restricted && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
-			return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
-		}
-		
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        GroupInfo groupInfo = mIMap.get(groupId);
+        if (groupInfo == null) {
+            return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
+        }
+        if (groupInfo.getType() == GroupType.GroupType_Restricted && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+            return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
+        }
+
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-		for (GroupOuterClass.GroupMember member : memberList) {
-			groupMembers.put(groupId, member);
-			userGroups.put(member.getMemberId(), groupId);
-		}
-		
-    	return ErrorCode.ERROR_CODE_SUCCESS;
+        for (GroupOuterClass.GroupMember member : memberList) {
+            groupMembers.put(groupId, member);
+            userGroups.put(member.getMemberId(), groupId);
+        }
+
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
-    
+
     @Override
     public ErrorCode kickoffGroupMembers(String operator, String groupId, List<String> memberList) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
-		GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
+        GroupInfo groupInfo = mIMap.get(groupId);
+        if (groupInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
-				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+        }
+        if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal)
+            && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
-		}
-		
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
-        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-		for (String member : memberList) {
-			userGroups.remove(member, groupId);
-		}
+        }
 
-		List<GroupOuterClass.GroupMember> memberTobeRemove = new ArrayList<>();
-        for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
-             ) {
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
+        for (String member : memberList) {
+            userGroups.remove(member, groupId);
+        }
+
+        List<GroupOuterClass.GroupMember> memberTobeRemove = new ArrayList<>();
+        for (GroupOuterClass.GroupMember member : groupMembers.get(groupId)
+            ) {
             if (memberList.contains(member.getMemberId())) {
                 memberTobeRemove.add(member);
             }
@@ -743,19 +883,19 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
-    
+
     @Override
     public ErrorCode quitGroup(String operator, String groupId) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
 
-		GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
+        GroupInfo groupInfo = mIMap.get(groupId);
+        if (groupInfo == null) {
             MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
             MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-            for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
-                 ) {
+            for (GroupOuterClass.GroupMember member : groupMembers.get(groupId)
+                ) {
                 if (member.getMemberId().equals(operator)) {
                     groupMembers.remove(groupId, member);
                     break;
@@ -763,33 +903,33 @@ public class MemoryMessagesStore implements IMessagesStore {
             }
             userGroups.remove(operator, groupId);
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
+        }
+        if (groupInfo.getType() != GroupType.GroupType_Free && groupInfo.getOwner() != null && groupInfo.getOwner().equals(operator)) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
-		}
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        }
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
-        for (GroupOuterClass.GroupMember member: groupMembers.get(groupId)
+        for (GroupOuterClass.GroupMember member : groupMembers.get(groupId)
             ) {
             if (member.getMemberId().equals(operator)) {
                 groupMembers.remove(groupId, member);
                 break;
             }
         }
-		userGroups.remove(operator, groupId);
+        userGroups.remove(operator, groupId);
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
-    
+
     @Override
     public ErrorCode dismissGroup(String operator, String groupId) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
 
-		GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
-		    //maybe dirty data, remove it
+        GroupInfo groupInfo = mIMap.get(groupId);
+        if (groupInfo == null) {
+            //maybe dirty data, remove it
             MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
             MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
             for (GroupOuterClass.GroupMember member :
@@ -800,117 +940,117 @@ public class MemoryMessagesStore implements IMessagesStore {
 
 
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		
-		if (groupInfo.getType() == GroupType.GroupType_Free || 
-				(groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
-				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+        }
+
+        if (groupInfo.getType() == GroupType.GroupType_Free ||
+            (groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal)
+                && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
-		}
-		
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        }
+
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
         MultiMap<String, String> userGroups = hzInstance.getMultiMap(USER_GROUPS);
         for (GroupOuterClass.GroupMember member :
             groupMembers.get(groupId)) {
             userGroups.remove(member.getMemberId(), groupId);
         }
 
-		groupMembers.remove(groupId);
+        groupMembers.remove(groupId);
         mIMap.remove(groupId);
 
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
-    
+
     @Override
     public ErrorCode modifyGroupInfo(String operator, GroupInfo groupInfo) {
-		if (groupInfo == null) {
+        if (groupInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        }
 
-		GroupInfo oldInfo = mIMap.get(groupInfo.getTargetId());
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
-		if (oldInfo == null) {
+        GroupInfo oldInfo = mIMap.get(groupInfo.getTargetId());
+
+        if (oldInfo == null) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_EXIST;
-		}
-		
-		if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal) 
-				&& (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
+        }
+
+        if ((groupInfo.getType() == GroupType.GroupType_Restricted || groupInfo.getType() == GroupType.GroupType_Normal)
+            && (groupInfo.getOwner() == null || !groupInfo.getOwner().equals(operator))) {
             return ErrorCode.ERROR_CODE_GROUP_NOT_RIGHT;
-		}
-		
-		GroupInfo.Builder newInfoBuilder = oldInfo.toBuilder();
-		if (!StringUtil.isNullOrEmpty(groupInfo.getName())) {
-			newInfoBuilder = newInfoBuilder.setName(groupInfo.getName());
-		}
-		
-		if (!StringUtil.isNullOrEmpty(groupInfo.getOwner())) {
-			newInfoBuilder = newInfoBuilder.setOwner(groupInfo.getOwner());
-		}
-		
-		if (!StringUtil.isNullOrEmpty(groupInfo.getPortrait())) {
-			newInfoBuilder = newInfoBuilder.setPortrait(groupInfo.getPortrait());
-		}
-		
-		if (groupInfo.getExtra() == null || groupInfo.getExtra().length() > 0) {
-			newInfoBuilder = newInfoBuilder.setExtra(groupInfo.getExtra());
-		}
-		
-		mIMap.put(groupInfo.getTargetId(), newInfoBuilder.build());
+        }
+
+        GroupInfo.Builder newInfoBuilder = oldInfo.toBuilder();
+        if (!StringUtil.isNullOrEmpty(groupInfo.getName())) {
+            newInfoBuilder = newInfoBuilder.setName(groupInfo.getName());
+        }
+
+        if (!StringUtil.isNullOrEmpty(groupInfo.getOwner())) {
+            newInfoBuilder = newInfoBuilder.setOwner(groupInfo.getOwner());
+        }
+
+        if (!StringUtil.isNullOrEmpty(groupInfo.getPortrait())) {
+            newInfoBuilder = newInfoBuilder.setPortrait(groupInfo.getPortrait());
+        }
+
+        if (groupInfo.getExtra() == null || groupInfo.getExtra().length() > 0) {
+            newInfoBuilder = newInfoBuilder.setExtra(groupInfo.getExtra());
+        }
+
+        mIMap.put(groupInfo.getTargetId(), newInfoBuilder.build());
         return ErrorCode.ERROR_CODE_SUCCESS;
     }
-    
+
     @Override
     public List<GroupInfo> getGroupInfos(List<String> groupIds) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
-		ArrayList<GroupInfo> out = new ArrayList<>();
-		for (String groupId : groupIds) {
-			GroupInfo groupInfo = mIMap.get(groupId);
-			if (groupInfo == null) {
-			    groupInfo = getPersistGroupInfo(groupId);
-			    if (groupInfo != null) {
-			        mIMap.set(groupId, groupInfo);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        ArrayList<GroupInfo> out = new ArrayList<>();
+        for (String groupId : groupIds) {
+            GroupInfo groupInfo = mIMap.get(groupId);
+            if (groupInfo == null) {
+                groupInfo = getPersistGroupInfo(groupId);
+                if (groupInfo != null) {
+                    mIMap.set(groupId, groupInfo);
                 }
             }
 
-			if (groupInfo != null) {
-				out.add(groupInfo);
-			}
-		}
-		
-		return out;
+            if (groupInfo != null) {
+                out.add(groupInfo);
+            }
+        }
+
+        return out;
     }
-    
+
     @Override
     public GroupInfo getGroupInfo(String groupId) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
         GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
+        if (groupInfo == null) {
             groupInfo = getPersistGroupInfo(groupId);
             if (groupInfo != null) {
                 mIMap.put(groupId, groupInfo);
             }
         }
-		return groupInfo;
+        return groupInfo;
     }
-    
+
     @Override
     public List<GroupOuterClass.GroupMember> getGroupMembers(String groupId) {
-    	HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
-		IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, GroupInfo> mIMap = hzInstance.getMap(GROUPS_MAP);
 
-		GroupInfo groupInfo = mIMap.get(groupId);
-		if (groupInfo == null) {
-			return null;//group not exist
-		}
+        GroupInfo groupInfo = mIMap.get(groupId);
+        if (groupInfo == null) {
+            return null;//group not exist
+        }
 
-		MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
-		return new ArrayList<>(groupMembers.get(groupId));
+        MultiMap<String, GroupOuterClass.GroupMember> groupMembers = hzInstance.getMultiMap(GROUP_MEMBERS);
+        return new ArrayList<>(groupMembers.get(groupId));
     }
 
     @Override
@@ -953,10 +1093,10 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         Collection<GroupOuterClass.GroupMember> members = groupMembers.get(groupId);
 
-        for (GroupOuterClass.GroupMember member: members
-             ) {
+        for (GroupOuterClass.GroupMember member : members
+            ) {
             if (member.getMemberId().equals(memberId))
-                return  true;
+                return true;
         }
 
         return false;
@@ -968,11 +1108,11 @@ public class MemoryMessagesStore implements IMessagesStore {
         IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
 
         for (PullUserRequestOuterClass.UserRequest request : requestList
-             ) {
+            ) {
             UserOuterClass.User user = mUserMap.get(request.getUid());
             if (user == null) {
                 user = getPersistUser(request.getUid());
-                if(user != null) {
+                if (user != null) {
                     mUserMap.set(request.getUid(), user);
                 }
             }
@@ -994,7 +1134,7 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         }
 
-        return  ErrorCode.ERROR_CODE_SUCCESS;
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
 
     @Override
@@ -1003,20 +1143,20 @@ public class MemoryMessagesStore implements IMessagesStore {
         IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
 
 
-            UserOuterClass.User user = mUserMap.get(userId);
-            if (user == null) {
-                user = getPersistUser(userId);
-                if(user != null) {
-                    mUserMap.set(userId, user);
-                } else {
-                    return ErrorCode.ERROR_CODE_USER_NOT_EXIST;
-                }
+        UserOuterClass.User user = mUserMap.get(userId);
+        if (user == null) {
+            user = getPersistUser(userId);
+            if (user != null) {
+                mUserMap.set(userId, user);
+            } else {
+                return ErrorCode.ERROR_CODE_USER_NOT_EXIST;
             }
+        }
 
         UserOuterClass.User.Builder builder = user.toBuilder();
-            boolean modified = false;
-        for (ModifyMyInfoOuterClass.InfoEntry entry: request.getEntryList()
-             ) {
+        boolean modified = false;
+        for (ModifyMyInfoOuterClass.InfoEntry entry : request.getEntryList()
+            ) {
             switch (entry.getType()) {
                 case Modify_DisplayName:
                     builder.setDisplayName(entry.getValue());
@@ -1054,7 +1194,7 @@ public class MemoryMessagesStore implements IMessagesStore {
             }
         }
 
-        if(modified) {
+        if (modified) {
             builder.setUpdateDt(System.currentTimeMillis());
             user = builder.build();
             mUserMap.set(userId, user);
@@ -1065,6 +1205,7 @@ public class MemoryMessagesStore implements IMessagesStore {
         }
 
     }
+
     @Override
     public void addUserInfo(UserOuterClass.User user, String password) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
@@ -1088,6 +1229,25 @@ public class MemoryMessagesStore implements IMessagesStore {
     }
 
     @Override
+    public List<UserOuterClass.User> searchUser(String keyword, boolean buzzy, int page) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        IMap<String, UserOuterClass.User> mUserMap = hzInstance.getMap(USERS);
+        Predicate sqlQuery;
+        if (!buzzy) {
+            sqlQuery = new SqlPredicate("name_ like '" + keyword + "' or displayName_ like '" + keyword + "'");
+        } else {
+            sqlQuery = new SqlPredicate("name_ like '%" + keyword + "%' or displayName_ like '%" + keyword + "%'");
+        }
+
+        PagingPredicate pagingPredicate = new PagingPredicate(sqlQuery, 20);
+        if (page > 0) {
+            pagingPredicate.setPage(page);
+        }
+        Collection<UserOuterClass.User> users = mUserMap.values(pagingPredicate);
+        return new ArrayList<>(users);
+    }
+
+    @Override
     public ErrorCode login(String name, String password, List<String> userIdRet) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -1107,7 +1267,7 @@ public class MemoryMessagesStore implements IMessagesStore {
                 String pwd_md5 = rs.getString(2);
                 try {
                     index++;
-                    MessageDigest md5= MessageDigest.getInstance("MD5");
+                    MessageDigest md5 = MessageDigest.getInstance("MD5");
                     BASE64Encoder base64en = new BASE64Encoder();
                     String passwdMd5 = base64en.encode(md5.digest(password.getBytes("utf-8")));
                     if (passwdMd5.equals(pwd_md5)) {
@@ -1159,8 +1319,8 @@ public class MemoryMessagesStore implements IMessagesStore {
         if (requests == null || requests.size() == 0) {
             requests = getPersistFriendRequests(userId);
             if (requests != null) {
-                for (FriendRequestOuterClass.FriendRequest request: requests
-                     ) {
+                for (FriendRequestOuterClass.FriendRequest request : requests
+                    ) {
                     requestMap.put(userId, request);
                 }
             }
@@ -1175,7 +1335,7 @@ public class MemoryMessagesStore implements IMessagesStore {
     public void storeRetained(Topic topic, StoredMessage storedMessage) {
         LOG.debug("Store retained message for topic={}, CId={}", topic, storedMessage.getClientID());
         if (storedMessage.getClientID() == null) {
-            throw new IllegalArgumentException( "Message to be persisted must have a not null client ID");
+            throw new IllegalArgumentException("Message to be persisted must have a not null client ID");
         }
         m_retainedStore.put(topic, storedMessage);
     }

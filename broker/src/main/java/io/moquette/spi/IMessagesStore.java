@@ -125,6 +125,8 @@ public interface IMessagesStore {
     ErrorCode modifyUserInfo(String userId, ModifyMyInfoOuterClass.ModifyMyInfoRequest request);
     void addUserInfo(UserOuterClass.User user, String password);
     UserOuterClass.User getUserInfo(String userId);
+    List<UserOuterClass.User> searchUser(String keyword, boolean buzzy, int page);
+
     ErrorCode login(String name, String password, List<String> userIdRet);
 
     List<String> getFriendList(String userId);
