@@ -119,8 +119,17 @@ public final class UserOuterClass {
   public  static final class User extends
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:mars.stn.User)
-      UserOrBuilder {
-    // Use User.newBuilder() to construct.
+      UserOrBuilder, Comparable {
+
+      @Override
+      public int compareTo(Object o) {
+          if (o instanceof User) {
+              return ((String)uid_).compareTo((String)(((User) o).uid_));
+          }
+          return 1;
+      }
+
+      // Use User.newBuilder() to construct.
     private User(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
