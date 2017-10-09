@@ -110,7 +110,7 @@ DROP TABLE IF EXISTS `t_friend`;
 CREATE TABLE `t_friend` (
   `_uid` varchar(64) NOT NULL,
   `_friend_uid` varchar(64) NOT NULL,
-  `_state` tinyint DEFAULT 0, //0, normal; 1, deleted;
+  `_state` tinyint DEFAULT 0 COMMENT "0, normal; 1, deleted",
   `_dt` bigint(20) NOT NULL,
   INDEX `friend_user_target_index` (`_uid` ASC, `_friend_uid` ASC)
 )
