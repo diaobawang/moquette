@@ -186,8 +186,12 @@ public class UploadFileAction extends Action {
                 int savedThunkSize = 0; // 分片接收保存的大小
                 int offset = 0; // 断点续传开始位置
 
+                String filePath = "./" + QiniuConfig.FILE_STROAGE_ROOT + "/" + requestId;
+                logger.info("the file path is " + filePath);
+
                 File tmpFile = new File("./" + QiniuConfig.FILE_STROAGE_ROOT + "/" + requestId);
 
+                logger.info("before write the file");
                 boolean isError = false;
                 while (true) {
                     byte[] thunkData;

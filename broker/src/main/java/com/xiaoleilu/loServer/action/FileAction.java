@@ -22,6 +22,7 @@ import com.xiaoleilu.loServer.handler.Response;
 import io.moquette.spi.IMessagesStore;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.slf4j.LoggerFactory;
 
 /**
  * 默认的主页Action，当访问主页且没有定义主页Action时，调用此Action
@@ -30,7 +31,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
  *
  */
 public class FileAction extends Action {
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(FileAction.class);
 
     @Override
     public void action(Request request, Response response) {
@@ -45,7 +46,7 @@ public class FileAction extends Action {
         }
 
         final File file = getFileByPath(request.getPath());
-        log.debug("Client [{}] get file [{}]", request.getIp(), file.getPath());
+        Logger.debug("Client [{}] get file [{}]", request.getIp(), file.getPath());
 
         // 隐藏文件，跳过
         if (file.isHidden() || !file.exists()) {
@@ -66,14 +67,14 @@ public class FileAction extends Action {
             try {
                 ifModifiedSinceDate = DateUtil.parse(ifModifiedSince, HTTP_DATE_FORMATER);
             } catch (Exception e) {
-                log.warn("If-Modified-Since header parse error: {}", e.getMessage());
+                Logger.warn("If-Modified-Since header parse error: {}", e.getMessage());
             }
             if(ifModifiedSinceDate != null) {
                 // 只对比到秒一级别
                 long ifModifiedSinceDateSeconds = ifModifiedSinceDate.getTime() / 1000;
                 long fileLastModifiedSeconds = file.lastModified() / 1000;
                 if (ifModifiedSinceDateSeconds == fileLastModifiedSeconds) {
-                    log.debug("File {} not modified.", file.getPath());
+                    Logger.debug("File {} not modified.", file.getPath());
                     response.sendNotModified();
                     return;
                 }

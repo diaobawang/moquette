@@ -8,6 +8,7 @@ import com.xiaoleilu.loServer.handler.Request;
 import com.xiaoleilu.loServer.handler.Response;
 import io.moquette.spi.IMessagesStore;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,7 +20,7 @@ import java.io.StringWriter;
  */
 public class NotFoundAction extends Action{
 
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(NotFoundAction.class);
 	
 	public final static String ERROR_PARAM_NAME = "_e";
 	

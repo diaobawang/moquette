@@ -8,6 +8,7 @@ import com.xiaoleilu.hutool.log.StaticLog;
 
 import io.netty.channel.ChannelProgressiveFuture;
 import io.netty.channel.ChannelProgressiveFutureListener;
+import org.slf4j.LoggerFactory;
 
 /**
  * 文件进度指示监听
@@ -15,7 +16,7 @@ import io.netty.channel.ChannelProgressiveFutureListener;
  *
  */
 public class FileProgressiveFutureListener implements ChannelProgressiveFutureListener{
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(FileProgressiveFutureListener.class);
 	
 	private RandomAccessFile raf;
 	
@@ -25,13 +26,13 @@ public class FileProgressiveFutureListener implements ChannelProgressiveFutureLi
 
 	@Override
 	public void operationProgressed(ChannelProgressiveFuture future, long progress, long total) {
-		log.debug("Transfer progress: {} / {}", progress, total);
+        Logger.debug("Transfer progress: {} / {}", progress, total);
 	}
 
 	@Override
 	public void operationComplete(ChannelProgressiveFuture future) {
 		IoUtil.close(raf);
-		log.debug("Transfer complete.");
+        Logger.debug("Transfer complete.");
 	}
 
 	/**

@@ -131,6 +131,10 @@ public interface IMessagesStore {
 
     List<String> getFriendList(String userId);
     List<FriendRequestOuterClass.FriendRequest> getFriendRequestList(String userId);
+
+    ErrorCode saveAddFriendRequest(String userId, AddFriendRequestOuterClass.AddFriendRequest request);
+    ErrorCode handleFriendRequest(String userId, HandleFriendRequestOuterClass.HandleFriendRequest request);
+    ErrorCode deleteFriend(String userId, String friendUid);
     /**
      * Used to initialize all persistent store structures
      */

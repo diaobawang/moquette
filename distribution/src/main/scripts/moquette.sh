@@ -98,4 +98,8 @@ JAVA_OPTS="$JAVA_OPTS -XX:+UseGCLogFileRotation"
 JAVA_OPTS="$JAVA_OPTS -XX:NumberOfGCLogFiles=10"
 JAVA_OPTS="$JAVA_OPTS -XX:GCLogFileSize=10M"
 
+
+JAVA_OPTS="$JAVA_OPTS -Xmx128m"
+JAVA_OPTS="$JAVA_OPTS -Xms128m"
+
 $JAVA -server $JAVA_OPTS $JAVA_OPTS_SCRIPT -Dlog4j.configuration="file:$LOG_FILE" -Dhazelcast.configuration="file:$HZ_CONF_FILE" -Dmoquette.path="$MOQUETTE_PATH" -cp "$MOQUETTE_HOME/lib/*" io.moquette.server.Server

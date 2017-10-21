@@ -17,6 +17,7 @@ import com.xiaoleilu.loServer.annotation.HttpMethod;
 import com.xiaoleilu.loServer.annotation.Route;
 import com.xiaoleilu.loServer.exception.ServerSettingException;
 import com.xiaoleilu.loServer.filter.Filter;
+import org.slf4j.LoggerFactory;
 
 /**
  * 全局设定文件
@@ -24,7 +25,7 @@ import com.xiaoleilu.loServer.filter.Filter;
  *
  */
 public class ServerSetting {
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(ServerSetting.class);
 	
 	//-------------------------------------------------------- Default value start
 	/** 默认的字符集编码 */
@@ -128,7 +129,7 @@ public class ServerSetting {
 	 */
 	public static void setRoot(String root) {
 		ServerSetting.root = FileUtil.mkdir(root);
-		log.debug("Set root to [{}]", ServerSetting.root.getAbsolutePath());
+        Logger.debug("Set root to [{}]", ServerSetting.root.getAbsolutePath());
 	}
 	/**
 	 * 根目录
@@ -181,7 +182,7 @@ public class ServerSetting {
 		}
 		
 		if(null == filter) {
-			log.warn("Added blank action, pass it.");
+			Logger.warn("Added blank action, pass it.");
 			return;
 		}
 		//所有路径必须以 "/" 开头，如果没有则补全之
@@ -246,7 +247,7 @@ public class ServerSetting {
 		}
 		
 		if(null == action) {
-			log.warn("Added blank action, pass it.");
+			Logger.warn("Added blank action, pass it.");
 			return;
 		}
 		//所有路径必须以 "/" 开头，如果没有则补全之

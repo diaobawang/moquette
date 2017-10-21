@@ -41,6 +41,7 @@ import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.DefaultCookie;
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
+import org.slf4j.LoggerFactory;
 
 /**
  * 响应对象
@@ -49,7 +50,7 @@ import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
  *
  */
 public class Response {
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(Response.class);
 
 	/** 返回内容类型：普通文本 */
 	public final static String CONTENT_TYPE_TEXT = "text/plain";
@@ -406,7 +407,7 @@ public class Response {
 			try {
 				channelFuture = sendFile(file);
 			} catch (IOException e) {
-				log.error(StrUtil.format("Send {} error!", file), e);
+                Logger.error(StrUtil.format("Send {} error!", file), e.toString());
 				channelFuture = sendError(HttpResponseStatus.FORBIDDEN, "");
 			}
 		}else{

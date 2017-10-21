@@ -25,7 +25,14 @@ public enum ErrorCode {
 
     //user error
     ERROR_CODE_USER_NOT_EXIST(14, "user not exist"),
-    ERROR_CODE_PASSWORD_INCORRECT(15, "password incorrect"),;
+    ERROR_CODE_PASSWORD_INCORRECT(15, "password incorrect"),
+
+    //user error
+    ERROR_CODE_FRIEND_ALREADY_REQUEST(16, "already send request"),
+    ERROR_CODE_FRIEND_REQUEST_OVER_FREQUENCY(17, "send friend request over frequency"),
+    ERROR_CODE_FRIEND_REQUEST_BLOCKED(18, "friend request blocked"),
+    ERROR_CODE_FRIEND_REQUEST_OVERTIME(19, "friend request overtime"),
+    ERROR_CODE_FRIEND_REQUEST_NOT_EXIST(20, "friend request not exist");
 
     private int code;
     private String msg;

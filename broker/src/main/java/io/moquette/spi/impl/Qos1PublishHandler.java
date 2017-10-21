@@ -313,6 +313,27 @@ class Qos1PublishHandler extends QosPublishHandler {
                 ModifyMyInfoOuterClass.ModifyMyInfoRequest request = ModifyMyInfoOuterClass.ModifyMyInfoRequest.parseFrom(payloadContent);
 
                 errorCode = m_messagesStore.modifyUserInfo(fromUser, request);
+            } else  if(IMTopic.AddFriendRequestTopic.equals(topic)) {
+                isConsumed = true;
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                AddFriendRequestOuterClass.AddFriendRequest request = AddFriendRequestOuterClass.AddFriendRequest.parseFrom(payloadContent);
+
+                errorCode = m_messagesStore.saveAddFriendRequest(fromUser, request);
+            } else  if(IMTopic.HandleFriendRequestTopic.equals(topic)) {
+                isConsumed = true;
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                HandleFriendRequestOuterClass.HandleFriendRequest request = HandleFriendRequestOuterClass.HandleFriendRequest.parseFrom(payloadContent);
+
+                errorCode = m_messagesStore.handleFriendRequest(fromUser, request);
+            } else  if(IMTopic.DeleteFriendTopic.equals(topic)) {
+                isConsumed = true;
+                ByteBuf payload = msg.payload();
+                byte[] payloadContent = readBytesAndRewind(payload);
+                IDBuf request = IDBuf.parseFrom(payloadContent);
+
+                errorCode = m_messagesStore.deleteFriend(fromUser, request.getId());
             } else {
                 isConsumed = true;
                 errorCode = ErrorCode.ERROR_CODE_UNKNOWN_METHOD;

@@ -37,6 +37,7 @@ import io.netty.handler.codec.http.multipart.HttpDataFactory;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
+import org.slf4j.LoggerFactory;
 
 /**
  * Http请求对象
@@ -45,7 +46,7 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
  *
  */
 public class Request {
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(Request.class);
 
 	public static final String METHOD_DELETE = HttpMethod.DELETE.name();
 	public static final String METHOD_HEAD = HttpMethod.HEAD.name();
@@ -435,7 +436,7 @@ public class Request {
 			try {
 				this.putParam(attribute.getName(), attribute.getValue());
 			} catch (IOException e) {
-				log.error(e);
+                Logger.error(e.toString());
 			}
 		}else if(dataType == HttpDataType.FileUpload){
 			//文件
@@ -444,7 +445,7 @@ public class Request {
 				try {
 					this.putParam(data.getName(), fileUpload.getFile());
 				} catch (IOException e) {
-					log.error(e, "Get file param [{}] error!", data.getName());
+                    Logger.error(e.toString(), "Get file param [{}] error!", data.getName());
 				}
 			}
 		}

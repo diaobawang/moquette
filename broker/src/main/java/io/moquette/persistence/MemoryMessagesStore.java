@@ -666,6 +666,11 @@ public class MemoryMessagesStore implements IMessagesStore {
         return null;
     }
 
+    //
+    private void persistOrUpdateFriendRequest(FriendRequestOuterClass.FriendRequest request) {
+
+    }
+
     @Override
     public Message storeMessage(String fromUser, String fromClientId, Message message, long timestamp) {
         HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
@@ -1328,6 +1333,107 @@ public class MemoryMessagesStore implements IMessagesStore {
 
         out.addAll(requests);
         return out;
+    }
+
+    @Override
+    public ErrorCode saveAddFriendRequest(String userId, AddFriendRequestOuterClass.AddFriendRequest request) {
+
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, FriendRequestOuterClass.FriendRequest> requestMap = hzInstance.getMultiMap(USER_FRIENDS_REQUEST);
+        Collection<FriendRequestOuterClass.FriendRequest> requests = requestMap.get(userId);
+        if (requests == null || requests.size() == 0) {
+            requests = getPersistFriendRequests(userId);
+            if (requests != null) {
+                for (FriendRequestOuterClass.FriendRequest r : requests
+                    ) {
+                    requestMap.put(userId, r);
+                }
+            }
+        }
+
+        FriendRequestOuterClass.FriendRequest existRequest = null;
+        for (FriendRequestOuterClass.FriendRequest tmpRequest : requests) {
+            if (request.getTargetUid().equals(request.getTargetUid())) {
+                existRequest = tmpRequest;
+                break;
+            }
+        }
+
+        if (existRequest != null) {
+            if (System.currentTimeMillis() - existRequest.getUpdateDt() > 7 * 24 * 60 * 60 * 1000) {
+                if (existRequest.getStatus() == FriendRequestOuterClass.RequestStatus.rejected) {
+                    return ErrorCode.ERROR_CODE_FRIEND_REQUEST_BLOCKED;
+                }
+                requestMap.remove(userId, existRequest);
+            } else {
+                return ErrorCode.ERROR_CODE_FRIEND_ALREADY_REQUEST;
+            }
+        }
+        FriendRequestOuterClass.FriendRequest newRequest = FriendRequestOuterClass.FriendRequest
+            .newBuilder()
+            .setFromUid(userId)
+            .setToUid(request.getTargetUid())
+            .setReason(request.getReason())
+            .setStatus(FriendRequestOuterClass.RequestStatus.sent)
+            .setToReadStatus(false)
+            .setUpdateDt(System.currentTimeMillis())
+            .build();
+
+        requestMap.put(userId, newRequest);
+        persistOrUpdateFriendRequest(newRequest);
+        return ErrorCode.ERROR_CODE_SUCCESS;
+    }
+
+    @Override
+    public ErrorCode handleFriendRequest(String userId, HandleFriendRequestOuterClass.HandleFriendRequest request) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, FriendRequestOuterClass.FriendRequest> requestMap = hzInstance.getMultiMap(USER_FRIENDS_REQUEST);
+        Collection<FriendRequestOuterClass.FriendRequest> requests = requestMap.get(userId);
+        if (requests == null || requests.size() == 0) {
+            requests = getPersistFriendRequests(userId);
+            if (requests != null) {
+                for (FriendRequestOuterClass.FriendRequest r : requests
+                    ) {
+                    requestMap.put(userId, r);
+                }
+            }
+        }
+
+        FriendRequestOuterClass.FriendRequest existRequest = null;
+        for (FriendRequestOuterClass.FriendRequest tmpRequest : requests) {
+            if (request.getTargetUid().equals(request.getTargetUid())) {
+                existRequest = tmpRequest;
+                break;
+            }
+        }
+
+        if (existRequest != null) {
+            if (System.currentTimeMillis() - existRequest.getUpdateDt() > 7 * 24 * 60 * 60 * 1000) {
+                return ErrorCode.ERROR_CODE_FRIEND_REQUEST_OVERTIME;
+            } else {
+                existRequest.toBuilder().setStatus(FriendRequestOuterClass.RequestStatus.accepted);
+                persistOrUpdateFriendRequest(existRequest);
+
+                MultiMap<String, String> friendsMap = hzInstance.getMultiMap(USER_FRIENDS);
+                friendsMap.put(userId, request.getTargetUid());
+                friendsMap.put(request.getTargetUid(), userId);
+
+                return ErrorCode.ERROR_CODE_SUCCESS;
+            }
+        } else {
+            return ErrorCode.ERROR_CODE_FRIEND_REQUEST_NOT_EXIST;
+        }
+
+    }
+
+    @Override
+    public ErrorCode deleteFriend(String userId, String friendUid) {
+        HazelcastInstance hzInstance = m_Server.getHazelcastInstance();
+        MultiMap<String, String> friendsMap = hzInstance.getMultiMap(USER_FRIENDS);
+        friendsMap.put(userId, friendUid);
+        friendsMap.put(friendUid, userId);
+
+        return ErrorCode.ERROR_CODE_SUCCESS;
     }
 
 

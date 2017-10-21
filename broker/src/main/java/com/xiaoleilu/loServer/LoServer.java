@@ -23,6 +23,7 @@ import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
 import com.xiaoleilu.loServer.action.ClassUtil;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -35,7 +36,7 @@ import java.io.IOException;
  *
  */
 public class LoServer {
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(LoServer.class);
 	private int port;
     private IMessagesStore messagesStore;
     private Channel channel;
@@ -80,7 +81,7 @@ public class LoServer {
 				});
 			
 			channel = b.bind(port).sync().channel();
-			log.info("***** Welcome To LoServer on port [{}], startting spend {}ms *****", port, DateUtil.spendMs(start));
+			Logger.info("***** Welcome To LoServer on port [{}], startting spend {}ms *****", port, DateUtil.spendMs(start));
 		} finally {
 
 		}

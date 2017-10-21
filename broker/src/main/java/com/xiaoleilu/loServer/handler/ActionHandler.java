@@ -17,6 +17,8 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Action处理单元
@@ -24,7 +26,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
  * @author Looly
  */
 public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
-	private static final Log log = StaticLog.get();
+    private static final Logger Logger = LoggerFactory.getLogger(ActionHandler.class);
 
     public ActionHandler(IMessagesStore messagesStore) {
         Action.messagesStore = messagesStore;
@@ -32,7 +34,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 
     @Override
 	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) throws Exception {
-
+        Logger.info("Http request whit url {}", fullHttpRequest.uri());
 		final Request request = Request.build(ctx, fullHttpRequest);
 		final Response response = Response.build(ctx, request);
 		response.setContentType("application/json");
@@ -60,7 +62,7 @@ public class ActionHandler extends SimpleChannelInboundHandler<FullHttpRequest> 
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
 		if(cause instanceof IOException){
-			log.warn("{}", cause.getMessage());
+			Logger.warn("{}", cause.getMessage());
 		}else{
 			super.exceptionCaught(ctx, cause);
 		}

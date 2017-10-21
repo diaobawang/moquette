@@ -12,6 +12,7 @@ import com.xiaoleilu.loServer.handler.Response;
 
 import io.moquette.spi.IMessagesStore;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.slf4j.LoggerFactory;
 
 /**
  * 错误堆栈Action类
@@ -19,7 +20,7 @@ import io.netty.handler.codec.http.HttpResponseStatus;
  *
  */
 public class UnknownErrorAction extends Action{
-	private static final Log log = StaticLog.get();
+    private static final org.slf4j.Logger Logger = LoggerFactory.getLogger(UnknownErrorAction.class);
 	
 	public final static String ERROR_PARAM_NAME = "_e";
 	
